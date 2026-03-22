@@ -1,4 +1,4 @@
-*{
+* {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
@@ -11,7 +11,7 @@
 }
 
 html {
-    font-size: 16px; 
+    font-size: 16px;
 }
 
 .app {
@@ -26,49 +26,49 @@ html {
     position: relative;
 }
 
-.conteudoPricipal{
-    background-color:  #ECEFF1;
+.conteudoPricipal {
+    background-color: #ECEFF1;
     flex: 8.0;
     height: 100vh;
 }
 
-.logoContainer{
+.logoContainer {
     display: flex;
     align-items: center;
     padding-bottom: 10px;
-    gap:20px;
+    gap: 20px;
     width: 100%;
 }
 
 .logoMenu {
-  display: flex;
-  padding-top: 10px;
-  padding-left: 10px;
-  align-items: center;
-  gap: 20px;
+    display: flex;
+    padding-top: 10px;
+    padding-left: 10px;
+    align-items: center;
+    gap: 20px;
 }
 
-.logoMenu img{
+.logoMenu img {
     width: 60px;
     height: 60px;
 }
 
-.menuSaad{
+.menuSaad {
     border: blac;
 }
 
-.Perfil{
+.Perfil {
     display: flex;
     align-items: center;
-    gap:10px;
+    gap: 10px;
     width: 100%;
 }
 
-.fotoPerfil{
+.fotoPerfil {
     margin: 10px;
 }
 
-.fotoPerfil img{
+.fotoPerfil img {
     width: 60px;
     height: 60px;
 }
@@ -77,7 +77,7 @@ button {
     border: none;
     outline: none;
     background-color: transparent;
-    cursor: pointer; 
+    cursor: pointer;
 }
 
 button:focus {
@@ -85,43 +85,55 @@ button:focus {
     outline-offset: 2px;
 }
 
-.config{
+.config {
     margin-left: auto;
-    padding:10px;
+    padding: 10px;
 }
+
 .config img {
     width: 30px;
     height: 30px;
-    display: block; 
+    display: block;
 }
 
-.alinhamento{
+.alinhamento {
     display: flex;
     align-items: center;
     padding: 10px;
     margin: 10px;
-    gap:10px;
+    gap: 10px;
 }
 
 .botoesLaterais:hover .alinhamento,
-.botoesLaterais:focus-visible .alinhamento{
+.botoesLaterais:focus-visible .alinhamento {
     background-color: rgba(173, 223, 223, 0.932);
     border-radius: 30px;
     transition: 0.5s;
 }
 
-.fotos img{
+.listarAlunos {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin: 10px;
+    gap: 10px;
+    background-color: rgba(173, 223, 223, 0.932);
+    border-radius: 30px;
+    transition: 0.5s;
+}
+
+.fotos img {
     width: 40px;
     height: 40px;
 }
 
-.botoesLaterais{
+.botoesLaterais {
     color: black;
     text-decoration: none;
 }
 
 
-.textoSair{
+.textoSair {
     color: black;
     text-decoration: none;
 }
@@ -129,9 +141,9 @@ button:focus {
 
 .textoSair:hover .sair {
     background-color: #e04f5f;
-    border-radius: 30px; 
+    border-radius: 30px;
     color: white;
-    transition: 0.3s;  
+    transition: 0.3s;
 }
 
 .textoSair:focus-visible .sair {
@@ -141,19 +153,19 @@ button:focus {
 }
 
 
-.sair{
+.sair {
     position: absolute;
-    gap:10px;
+    gap: 10px;
     bottom: 10px;
     left: 10px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     width: 90%;
-    
+
 }
 
-.fotoSair img{
+.fotoSair img {
     width: 40px;
     height: 40px;
 }
@@ -179,80 +191,40 @@ hr {
     border-right: 1px solid #ccc;
 }
 
-
-.logoEscola img{
-    margin: auto;
-    padding: 10px;
-    display: block;
-    border-radius: 30px;
-    width: 700px;
+h1 {
+    margin-top: 2vh;
+    margin-left: 6vh;
 }
 
-.ladoEsquerdo {
-    margin: 20px;
+
+.BuscarAlunos{
+    position: relative;
+    margin-bottom: 3vh;
+}
+
+.input-group{
+    margin-top: 2vh;
+    margin-left:6vh;
+}
+
+.input-group img{
+    width: 3vh;
+    height: 3vh;
+}
+
+.form-control {
+  border-radius: 6vh;   
+  border-color: #000000;  
+}
+
+.btn-primary {
+  background-color: #1e3a5f; 
+  border: none;
+}
+
+
+.cards {
     display: flex;
     flex-direction: column;
-    width: 50%;
-    padding-left: 47.7px;
+    gap: 16px;
 }
-
-.ladoDireito {
-    display: flex;
-    flex-direction: column; 
-    align-items: center;   
-    justify-content: center; 
-    width: 50%;
-    padding-right: 47.7px;
-}
-.ladoDireito h3{
-    padding: 2vh;
-}
-
-.inferior {
-    display: flex;
-    flex-direction: row;
-    gap: 30px;
-    margin-top: 20px;
-    width: 100%;
-}
-
-
-.caixaTotal {
-    background: #1e3a5f;
-    border-radius: 14px;
-    padding: 20px;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 400px;
-}
-
-.fileira {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;   
-    gap: 14px;
-    margin-top: 14px;
-    width: 400px;
-}
-
-.contagem {
-    background: rgba(255, 255, 255, 0.349);
-    border-radius: 20px;
-    padding: 10px 14px;
-    font-size: 13px;
-    font-weight: 600;
-}
-
-.autistas, .tdah, .dislexia, .outras{
-    background: rgba(128, 128, 128, 0.603);
-    border-radius: 14px;
-    padding: 20px;
-    color: black;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex: 1;
-}
-

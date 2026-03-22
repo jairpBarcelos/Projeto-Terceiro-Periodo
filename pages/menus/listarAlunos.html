@@ -1,20 +1,119 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SAADI</title>
-    <link rel="stylesheet" href="../../css/menuSecretaria/cadastroAlunos.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/menuSecretaria/listarAlunos.css">
     <link rel="shortcut icon" href="../../img/favicon-duas-mãos-32px-branco.png" type="image/x-icon">
 </head>
+
 <body>
-    <main>
-        <div>
-            <a href="./menuSecretariaEscolar.html"><h2>Voltar</h2></a>
-        </div>
-    </main>
+    <div class="app">
+        <nav class="menuLateral" aria-label="Menu principal da secretaria escolar">
+
+            <div class="logoContainer">
+                <div class="logoMenu"><img src="/img/icons8-duas-mãos-windows-11-filled/Logo.png"></div>
+                <div>
+                    <h3>SAADI</h3>
+                    <p>Secretaria Escolar</p>
+                </div>
+            </div>
+            <hr>
+
+            <div class="Perfil">
+                <div class="fotoPerfil"><img src="/img/perfil.png"></div>
+                <div>
+                    <p>Bem-vindo(a), Seu Nome!</p>
+                </div>
+                <div class="config">
+                    <button type="button" aria-label="Abrir configuracoes"
+                        onclick="alert('Configurações ainda não disponiveis!')">
+                        <img src="/img/config.png">
+                    </button>
+                </div>
+            </div>
+            <hr>
+
+            <a class="botoesLaterais" id="Cadastrar" href="/pages/menus/cadastroAlunos.html">
+                <div class="alinhamento">
+                    <div class="fotos"><img src="/img/cadastro.png"></div>
+                    <p>Cadastrar Aluno</p>
+                </div>
+            </a>
+
+
+            <a class="botoesLaterais" id="Lista" href="/pages/menus/listarAlunos.html">
+                <div class="listarAlunos">
+                    <div class="fotos"><img src="/img/lista.png"></div>
+                    <p> Lista de Alunos</p>
+                </div>
+            </a>
+
+
+            <a class="botoesLaterais" id="Atualizar" href="/pages/menus/atualizarAlunos.html">
+                <div class="alinhamento">
+                    <div class="fotos"><img src="/img/atualizar.png"></div>
+                    <p>Atualizar Alunos</p>
+                </div>
+            </a>
+
+            <a class="botoesLaterais" id="Excluir" href="/pages/menus/deletarAlunos.html">
+                <div class="alinhamento">
+                    <div class="fotos"><img src="/img/deletar.png"></div>
+                    <p>Excluir Alunos</p>
+                </div>
+            </a>
+
+
+            <div class="baixo">
+                <hr>
+            </div>
+            <a class="textoSair" href="/index.html">
+                <div class="sair">
+                    <div class="fotoSair"><img src="/img/sair.png"></div>
+                    <p> Sair da Conta </p>
+                </div>
+            </a>
+        </nav>
+
+        <main id="conteudo-principal" class="conteudoPricipal" tabindex="-1">
+            <h1>Alunos Cadastrados</h1>
+            <div class="input-group" style="max-width: 320px;">
+                <span class="input-group-text"><img src="/img/lupa.png" alt="Lupa: Buscar">
+                <input type="text" class="form-control" placeholder="Buscar por nome..." id="searchInput"
+                    oninput="filterCards()">
+            </div>
+
+            <div class="Blocos" id="ListaBlocos">
+                <div class="Bloco" data-id="1">
+                    <div class="BlocoCima">
+
+                    </div>
+                </div>
+
+                <div class="Bloco" data-id="2">
+
+                </div>
+
+                <div class="Bloco" data-id="3">
+
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
 </body>
+
 </html>
