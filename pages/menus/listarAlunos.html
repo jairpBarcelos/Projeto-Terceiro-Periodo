@@ -18,13 +18,16 @@
     <div class="app">
         <nav class="menuLateral" aria-label="Menu principal da secretaria escolar">
 
-            <div class="logoContainer">
-                <div class="logoMenu"><img src="/img/icons8-duas-mãos-windows-11-filled/Logo.png"></div>
-                <div>
-                    <h3>SAADI</h3>
-                    <p>Secretaria Escolar</p>
+            <a class="menuSecretaria" id="telaInicial" href="/pages/menus/menuSecretariaEscolar.html" tabindex="1">
+                <div class="logoContainer">
+                    <div class="logoMenu"><img src="/img/icons8-duas-mãos-windows-11-filled/Logo.png">
+                        <div>
+                            <h3>SAADI</h3>
+                            <p>Secretaria Escolar</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </a>
             <hr>
 
             <div class="Perfil">
@@ -84,27 +87,76 @@
         </nav>
 
         <main id="conteudo-principal" class="conteudoPricipal" tabindex="-1">
-            <h1>Alunos Cadastrados</h1>
+            <h1>Buscar Alunos</h1>
             <div class="input-group" style="max-width: 320px;">
                 <span class="input-group-text"><img src="/img/lupa.png" alt="Lupa: Buscar">
-                <input type="text" class="form-control" placeholder="Buscar por nome..." id="searchInput"
-                    oninput="filterCards()">
+                    <input type="text" class="form-control" placeholder="Buscar por nome..." id="searchInput"
+                        oninput="filterCards()">
             </div>
 
             <div class="Blocos" id="ListaBlocos">
                 <div class="Bloco" data-id="1">
                     <div class="BlocoCima">
+                        <div class="InfoBloco">
+                            <h2>Aluno 1</h2>
+                            <div class="InfoAluno">2º Ano - Ensino Fundamental &nbsp; || Colégio Municipal Denison</div>
+                        </div>
+                        <div class="Contato">Contato <span>(XX) 9 XXXX-XXXX</span></div>
+                    </div>
+                    <div class="BlocoMeio">
+                        <div class="tag Neurodivergencia">Dislexia</div>
+                        <div class="tag NivelSuporte" data-field="nivel_Suporte">Leve</div>
+                    </div>
 
+                    <div class="divider"></div>
+                    <div class="BlocoBaixo">
+                        <span class="Observacao">Acompanhamento psicológico</span>
+                        <span class="Observacao">Medicação controlada</span>
+                        <span class="Observacao">Fonoaudióloga</span>
                     </div>
                 </div>
 
-                <div class="Bloco" data-id="2">
 
+                <div class="Bloco" data-id="2">
+                    <div class="BlocoCima">
+                        <div class="InfoBloco">
+                            <h2>Aluno 2</h2>
+                            <div class="InfoAluno">1º Ano - Ensino Médio &nbsp; || Colégio Municipal Denison</div>
+                        </div>
+                        <div class="Contato">Contato <span>(XX) 9 XXXX-XXXX</span></div>
+                    </div>
+                    <div class="BlocoMeio">
+                        <div class="tag Neurodivergencia">TEA</div>
+                        <div class="tag NivelSuporte" data-field="nivel_Suporte">Nível 2</div>
+                    </div>
+
+                    <div class="divider"></div>
+                    <div class="BlocoBaixo">
+                        <div class="Observacao">Acompanhamento psicológico</div>
+                        <div class="Observacao">Fonoaudióloga</div>
+                    </div>
                 </div>
 
                 <div class="Bloco" data-id="3">
+                    <div class="BlocoCima">
+                        <div class="InfoBloco">
+                            <h2>Aluno 3</h2>
+                            <div class="InfoAluno">8º Ano - Ensino Fundamental &nbsp; || Colégio Municipal Francês</div>
+                        </div>
+                        <div class="Contato">Contato <span>(XX) 9 XXXX-XXXX</span></div>
+                    </div>
+                    <div class="BlocoMeio">
+                        <div class="tag Neurodivergencia">TDAH</div>
+                        <div class="tag NivelSuporte" data-field="nivel_Suporte">Moderado</div>
+                    </div>
 
+                    <div class="divider"></div>
+                    <div class="BlocoBaixo">
+                        <div class="Observacao">Medicação controlada</div>
+                    </div>
                 </div>
+
+
             </div>
         </main>
 

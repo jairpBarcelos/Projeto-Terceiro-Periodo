@@ -15,21 +15,22 @@ html {
 }
 
 .app {
-    display: flex;
+    display: block;
     height: 100vh;
 }
 
 .menuLateral {
     background-color: rgb(255, 255, 255);
-    flex: 2.0;
+    width: 25%;
     height: 100vh;
-    position: relative;
+    position: fixed;
+    left: 0;
+    top: 0;
 }
 
-.conteudoPricipal {
-    background-color: #ECEFF1;
-    flex: 8.0;
-    height: 100vh;
+.menuSecretaria {
+    color: black;
+    text-decoration: none;
 }
 
 .logoContainer {
@@ -39,6 +40,25 @@ html {
     gap: 20px;
     width: 100%;
 }
+
+.logoContainer:hover {
+    background-color: rgba(255, 255, 255, 0.932);
+    border-radius: 40px;
+
+}
+
+.menuSecretaria:focus-visible .logoContainer {
+    border: 3px solid #4A90E2;
+    border-radius: 40px;
+}
+
+.conteudoPricipal {
+    background-color: #ECEFF1;
+    margin-left: 25%;
+    height: 100vh;
+    overflow-y: auto;
+}
+
 
 .logoMenu {
     display: flex;
@@ -191,40 +211,110 @@ hr {
     border-right: 1px solid #ccc;
 }
 
+
+
 h1 {
     margin-top: 2vh;
     margin-left: 6vh;
 }
 
 
-.BuscarAlunos{
+.BuscarAlunos {
     position: relative;
     margin-bottom: 3vh;
 }
 
-.input-group{
+.input-group {
+
     margin-top: 2vh;
-    margin-left:6vh;
+    margin-left: 6vh;
 }
 
-.input-group img{
+.input-group-text {
+    background-color: #ffffff00;
+    border-color: #00000000;
+    border-radius: 20px;
+}
+
+.input-group img {
     width: 3vh;
     height: 3vh;
 }
 
 .form-control {
-  border-radius: 6vh;   
-  border-color: #000000;  
+    border-radius: 6vh;
+    border-color: #000000;
+    background-color: #ffffff;
 }
 
 .btn-primary {
-  background-color: #1e3a5f; 
-  border: none;
+    background-color: #1e3a5f;
+    border: none;
 }
 
 
-.cards {
+.Blocos {
     display: flex;
     flex-direction: column;
     gap: 16px;
+}
+
+.Bloco {
+    margin-left: 6vh;
+    margin-right: 6vh;
+    margin-top: 3vh;
+    background-color: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 30px;
+    padding: 20px 22px;
+}
+
+.BlocoCima {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.BlocoMeio {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+
+.tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #1E3A5F;
+    color: #FFFFFF;
+    font-size: 0.78rem;
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: 999px;
+    letter-spacing: 0.2px;
+}
+
+.divider {
+    height: 1px;
+    background: black;
+    margin: 12px 0;
+}
+
+.BlocoBaixo {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.Observacao {
+  background: var(--need-bg);
+  color: var(--need-text);
+  border-radius: 6px;
+  padding: 3px 10px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  border: 1px solid rgb(0, 38, 255);
 }
