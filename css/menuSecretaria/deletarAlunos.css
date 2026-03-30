@@ -1,0 +1,235 @@
+.conteudoPrincipal {
+    margin-left: 25%;
+    min-height: 100vh;
+    padding: 30px;
+    background: linear-gradient(180deg, #eef3f8 0%, #e8eef6 100%);
+}
+
+.cabecalhoPagina {
+    background: linear-gradient(135deg, #8f1f2b 0%, #b53a46 100%);
+    border-radius: 18px;
+    padding: 24px 28px;
+    color: #ffffff;
+    box-shadow: 0 8px 20px rgba(117, 28, 39, 0.24);
+    margin-bottom: 20px;
+}
+
+.cabecalhoTag {
+    margin: 0;
+    font-size: 0.88rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    opacity: 0.9;
+}
+
+.cabecalhoPagina h1 {
+    margin: 8px 0;
+    font-size: clamp(1.4rem, 2.4vw, 2rem);
+}
+
+.cabecalhoPagina p {
+    margin: 0;
+    opacity: 0.95;
+}
+
+.formContainer {
+    background: #ffffff;
+    border: 1px solid #ecd0d4;
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: 0 10px 24px rgba(97, 31, 41, 0.12);
+}
+
+.formExclusao {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.linha {
+    display: flex;
+    gap: 16px;
+}
+
+.buscaLinha {
+    align-items: flex-end;
+    padding: 14px;
+    background: #fff6f7;
+    border: 1px solid #f0d8dc;
+    border-radius: 12px;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.campo label {
+    color: #6b2530;
+    font-weight: 600;
+    font-size: 0.94rem;
+}
+
+.campo input {
+    width: 100%;
+    border: 2px solid #dfc0c6;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 1rem;
+    color: #4a2128;
+    background: #ffffff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.campo input:focus {
+    border-color: #b53a46;
+    box-shadow: 0 0 0 4px rgba(181, 58, 70, 0.16);
+    outline: none;
+}
+
+.acaoBusca {
+    width: auto;
+}
+
+.btnBuscar {
+    min-height: 46px;
+    border: none;
+    border-radius: 10px;
+    padding: 0 16px;
+    background: linear-gradient(135deg, #8f1f2b 0%, #b53a46 100%);
+    color: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btnBuscar:hover {
+    filter: brightness(1.06);
+}
+
+.resumoAluno {
+    background: #fffafa;
+    border: 1px solid #f0d5d9;
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.resumoAluno h2 {
+    margin: 0 0 10px;
+    color: #72222e;
+    font-size: 1.1rem;
+}
+
+.resumoAluno p {
+    margin: 0 0 8px;
+    color: #5e2a33;
+    line-height: 1.45;
+}
+
+.alertaExclusao {
+    border: 1px solid #efb7bf;
+    background: #fff1f3;
+    border-radius: 10px;
+    padding: 12px 14px;
+}
+
+.alertaExclusao p {
+    margin: 0;
+    color: #862433;
+    font-weight: 600;
+}
+
+.confirmacaoLinha {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.confirmacaoLinha input {
+    margin-top: 4px;
+    width: 18px;
+    height: 18px;
+}
+
+.confirmacaoLinha label {
+    color: #6b2530;
+    font-weight: 500;
+}
+
+.acoes {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.btnSecundario,
+.btnPerigo {
+    min-height: 44px;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+}
+
+.btnSecundario {
+    background: #f4eff0;
+    color: #6b2530;
+    border: 1px solid #e7cfd4;
+}
+
+.btnPerigo {
+    background: linear-gradient(135deg, #8f1f2b 0%, #b53a46 100%);
+    color: #ffffff;
+}
+
+.btnSecundario:hover {
+    background: #efe3e5;
+}
+
+.btnPerigo:hover {
+    filter: brightness(1.05);
+}
+
+.ativoItem {
+    background-color: rgba(157, 207, 255, 0.16);
+    transform: translateX(2px);
+}
+
+@media screen and (max-width: 1100px) {
+    .conteudoPrincipal {
+        margin-left: 30%;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .conteudoPrincipal {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    .buscaLinha {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .acaoBusca,
+    .btnBuscar {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .acoes {
+        flex-direction: column;
+    }
+
+    .btnSecundario,
+    .btnPerigo {
+        width: 100%;
+        text-align: center;
+    }
+}

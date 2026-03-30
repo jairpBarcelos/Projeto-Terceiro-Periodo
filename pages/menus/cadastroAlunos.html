@@ -1,20 +1,167 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAADI</title>
+    <title>SAADI - Cadastrar Aluno</title>
+    <link rel="stylesheet" href="../../css/menuSecretaria.css">
     <link rel="stylesheet" href="../../css/menuSecretaria/cadastroAlunos.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="../../img/favicon-duas-mãos-32px-branco.png" type="image/x-icon">
 </head>
+
 <body>
-    <main>
-        <div>
-            <a href="./menuSecretariaEscolar.html"><h2>Voltar</h2></a>
-        </div>
-    </main>
+    <div class="app">
+        <nav class="menuLateral" aria-label="Menu principal da secretaria escolar">
+            <a class="menuSecretaria" id="telaInicial" href="/pages/menus/menuSecretariaEscolar.html">
+                <div class="logoContainer">
+                    <div class="logoMenu"><img src="/img/icons8-duas-mãos-windows-11-filled/Logo.png"
+                            alt="Logo: Duas mãos abertas"></div>
+                    <div>
+                        <h3>SAADI</h3>
+                        <p>Secretaria Escolar</p>
+                    </div>
+                </div>
+            </a>
+
+            <hr>
+
+            <div class="Perfil">
+                <div class="fotoPerfil"><img src="/img/perfil.png" alt="Foto de perfil"></div>
+                <div>
+                    <p>Bem-vindo(a), Seu Nome!</p>
+                </div>
+                <div class="config">
+                    <button type="button" aria-label="Abrir configurações"
+                        onclick="alert('Configurações ainda não disponíveis!')">
+                        <img src="/img/config.png" alt="Configurações">
+                    </button>
+                </div>
+            </div>
+
+            <hr>
+
+            <a class="botoesLaterais" href="/pages/menus/cadastroAlunos.html">
+                <div class="alinhamento">
+                    <div class="fotos"><img src="/img/cadastro.png" alt="Cadastrar aluno"></div>
+                    <p>Cadastrar Aluno</p>
+                </div>
+            </a>
+
+            <a class="botoesLaterais" href="/pages/menus/listarAlunos.html">
+                <div class="alinhamento">
+                    <div class="fotos"><img src="/img/lista.png" alt="Lista de alunos"></div>
+                    <p>Lista de Alunos</p>
+                </div>
+            </a>
+
+            <a class="botoesLaterais" href="/pages/menus/atualizarAlunos.html">
+                <div class="alinhamento">
+                    <div class="fotos"><img src="/img/atualizar.png" alt="Atualizar alunos"></div>
+                    <p>Atualizar Alunos</p>
+                </div>
+            </a>
+
+            <a class="botoesLaterais" href="/pages/menus/deletarAlunos.html">
+                <div class="alinhamento">
+                    <div class="fotos"><img src="/img/deletar.png" alt="Excluir alunos"></div>
+                    <p>Excluir Alunos</p>
+                </div>
+            </a>
+
+            <div class="baixo">
+                <hr>
+            </div>
+
+            <a class="textoSair" href="/index.html">
+                <div class="sair">
+                    <div class="fotoSair"><img src="/img/sair.png" alt="Sair"></div>
+                    <p>Sair da Conta</p>
+                </div>
+            </a>
+        </nav>
+
+        <main class="conteudoPrincipal">
+            <section class="cabecalhoPagina">
+                <p class="cabecalhoTag">Cadastro Acadêmico</p>
+                <h1>Cadastrar Novo Aluno</h1>
+                <p>Preencha os dados abaixo para registrar o aluno no banco de dados da instituição.</p>
+            </section>
+
+            <section class="formContainer" aria-label="Formulário de cadastro de aluno">
+                <form action="#" method="post" enctype="multipart/form-data" class="formCadastro">
+                    <div class="linha">
+                        <div class="campo full">
+                            <label for="id">ID do aluno</label>
+                            <input type="text" id="id" name="id" value="Gerado automaticamente" readonly>
+                        </div>
+                    </div>
+
+                    <div class="linha">
+                        <div class="campo full">
+                            <label for="nome">Nome completo</label>
+                            <input type="text" id="nome" name="nome" maxlength="100" required>
+                        </div>
+                    </div>
+
+                    <div class="linha dupla">
+                        <div class="campo">
+                            <label for="cpf">CPF</label>
+                            <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00"
+                                pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" maxlength="14" required>
+                        </div>
+                        <div class="campo">
+                            <label for="data_nascimento">Data de nascimento</label>
+                            <input type="date" id="data_nascimento" name="data_nascimento" required>
+                        </div>
+                    </div>
+
+                    <div class="linha">
+                        <div class="campo full">
+                            <label for="laudo_medico">Laudo médico</label>
+                            <textarea id="laudo_medico" name="laudo_medico" rows="4" required></textarea>
+                        </div>
+                    </div>
+
+                    <div class="linha">
+                        <div class="campo full">
+                            <label for="laudo_documento">Anexar documento do laudo</label>
+                            <input type="file" id="laudo_documento" name="laudo_documento"
+                                accept=".pdf,.png,.jpg,.jpeg,.doc,.docx">
+                            <small class="ajudaCampo">Formatos aceitos: PDF, PNG, JPG, DOC e DOCX.</small>
+                        </div>
+                    </div>
+
+                    <div class="linha">
+                        <div class="campo full">
+                            <label for="endereco">Endereço</label>
+                            <textarea id="endereco" name="endereco" rows="3" required></textarea>
+                        </div>
+                    </div>
+
+                    <div class="linha dupla">
+                        <div class="campo">
+                            <label for="responsavel_nome">Nome do responsável</label>
+                            <input type="text" id="responsavel_nome" name="responsavel_nome" maxlength="100" required>
+                        </div>
+                        <div class="campo">
+                            <label for="responsavel_telefone">Telefone do responsável</label>
+                            <input type="tel" id="responsavel_telefone" name="responsavel_telefone"
+                                placeholder="(00) 00000-0000" maxlength="20" required>
+                        </div>
+                    </div>
+
+                    <div class="acoes">
+                        <a class="btnSecundario" href="/pages/menus/menuSecretariaEscolar.html">Cancelar</a>
+                        <button type="submit" class="btnPrimario">Salvar Cadastro</button>
+                    </div>
+                </form>
+            </section>
+        </main>
+    </div>
 </body>
+
 </html>

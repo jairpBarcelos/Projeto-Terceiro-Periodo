@@ -1,20 +1,139 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAADI</title>
-    <link rel="stylesheet" href="../../css/menuSecretaria/cadastroAlunos.css">
+    <title>SAADI - Excluir Aluno</title>
+    <link rel="stylesheet" href="../../css/menuSecretaria.css">
+    <link rel="stylesheet" href="../../css/menuSecretaria/deletarAlunos.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="../../img/favicon-duas-mãos-32px-branco.png" type="image/x-icon">
 </head>
+
 <body>
-    <main>
-        <div>
-            <a href="./menuSecretariaEscolar.html"><h2>Voltar</h2></a>
-        </div>
-    </main>
+    <div class="app">
+        <nav class="menuLateral" aria-label="Menu principal da secretaria escolar">
+            <a class="menuSecretaria" id="telaInicial" href="/pages/menus/menuSecretariaEscolar.html">
+                <div class="logoContainer">
+                    <div class="logoMenu"><img src="/img/icons8-duas-mãos-windows-11-filled/Logo.png"
+                            alt="Logo: Duas mãos abertas"></div>
+                    <div>
+                        <h3>SAADI</h3>
+                        <p>Secretaria Escolar</p>
+                    </div>
+                </div>
+            </a>
+
+            <hr>
+
+            <div class="Perfil">
+                <div class="fotoPerfil"><img src="/img/perfil.png" alt="Foto de perfil"></div>
+                <div>
+                    <p>Bem-vindo(a), Seu Nome!</p>
+                </div>
+                <div class="config">
+                    <button type="button" aria-label="Abrir configurações"
+                        onclick="alert('Configurações ainda não disponíveis!')">
+                        <img src="/img/config.png" alt="Configurações">
+                    </button>
+                </div>
+            </div>
+
+            <hr>
+
+            <a class="botoesLaterais" href="/pages/menus/cadastroAlunos.html">
+                <div class="alinhamento">
+                    <div class="fotos"><img src="/img/cadastro.png" alt="Cadastrar aluno"></div>
+                    <p>Cadastrar Aluno</p>
+                </div>
+            </a>
+
+            <a class="botoesLaterais" href="/pages/menus/listarAlunos.html">
+                <div class="alinhamento">
+                    <div class="fotos"><img src="/img/lista.png" alt="Lista de alunos"></div>
+                    <p>Lista de Alunos</p>
+                </div>
+            </a>
+
+            <a class="botoesLaterais" href="/pages/menus/atualizarAlunos.html">
+                <div class="alinhamento">
+                    <div class="fotos"><img src="/img/atualizar.png" alt="Atualizar alunos"></div>
+                    <p>Atualizar Alunos</p>
+                </div>
+            </a>
+
+            <a class="botoesLaterais" href="/pages/menus/deletarAlunos.html">
+                <div class="alinhamento ativoItem">
+                    <div class="fotos"><img src="/img/deletar.png" alt="Excluir alunos"></div>
+                    <p>Excluir Alunos</p>
+                </div>
+            </a>
+
+            <div class="baixo">
+                <hr>
+            </div>
+
+            <a class="textoSair" href="/index.html">
+                <div class="sair">
+                    <div class="fotoSair"><img src="/img/sair.png" alt="Sair"></div>
+                    <p>Sair da Conta</p>
+                </div>
+            </a>
+        </nav>
+
+        <main class="conteudoPrincipal">
+            <section class="cabecalhoPagina">
+                <p class="cabecalhoTag">Remoção Acadêmica</p>
+                <h1>Excluir Cadastro do Aluno</h1>
+                <p>Pesquise o aluno e confirme a exclusão com segurança.</p>
+            </section>
+
+            <section class="formContainer" aria-label="Formulário de exclusão de aluno">
+                <form action="#" method="post" class="formExclusao">
+                    <div class="linha buscaLinha">
+                        <div class="campo">
+                            <label for="busca_id">Buscar por ID</label>
+                            <input type="text" id="busca_id" name="busca_id" placeholder="Ex.: 12">
+                        </div>
+                        <div class="campo">
+                            <label for="busca_cpf">Buscar por CPF</label>
+                            <input type="text" id="busca_cpf" name="busca_cpf" placeholder="000.000.000-00"
+                                pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" maxlength="14">
+                        </div>
+                        <div class="campo acaoBusca">
+                            <button type="button" class="btnBuscar">Localizar aluno</button>
+                        </div>
+                    </div>
+
+                    <div class="resumoAluno" role="group" aria-label="Resumo do aluno a ser excluído">
+                        <h2>Aluno localizado</h2>
+                        <p><strong>ID:</strong> 12</p>
+                        <p><strong>Nome:</strong> Aluno Exemplo</p>
+                        <p><strong>CPF:</strong> 000.000.000-00</p>
+                        <p><strong>Escola/Série:</strong> 2º Ano - Ensino Fundamental | Colégio Municipal Denison</p>
+                        <p><strong>Responsável:</strong> Responsável Exemplo</p>
+                    </div>
+
+                    <div class="alertaExclusao">
+                        <p>Esta ação remove permanentemente o cadastro do aluno e não pode ser desfeita.</p>
+                    </div>
+
+                    <div class="confirmacaoLinha">
+                        <input type="checkbox" id="confirmar_exclusao" name="confirmar_exclusao" required>
+                        <label for="confirmar_exclusao">Confirmo que desejo excluir este aluno de forma permanente.</label>
+                    </div>
+
+                    <div class="acoes">
+                        <a class="btnSecundario" href="/pages/menus/menuSecretariaEscolar.html">Cancelar</a>
+                        <button type="submit" class="btnPerigo">Excluir Aluno</button>
+                    </div>
+                </form>
+            </section>
+        </main>
+    </div>
 </body>
+
 </html>

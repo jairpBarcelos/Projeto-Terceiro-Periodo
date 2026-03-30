@@ -1,320 +1,323 @@
-* {
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-*:focus {
-    outline: 3px solid #4A90E2;
-    outline-offset: 2px;
-}
-
-html {
-    font-size: 16px;
-}
-
-.app {
-    display: block;
-    height: 100vh;
-}
-
-.menuLateral {
-    background-color: rgb(255, 255, 255);
-    width: 25%;
-    height: 100vh;
-    position: fixed;
-    left: 0;
-    top: 0;
-}
-
-.menuSecretaria {
-    color: black;
-    text-decoration: none;
-}
-
-.logoContainer {
-    display: flex;
-    align-items: center;
-    padding-bottom: 10px;
-    gap: 20px;
-    width: 100%;
-}
-
-.logoContainer:hover {
-    background-color: rgba(255, 255, 255, 0.932);
-    border-radius: 40px;
-
-}
-
-.menuSecretaria:focus-visible .logoContainer {
-    border: 3px solid #4A90E2;
-    border-radius: 40px;
-}
-
-.conteudoPricipal {
-    background-color: #ECEFF1;
+.conteudoPrincipal {
     margin-left: 25%;
-    height: 100vh;
-    overflow-y: auto;
+    min-height: 100vh;
+    padding: 30px;
+    background: linear-gradient(180deg, #eef3f8 0%, #e8eef6 100%);
 }
 
-
-.logoMenu {
-    display: flex;
-    padding-top: 10px;
-    padding-left: 10px;
-    align-items: center;
-    gap: 20px;
+.cabecalhoPagina {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2a5a88 100%);
+    border-radius: 18px;
+    padding: 24px 28px;
+    color: #ffffff;
+    box-shadow: 0 8px 20px rgba(30, 58, 95, 0.2);
+    margin-bottom: 20px;
 }
 
-.logoMenu img {
-    width: 60px;
-    height: 60px;
-}
-
-.menuSaad {
-    border: blac;
-}
-
-.Perfil {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-}
-
-.fotoPerfil {
-    margin: 10px;
-}
-
-.fotoPerfil img {
-    width: 60px;
-    height: 60px;
-}
-
-button {
-    border: none;
-    outline: none;
-    background-color: transparent;
-    cursor: pointer;
-}
-
-button:focus {
-    outline: 3px solid #4A90E2;
-    outline-offset: 2px;
-}
-
-.config {
-    margin-left: auto;
-    padding: 10px;
-}
-
-.config img {
-    width: 30px;
-    height: 30px;
-    display: block;
-}
-
-.alinhamento {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    margin: 10px;
-    gap: 10px;
-}
-
-.botoesLaterais:hover .alinhamento,
-.botoesLaterais:focus-visible .alinhamento {
-    background-color: rgba(173, 223, 223, 0.932);
-    border-radius: 30px;
-    transition: 0.5s;
-}
-
-.listarAlunos {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    margin: 10px;
-    gap: 10px;
-    background-color: rgba(173, 223, 223, 0.932);
-    border-radius: 30px;
-    transition: 0.5s;
-}
-
-.fotos img {
-    width: 40px;
-    height: 40px;
-}
-
-.botoesLaterais {
-    color: black;
-    text-decoration: none;
-}
-
-
-.textoSair {
-    color: black;
-    text-decoration: none;
-}
-
-
-.textoSair:hover .sair {
-    background-color: #e04f5f;
-    border-radius: 30px;
-    color: white;
-    transition: 0.3s;
-}
-
-.textoSair:focus-visible .sair {
-    background-color: #e04f5f;
-    border-radius: 30px;
-    color: white;
-}
-
-
-.sair {
-    position: absolute;
-    gap: 10px;
-    bottom: 10px;
-    left: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    width: 90%;
-
-}
-
-.fotoSair img {
-    width: 40px;
-    height: 40px;
-}
-
-
-.baixo {
-    position: absolute;
-    bottom: 60px;
-    width: 100%;
-    padding: 0;
+.cabecalhoTag {
     margin: 0;
+    font-size: 0.88rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    opacity: 0.88;
 }
 
-hr {
+.cabecalhoPagina h1 {
+    margin: 8px 0;
+    font-size: clamp(1.4rem, 2.4vw, 2rem);
+}
+
+.cabecalhoPagina p {
     margin: 0;
-    padding: 0;
-    border: none;
-    border-top: 1px solid #ccc;
-    height: 0;
+    opacity: 0.95;
 }
 
-.menuLateral {
-    border-right: 1px solid #ccc;
+.listaContainer {
+    background: #ffffff;
+    border: 1px solid #d7e4f2;
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: 0 10px 24px rgba(20, 49, 83, 0.12);
 }
 
-
-
-h1 {
-    margin-top: 2vh;
-    margin-left: 6vh;
-}
-
-
-.BuscarAlunos {
-    position: relative;
-    margin-bottom: 3vh;
-}
-
-.input-group {
-
-    margin-top: 2vh;
-    margin-left: 6vh;
-}
-
-.input-group-text {
-    background-color: #ffffff00;
-    border-color: #00000000;
-    border-radius: 20px;
-}
-
-.input-group img {
-    width: 3vh;
-    height: 3vh;
-}
-
-.form-control {
-    border-radius: 6vh;
-    border-color: #000000;
-    background-color: #ffffff;
-}
-
-.btn-primary {
-    background-color: #1e3a5f;
-    border: none;
-}
-
-
-.Blocos {
+.buscaBarra {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 8px;
+    margin-bottom: 18px;
 }
 
-.Bloco {
-    margin-left: 6vh;
-    margin-right: 6vh;
-    margin-top: 3vh;
-    background-color: #ffffff;
-    border: 1px solid #000000;
-    border-radius: 30px;
-    padding: 20px 22px;
+.buscaBarra label {
+    color: #173b63;
+    font-weight: 600;
+    font-size: 0.94rem;
 }
 
-.BlocoCima {
+.buscaBarra input {
+    width: 100%;
+    border: 2px solid #c7d6e6;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 1rem;
+    color: #183654;
+    background: #ffffff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.buscaBarra input:focus {
+    border-color: #2a72b7;
+    box-shadow: 0 0 0 4px rgba(42, 114, 183, 0.15);
+    outline: none;
+}
+
+.blocos {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.bloco {
+    background: #ffffff;
+    border: 1px solid #d8e4f0;
+    border-radius: 14px;
+    padding: 18px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.bloco:hover,
+.bloco:focus-visible {
+    transform: translateY(-2px);
+    border-color: #9fc0e2;
+    box-shadow: 0 8px 18px rgba(25, 66, 106, 0.14);
+}
+
+.bloco:focus-visible {
+    outline: 3px solid #2a72b7;
+    outline-offset: 2px;
+}
+
+.blocoTopo {
     display: flex;
     justify-content: space-between;
+    gap: 14px;
     align-items: flex-start;
-    margin-bottom: 10px;
 }
 
-.BlocoMeio {
+.blocoTopo h2 {
+    margin: 0;
+    color: #173b63;
+    font-size: 1.08rem;
+}
+
+.infoAluno {
+    margin: 4px 0 0;
+    color: #5b6f86;
+    font-size: 0.9rem;
+}
+
+.contato {
+    margin: 0;
+    color: #46607d;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.blocoTags {
     display: flex;
-    align-items: center;
-    gap: 10px;
     flex-wrap: wrap;
-    margin-bottom: 12px;
+    gap: 8px;
+    margin-top: 12px;
 }
 
 .tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: #1E3A5F;
-    color: #FFFFFF;
-    font-size: 0.78rem;
-    font-weight: 500;
-    padding: 4px 12px;
+    background: #1f63a5;
+    color: #ffffff;
     border-radius: 999px;
-    letter-spacing: 0.2px;
+    padding: 4px 12px;
+    font-size: 0.78rem;
+    font-weight: 600;
 }
 
-.divider {
-    height: 1px;
-    background: black;
-    margin: 12px 0;
+.tag.suporte {
+    background: #2f8b5f;
 }
 
-.BlocoBaixo {
+.blocoObs {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 8px;
+    margin-top: 12px;
 }
 
-.Observacao {
-  background: var(--need-bg);
-  color: var(--need-text);
-  border-radius: 6px;
-  padding: 3px 10px;
-  font-size: 0.78rem;
-  font-weight: 500;
-  border: 1px solid rgb(0, 38, 255);
+.blocoObs span {
+    border: 1px solid #b9d1ea;
+    background: #eef5fd;
+    color: #21486f;
+    border-radius: 8px;
+    padding: 4px 10px;
+    font-size: 0.78rem;
+    font-weight: 500;
+}
+
+.ativoItem {
+    background-color: rgba(157, 207, 255, 0.16);
+    transform: translateX(2px);
+}
+
+.modalAluno {
+    position: fixed;
+    inset: 0;
+    display: none;
+    z-index: 999;
+}
+
+.modalAluno.aberto {
+    display: block;
+}
+
+.modalOverlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 26, 43, 0.5);
+}
+
+.modalConteudo {
+    position: relative;
+    width: min(92%, 680px);
+    margin: 8vh auto 0;
+    background: #ffffff;
+    border-radius: 18px;
+    border: 1px solid #cfe0f0;
+    box-shadow: 0 18px 36px rgba(12, 35, 58, 0.28);
+    padding: 24px;
+}
+
+.btnFecharModal {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    border: none;
+    background: #e9f1fa;
+    color: #20496f;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.btnFecharModal:hover {
+    background: #d8e8f7;
+}
+
+.modalTag {
+    margin: 0;
+    color: #2a5f94;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-weight: 600;
+}
+
+.modalConteudo h2 {
+    margin: 8px 0 4px;
+    color: #173b63;
+}
+
+.modalInfoAluno {
+    margin: 0 0 16px;
+    color: #5b6f86;
+}
+
+.modalGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.modalGrid h3 {
+    margin: 0 0 4px;
+    font-size: 0.9rem;
+    color: #2d537a;
+}
+
+.modalGrid p {
+    margin: 0;
+    color: #24486d;
+    background: #f1f6fb;
+    border: 1px solid #d4e3f3;
+    border-radius: 10px;
+    padding: 10px;
+    min-height: 42px;
+}
+
+.modalWide {
+    grid-column: 1 / -1;
+}
+
+.modalRelatorioCabecalho {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.modalRelatorioCabecalho h3 {
+    margin: 0;
+}
+
+.modalRelatorioCabecalho select {
+    border: 1px solid #c4d8eb;
+    border-radius: 8px;
+    padding: 6px 10px;
+    color: #21486f;
+    background: #f5f9fd;
+    font-weight: 600;
+}
+
+.modalRelatorioCabecalho select:focus {
+    outline: 3px solid rgba(42, 114, 183, 0.28);
+    outline-offset: 1px;
+}
+
+.modalWide p {
+    min-height: 78px;
+    line-height: 1.6;
+}
+
+@media screen and (max-width: 1100px) {
+    .conteudoPrincipal {
+        margin-left: 30%;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .conteudoPrincipal {
+        margin-left: 0;
+        padding: 20px;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .blocoTopo {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .modalConteudo {
+        margin-top: 4vh;
+        padding: 18px;
+    }
+
+    .modalGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .modalRelatorioCabecalho {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }

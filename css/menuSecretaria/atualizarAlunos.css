@@ -1,4 +1,4 @@
-﻿.conteudoPrincipal {
+.conteudoPrincipal {
     margin-left: 25%;
     min-height: 100vh;
     padding: 30px;
@@ -40,7 +40,7 @@
     box-shadow: 0 10px 24px rgba(20, 49, 83, 0.12);
 }
 
-.formCadastro {
+.formAtualizacao {
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -49,6 +49,14 @@
 .linha {
     display: flex;
     gap: 16px;
+}
+
+.buscaLinha {
+    align-items: flex-end;
+    padding: 14px;
+    background: #f4f8fc;
+    border: 1px solid #d7e4f2;
+    border-radius: 12px;
 }
 
 .linha.dupla .campo {
@@ -107,6 +115,25 @@
     background: #f7fbff;
 }
 
+.acaoBusca {
+    width: auto;
+}
+
+.btnBuscar {
+    min-height: 46px;
+    border: none;
+    border-radius: 10px;
+    padding: 0 16px;
+    background: linear-gradient(135deg, #1f63a5 0%, #2c7dcf 100%);
+    color: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btnBuscar:hover {
+    filter: brightness(1.05);
+}
+
 .ajudaCampo {
     color: #5c728a;
     font-size: 0.82rem;
@@ -149,6 +176,11 @@
     filter: brightness(1.05);
 }
 
+.ativoItem {
+    background-color: rgba(157, 207, 255, 0.16);
+    transform: translateX(2px);
+}
+
 @media screen and (max-width: 1100px) {
     .conteudoPrincipal {
         margin-left: 30%;
@@ -159,6 +191,19 @@
     .conteudoPrincipal {
         margin-left: 0;
         padding: 20px;
+    }
+
+    .buscaLinha {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .acaoBusca {
+        width: 100%;
+    }
+
+    .btnBuscar {
+        width: 100%;
     }
 }
 
