@@ -131,7 +131,7 @@
 }
 
 .tag {
-    background: #1f63a5;
+    background: #1D4ED8;
     color: #ffffff;
     border-radius: 999px;
     padding: 4px 12px;
@@ -140,7 +140,8 @@
 }
 
 .tag.suporte {
-    background: #2f8b5f;
+    background: #F1F5F9;
+    color: #1E293B;
 }
 
 .blocoObs {
