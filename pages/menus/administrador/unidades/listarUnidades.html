@@ -15,14 +15,14 @@
     <div class="logoContainer">
       <img src="../../../../img/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
       <div class="textoBranding">
-        <div class="nomeBrand">Sistema Neurodiversidade</div>
+        <div class="nomeBrand">SAADI</div>
         <div class="nivelAcesso">Nível: Administrador</div>
       </div>
     </div>
 
     <div class="Perfil">
-      <div class="nomePerfil">Admin Master</div>
-      <div class="emailPerfil">admin@escola.edu.br</div>
+      <div class="nomePerfil">Usuário Logado</div>
+      <div class="emailPerfil">usuario@escola.edu.br</div>
     </div>
 
                 <div class="botoesLaterais">
@@ -37,10 +37,6 @@
       <button class="btnLateral" onclick="navegarPara('../usuarios/listarUsuarios.html')" aria-label="Gerenciar Usuários do Sistema">
         <img src="/img/perfil.png" alt="">
         <span>Usuários do Sistema</span>
-      </button>
-      <button class="btnLateral" onclick="navegarPara('../perfis/vinculacaoPerfis.html')" aria-label="Vincular Perfis e Permissões">
-        <img src="/img/config.png" alt="">
-        <span>Perfis e Permissões</span>
       </button>
       <button class="btnLateral" onclick="navegarPara('../relatoriosAdministrador.html')" aria-label="Ver Relatórios Consolidados">
         <img src="/img/icon-lista.png" alt="">
@@ -90,24 +86,6 @@
           + Nova Unidade
         </a>
       </div>
-
-      <div class="filtrosUnidades">
-        <select id="filtroEstado" onchange="filtrarUnidades()" aria-label="Filtrar por estado">
-          <option value="">Todos os Estados</option>
-          <option value="SP">São Paulo</option>
-          <option value="MG">Minas Gerais</option>
-          <option value="RJ">Rio de Janeiro</option>
-          <option value="BA">Bahia</option>
-          <option value="RS">Rio Grande do Sul</option>
-        </select>
-
-        <select id="filtroStatus" onchange="filtrarUnidades()" aria-label="Filtrar por status">
-          <option value="">Todos os Status</option>
-          <option value="ativa">Ativa</option>
-          <option value="inativa">Inativa</option>
-          <option value="manutencao">Em Manutenção</option>
-        </select>
-      </div>
     </section>
 
     <!-- LISTA DE UNIDADES -->
@@ -116,8 +94,7 @@
         <thead>
           <tr>
             <th>Nome</th>
-            <th>Cidade</th>
-            <th>Estado</th>
+            <th>Bairro</th>
             <th>CNPJ</th>
             <th>Diretor</th>
             <th>Status</th>
@@ -127,8 +104,7 @@
         <tbody>
           <tr class="unidade" data-nome="Escola Municipal Centro" data-estado="SP" data-status="ativa">
             <td>Escola Municipal Centro</td>
-            <td>São Paulo</td>
-            <td>SP</td>
+            <td>Centro</td>
             <td>12.345.678/0001-90</td>
             <td>Prof. Roberto</td>
             <td><span class="badge badgeSucesso">Ativa</span></td>
@@ -142,8 +118,7 @@
           </tr>
           <tr class="unidade" data-nome="Escola Estadual Norte" data-estado="SP" data-status="ativa">
             <td>Escola Estadual Norte</td>
-            <td>Campinas</td>
-            <td>SP</td>
+            <td>Vila Nova</td>
             <td>87.654.321/0001-45</td>
             <td>Dra. Fernanda</td>
             <td><span class="badge badgeSucesso">Ativa</span></td>
@@ -157,8 +132,7 @@
           </tr>
           <tr class="unidade" data-nome="CEI Infantil Leste" data-estado="RJ" data-status="ativa">
             <td>CEI Infantil Leste</td>
-            <td>Rio de Janeiro</td>
-            <td>RJ</td>
+            <td>Consolação</td>
             <td>11.111.111/0001-11</td>
             <td>Prof. Marcelo</td>
             <td><span class="badge badgeSucesso">Ativa</span></td>
@@ -172,8 +146,7 @@
           </tr>
           <tr class="unidade" data-nome="EMEF Sul Integrada" data-estado="MG" data-status="manutencao">
             <td>EMEF Sul Integrada</td>
-            <td>Belo Horizonte</td>
-            <td>MG</td>
+            <td>Brooklin</td>
             <td>22.222.222/0001-22</td>
             <td>Prof. Patricia</td>
             <td><span class="badge badgeAviso">Em Manutenção</span></td>

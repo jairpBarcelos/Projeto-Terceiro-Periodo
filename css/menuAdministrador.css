@@ -3,22 +3,22 @@
    ================================================================================ */
 
 :root {
-  --cor-principal: #1a3a52;
-  --cor-secundaria: #2d5a7b;
-  --cor-terciaria: #3d6fa0;
+  --cor-principal: #163a63;
+  --cor-secundaria: #1f4f85;
+  --cor-terciaria: #2e5f92;
   --cor-sucesso: #27ae60;
   --cor-aviso: #f39c12;
   --cor-perigo: #e74c3c;
-  --cor-info: #3498db;
-  --cor-fundo-claro: #eef3f8;
+  --cor-info: #4c7adf;
+  --cor-fundo-claro: #e8eef6;
   --cor-branco: #ffffff;
-  --cor-texto-escuro: #2c3e50;
-  --cor-texto-medio: #566575;
-  --cor-borda: #d0dce6;
-  --cor-foco: #4A90E2;
-  --sombra-leve: 0 2px 6px rgba(0, 0, 0, 0.08);
-  --sombra-media: 0 6px 10px rgba(0, 0, 0, 0.12);
-  --sombra-escura: 0 10px 22px rgba(0, 0, 0, 0.15);
+  --cor-texto-escuro: #153353;
+  --cor-texto-medio: #5b6f86;
+  --cor-borda: #d9e3ee;
+  --cor-foco: #4a90e2;
+  --sombra-leve: 0 8px 18px rgba(16, 44, 77, 0.08);
+  --sombra-media: 0 10px 24px rgba(20, 49, 83, 0.14);
+  --sombra-escura: 0 16px 34px rgba(20, 49, 83, 0.2);
   --transicao: all 0.3s ease;
 }
 
@@ -30,7 +30,7 @@
 
 body {
   font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background-color: var(--cor-fundo-claro);
+  background: linear-gradient(180deg, #eef3f8 0%, var(--cor-fundo-claro) 100%);
   color: var(--cor-texto-escuro);
   line-height: 1.6;
 }
@@ -54,12 +54,13 @@ body {
   top: 0;
   width: 25%;
   height: 100vh;
-  background: linear-gradient(135deg, var(--cor-principal) 0%, var(--cor-secundaria) 100%);
+  background: linear-gradient(180deg, #102845 0%, var(--cor-principal) 55%, #1b4777 100%);
   display: flex;
   flex-direction: column;
   overflow-y: auto;
   z-index: 100;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 8px 0 28px rgba(10, 27, 48, 0.35);
+  border-right: 1px solid rgba(183, 214, 247, 0.24);
 }
 
 .conteudoPrincipal {
@@ -67,7 +68,7 @@ body {
   min-height: 100vh;
   padding: 30px;
   overflow-y: auto;
-  background-color: var(--cor-fundo-claro);
+  background: linear-gradient(180deg, #eef3f8 0%, var(--cor-fundo-claro) 100%);
 }
 
 /* ================================================================================
@@ -75,31 +76,40 @@ body {
    ================================================================================ */
 
 .logoContainer {
-  padding: 20px;
+  padding: 12px;
+  margin: 10px;
   display: flex;
   align-items: center;
-  gap: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  background: rgba(0, 0, 0, 0.1);
+  gap: 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(160, 201, 243, 0.2);
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .logoContainer img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 6px;
+}
+
+.logoContainer:hover {
+  background-color: rgba(157, 207, 255, 0.16);
+  border-color: rgba(157, 207, 255, 0.34);
 }
 
 .logoContainer .textoBranding {
-  color: var(--cor-branco);
+  color: #f3f8ff;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 1.08rem;
   line-height: 1.3;
 }
 
 .logoContainer .nivelAcesso {
-  color: #87CEEB;
-  font-size: 12px;
-  font-weight: 400;
+  color: #c5dbf2;
+  font-size: 0.84rem;
+  font-weight: 500;
 }
 
 /* ================================================================================
@@ -107,20 +117,24 @@ body {
    ================================================================================ */
 
 .Perfil {
-  padding: 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  color: var(--cor-branco);
+  width: calc(100% - 20px);
+  margin: 12px 10px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(160, 201, 243, 0.16);
+  background: rgba(255, 255, 255, 0.05);
+  color: #e8f3ff;
 }
 
 .Perfil .nomePerfil {
   font-weight: 600;
-  font-size: 14px;
-  margin-bottom: 5px;
+  font-size: 0.95rem;
+  margin-bottom: 2px;
 }
 
 .Perfil .emailPerfil {
-  font-size: 12px;
-  opacity: 0.8;
+  font-size: 0.82rem;
+  opacity: 0.92;
 }
 
 /* ================================================================================
@@ -130,7 +144,7 @@ body {
 .botoesLaterais {
   flex: 1;
   overflow-y: auto;
-  padding: 10px;
+  padding: 6px 10px;
 }
 
 .btnLateral {
@@ -138,23 +152,23 @@ body {
   align-items: center;
   gap: 12px;
   width: 100%;
-  padding: 12px 15px;
+  padding: 11px 12px;
   margin: 5px 0;
   background: transparent;
   border: none;
-  color: rgba(255, 255, 255, 0.85);
+  color: #f3f8ff;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  border-radius: 8px;
+  border-radius: 12px;
   transition: var(--transicao);
   text-align: left;
 }
 
 .btnLateral:hover {
-  background: rgba(255, 255, 255, 0.15);
-  color: var(--cor-branco);
-  padding-left: 18px;
+  background: rgba(157, 207, 255, 0.16);
+  color: #ffffff;
+  transform: translateX(2px);
 }
 
 .btnLateral:focus {
@@ -168,16 +182,18 @@ body {
 }
 
 .btnLateral img {
-  width: 20px;
-  height: 20px;
-  opacity: 0.9;
+  width: 34px;
+  height: 34px;
+  padding: 5px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.14);
+  opacity: 0.95;
 }
 
 .btnLateral.ativo {
-  background: rgba(255, 255, 255, 0.2);
-  color: var(--cor-branco);
-  border-left: 4px solid var(--cor-info);
-  padding-left: 11px;
+  background: rgba(157, 207, 255, 0.2);
+  color: #ffffff;
+  border-left: 4px solid #93c8ff;
 }
 
 /* ================================================================================
@@ -185,8 +201,8 @@ body {
    ================================================================================ */
 
 .sair {
-  padding: 15px;
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 10px;
+  border-top: 1px solid rgba(183, 214, 247, 0.24);
   position: static;
 }
 
@@ -196,7 +212,7 @@ body {
   justify-content: flex-start;
   gap: 10px;
   width: 100%;
-  padding: 10px 15px;
+  padding: 10px 12px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(160, 201, 243, 0.16);
   color: #f3f8ff;
@@ -233,16 +249,21 @@ body {
 
 .cabecalhoDashboard {
   margin-bottom: 30px;
+  border-radius: 18px;
+  padding: 22px 26px;
+  color: #ffffff;
+  background: linear-gradient(135deg, #1e3a5f 0%, #2a5a88 100%);
+  box-shadow: 0 8px 20px rgba(30, 58, 95, 0.2);
 }
 
 .cabecalhoDashboard h1 {
-  font-size: 28px;
-  color: var(--cor-principal);
+  font-size: 30px;
+  color: #ffffff;
   margin-bottom: 8px;
 }
 
 .cabecalhoDashboard p {
-  color: var(--cor-texto-medio);
+  color: rgba(232, 243, 255, 0.9);
   font-size: 14px;
 }
 
@@ -259,11 +280,12 @@ body {
 
 .cardIndicador {
   background: var(--cor-branco);
-  border-radius: 12px;
-  padding: 20px;
+  border-radius: 14px;
+  padding: 18px;
   box-shadow: var(--sombra-leve);
   transition: var(--transicao);
-  border-left: 4px solid var(--cor-info);
+  border: 1px solid var(--cor-borda);
+  border-left: 5px solid var(--cor-info);
 }
 
 .cardIndicador:hover {
@@ -308,7 +330,8 @@ body {
 
 .containerPrincipal {
   background: var(--cor-branco);
-  border-radius: 12px;
+  border: 1px solid var(--cor-borda);
+  border-radius: 18px;
   padding: 25px;
   box-shadow: var(--sombra-leve);
   margin-bottom: 20px;
@@ -347,9 +370,9 @@ body {
 }
 
 .cartaoNavegacao {
-  background: linear-gradient(135deg, rgba(90, 185, 255, 0.1), rgba(52, 152, 219, 0.1));
+  background: #ffffff;
   border: 1px solid var(--cor-borda);
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 20px;
   text-align: center;
   cursor: pointer;
@@ -359,7 +382,7 @@ body {
 }
 
 .cartaoNavegacao:hover {
-  background: linear-gradient(135deg, rgba(90, 185, 255, 0.2), rgba(52, 152, 219, 0.2));
+  background: linear-gradient(135deg, #f4f8ff 0%, #edf4fc 100%);
   box-shadow: var(--sombra-media);
   transform: translateY(-4px);
 }
@@ -402,7 +425,8 @@ body {
 
 .statusSistemaCard {
   padding: 15px;
-  border-radius: 8px;
+  border-radius: 12px;
+  border: 1px solid var(--cor-borda);
   border-left: 4px solid;
 }
 
@@ -430,7 +454,7 @@ body {
 }
 
 .statusSistemaCard.sucesso {
-  background: #f0f9ff;
+  background: #f2fbf7;
   border-left-color: var(--cor-sucesso);
 }
 
@@ -440,7 +464,7 @@ body {
 }
 
 .statusSistemaCard.aviso {
-  background: #f8f9ff;
+  background: #fff8ef;
   border-left-color: var(--cor-aviso);
 }
 
@@ -450,7 +474,7 @@ body {
 }
 
 .statusSistemaCard.info {
-  background: #fef6f0;
+  background: #f2f7ff;
   border-left-color: var(--cor-info);
 }
 
@@ -469,7 +493,7 @@ body {
 }
 
 .tabelaResponsiva thead {
-  background-color: var(--cor-principal);
+  background: linear-gradient(135deg, #1e3a5f 0%, #2a5a88 100%);
   color: var(--cor-branco);
 }
 

@@ -9,11 +9,22 @@
 
 .barraBuscaUnidades input {
   flex: 1;
-  padding: 12px;
-  border: 1px solid var(--cor-borda);
-  border-radius: 8px;
+  min-height: 46px;
+  padding: 12px 14px;
+  border: 1.5px solid var(--cor-borda);
+  border-radius: 12px;
   font-size: 14px;
+  background-color: var(--cor-branco);
+  color: var(--cor-texto-escuro);
   transition: var(--transicao);
+}
+
+.barraBuscaUnidades input::placeholder {
+  color: #7a8ca5;
+}
+
+.barraBuscaUnidades input:hover {
+  border-color: #9ab4cf;
 }
 
 .barraBuscaUnidades input:focus {
@@ -30,13 +41,19 @@
 }
 
 .filtrosUnidades select {
-  padding: 10px;
-  border: 1px solid var(--cor-borda);
-  border-radius: 8px;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1.5px solid var(--cor-borda);
+  border-radius: 12px;
   font-size: 14px;
   background-color: var(--cor-branco);
+  color: var(--cor-texto-escuro);
   cursor: pointer;
   transition: var(--transicao);
+}
+
+.filtrosUnidades select:hover {
+  border-color: #9ab4cf;
 }
 
 .filtrosUnidades select:focus {
