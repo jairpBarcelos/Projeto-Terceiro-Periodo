@@ -1,0 +1,361 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --fundo: #f2f7f3;
+  --fundo-card: #ffffff;
+  --texto: #193028;
+  --texto-secundario: #4a635a;
+  --destaque: #1f7a66;
+  --destaque-escuro: #125646;
+  --borda: #d6e6de;
+  --alerta: #c46b1e;
+  --sombra: 0 10px 28px rgba(18, 70, 57, 0.14);
+}
+
+body {
+  font-family: "Outfit", sans-serif;
+  background: radial-gradient(circle at 12% 8%, #e1f0e8 0%, #f2f7f3 48%, #edf5ff 100%);
+  color: var(--texto);
+  min-height: 100vh;
+}
+
+.app {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 100vh;
+}
+
+.menuLateral {
+  background: linear-gradient(180deg, #0f3f35 0%, #155547 60%, #1f6d5b 100%);
+  color: #eefcf6;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  box-shadow: 10px 0 26px rgba(10, 46, 38, 0.24);
+}
+
+.identidade {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid rgba(202, 248, 230, 0.3);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.identidade img {
+  width: 54px;
+  height: 54px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  padding: 6px;
+}
+
+.identidade h1 {
+  font-size: 1.2rem;
+  line-height: 1.1;
+}
+
+.identidade p {
+  font-size: 0.9rem;
+  color: #cdeee3;
+}
+
+.perfilUsuario {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  border: 1px solid rgba(202, 248, 230, 0.2);
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.perfilUsuario img {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 2px solid rgba(217, 247, 236, 0.55);
+}
+
+.perfilUsuario h2 {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.perfilUsuario p {
+  font-size: 0.82rem;
+  color: #d6f3e9;
+}
+
+.listaAcoes {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.itemMenu {
+  border: 1px solid rgba(202, 248, 230, 0.22);
+  background: rgba(255, 255, 255, 0.05);
+  color: #ebfcf6;
+  text-align: left;
+  border-radius: 12px;
+  padding: 11px 12px;
+  font-family: inherit;
+  font-size: 0.94rem;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.itemMenu:hover,
+.itemMenu:focus-visible {
+  background: rgba(180, 248, 223, 0.2);
+  transform: translateX(2px);
+  outline: none;
+}
+
+.itemMenu.ativo {
+  background: rgba(180, 248, 223, 0.28);
+  border-color: rgba(180, 248, 223, 0.54);
+  font-weight: 600;
+}
+
+.botaoSair {
+  margin-top: auto;
+  border: 1px solid rgba(247, 184, 184, 0.4);
+  border-radius: 12px;
+  background: rgba(165, 41, 41, 0.22);
+  color: #fff1f1;
+  padding: 11px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.botaoSair:hover,
+.botaoSair:focus-visible {
+  background: rgba(191, 56, 56, 0.36);
+  outline: none;
+}
+
+.conteudoPrincipal {
+  padding: 24px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.cabecalho {
+  border-radius: 18px;
+  background: linear-gradient(130deg, #115849 0%, #1c7a65 58%, #298b75 100%);
+  color: #f2fffa;
+  padding: 24px;
+  box-shadow: var(--sombra);
+}
+
+.etiqueta {
+  display: inline-block;
+  background: rgba(235, 255, 248, 0.18);
+  border: 1px solid rgba(235, 255, 248, 0.42);
+  border-radius: 999px;
+  padding: 5px 12px;
+  font-size: 0.82rem;
+  margin-bottom: 10px;
+}
+
+.cabecalho h2 {
+  font-size: clamp(1.35rem, 2.2vw, 2rem);
+  margin-bottom: 8px;
+}
+
+.cabecalho p {
+  max-width: 780px;
+  line-height: 1.6;
+}
+
+.gradeIndicadores {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.indicador {
+  border-radius: 16px;
+  background: var(--fundo-card);
+  border: 1px solid var(--borda);
+  box-shadow: 0 8px 20px rgba(15, 68, 55, 0.08);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.indicador strong {
+  font-size: 1.9rem;
+  line-height: 1;
+}
+
+.indicador span {
+  color: var(--texto-secundario);
+  font-size: 0.88rem;
+}
+
+.tituloIndicador {
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+
+.indicador.foco {
+  border-left: 5px solid #1f7a66;
+}
+
+.indicador.sucesso {
+  border-left: 5px solid #2f956f;
+}
+
+.indicador.alerta {
+  border-left: 5px solid var(--alerta);
+}
+
+.indicador.neutro {
+  border-left: 5px solid #4d6f95;
+}
+
+.painelDuplo {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 14px;
+}
+
+.card {
+  border-radius: 16px;
+  background: var(--fundo-card);
+  border: 1px solid var(--borda);
+  box-shadow: 0 8px 18px rgba(15, 68, 55, 0.08);
+  padding: 18px;
+}
+
+.card h3 {
+  margin-bottom: 12px;
+  font-size: 1.08rem;
+}
+
+.fluxo ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.fluxo li {
+  border: 1px solid #d9e7e1;
+  border-radius: 12px;
+  padding: 10px;
+  background: #f6fbf8;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.fluxo span {
+  color: var(--texto-secundario);
+  font-size: 0.88rem;
+}
+
+.agenda .evento {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 8px;
+  align-items: start;
+  border-bottom: 1px solid #e2eee9;
+  padding: 8px 0;
+}
+
+.agenda .evento:last-child {
+  border-bottom: none;
+}
+
+.horario {
+  font-weight: 700;
+  color: var(--destaque-escuro);
+}
+
+.atalhos {
+  border-radius: 16px;
+  background: var(--fundo-card);
+  border: 1px solid var(--borda);
+  box-shadow: 0 8px 18px rgba(15, 68, 55, 0.08);
+  padding: 18px;
+}
+
+.atalhos h3 {
+  margin-bottom: 12px;
+}
+
+.gradeAtalhos {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.atalho {
+  border: 1px solid #cae1d8;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #ffffff 0%, #f1f8f4 100%);
+  color: #1d4a3d;
+  padding: 12px;
+  font-family: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.atalho:hover,
+.atalho:focus-visible {
+  transform: translateY(-1px);
+  border-color: #91c8b5;
+  box-shadow: 0 8px 16px rgba(25, 98, 80, 0.14);
+  outline: none;
+}
+
+@media (max-width: 1180px) {
+  .gradeIndicadores {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .gradeAtalhos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .app {
+    grid-template-columns: 1fr;
+  }
+
+  .menuLateral {
+    border-bottom: 1px solid rgba(202, 248, 230, 0.28);
+  }
+
+  .painelDuplo {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .conteudoPrincipal {
+    padding: 16px;
+  }
+
+  .gradeIndicadores,
+  .gradeAtalhos {
+    grid-template-columns: 1fr;
+  }
+}
