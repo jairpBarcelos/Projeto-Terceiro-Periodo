@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -7,7 +7,6 @@
   <link rel="icon" href="../../../../img/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="../../../../css/menuAdministrador.css">
   <link rel="stylesheet" href="../../../../css/administrador/unidades.css">
-  <script src="https://cdn.jsdelivr.net/npm/vlibras@current/dist/vlibras.js"></script>
 </head>
 <body>
   <!-- MENU LATERAL -->
@@ -240,11 +239,12 @@
 
   <!-- VLIBRAS -->
   <div vw class="enabled">
-    <button vw-access-button class="vw-btn-acessibilidade" type="button" title="Acessibilidade"></button>
+    <div vw-access-button class="active"></div>
     <div vw-plugin-wrapper>
       <div class="vw-plugin-top-wrapper"></div>
     </div>
   </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
   <script>
     new window.VLibras.Widget('https://vlibras.gov.br/app');
   </script>
