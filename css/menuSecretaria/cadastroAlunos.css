@@ -145,6 +145,11 @@
     background: #e3edf7;
 }
 
+.ativoItem {
+    background-color: rgba(157, 207, 255, 0.16);
+    transform: translateX(2px);
+}
+
 .btnPrimario:hover {
     filter: brightness(1.05);
 }
