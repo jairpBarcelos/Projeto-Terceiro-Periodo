@@ -275,6 +275,29 @@
       margin-top: 24px;
     }
 
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
+    .skip-link:focus {
+      position: fixed;
+      left: 16px;
+      top: 16px;
+      width: auto;
+      height: auto;
+      padding: .75rem 1rem;
+      border-radius: 12px;
+      background: #0f2744;
+      color: #fff;
+      z-index: 9999;
+      text-decoration: none;
+    }
+
     .form-label {
       font-weight: 600;
       font-size: .9rem;
@@ -322,6 +345,30 @@
 
     .input-icon-wrap .form-control {
       padding-left: 2.5rem;
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: none;
+      background: transparent;
+      color: #8aa3be;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      z-index: 2;
+    }
+
+    .password-toggle:hover,
+    .password-toggle:focus {
+      color: #2e6fbf;
+      background: rgba(46, 111, 191, .08);
+      outline: none;
     }
 
     .input-icon-wrap .form-control:focus~.bi {
