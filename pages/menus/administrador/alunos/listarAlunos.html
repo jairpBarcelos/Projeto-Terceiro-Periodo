@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alunos - Nível Central - Administrador</title>
+  <link rel="icon" href="../../../../img/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="../../../../css/menuAdministrador.css">
+</head>
+<body>
+  <!-- MENU LATERAL -->
+  <aside class="menuLateral">
+    <div class="logoContainer">
+      <img src="../../../../img/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
+      <div class="textoBranding">
+        <div class="nomeBrand">SAADI</div>
+        <div class="nivelAcesso">Nível: Administrador</div>
+      </div>
+    </div>
+
+    <div class="Perfil">
+      <div class="nomePerfil">Usuário Logado</div>
+      <div class="emailPerfil">usuario@escola.edu.br</div>
+    </div>
+
+                <div class="botoesLaterais">
+      <button class="btnLateral" onclick="navegarPara('../menuAdministrador.html')" aria-label="Voltar ao Painel Principal">
+        <img src="/img/icon-lista.png" alt="">
+        <span>Painel Principal</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('../unidades/listarUnidades.html')" aria-label="Gerenciar Unidades Escolares">
+        <img src="/img/icon-cadastro.png" alt="">
+        <span>Unidades Escolares</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('../usuarios/listarUsuarios.html')" aria-label="Gerenciar Usuários do Sistema">
+        <img src="/img/perfil.png" alt="">
+        <span>Usuários do Sistema</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('../relatoriosAdministrador.html')" aria-label="Ver Relatórios Consolidados">
+        <img src="/img/icon-lista.png" alt="">
+        <span>Relatórios</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('../auditoria.html')" aria-label="Consultar Auditoria e Histórico">
+        <img src="/img/icon-lista.png" alt="">
+        <span>Auditoria</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('../parametros.html')" aria-label="Gerenciar Parâmetros do Sistema">
+        <img src="/img/engrenagem.png" alt="">
+        <span>Parâmetros</span>
+      </button>
+      <button class="btnLateral ativo" onclick="navegarPara('../alunos/listarAlunos.html')" aria-label="Acessar Gestão Central de Alunos">
+        <img src="/img/icon-lista.png" alt="">
+        <span>Alunos - Nível Central</span>
+      </button>
+    </div>
+
+    <div class="sair">
+      <button class="btnSair" onclick="logout()" aria-label="Fazer logout do sistema">
+        <img src="/img/sair.png" alt="">
+        <span>Sair da Conta</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="conteudoPrincipal">
+    <!-- CABEÇALHO -->
+    <section class="cabecalhoDashboard">
+      <h1>Alunos - Consulta Centralizada</h1>
+      <p>Visualize e atualize informações de alunos de todas as unidades escolares em nível central</p>
+    </section>
+
+    <!-- FILTROS E BUSCA -->
+    <section class="containerPrincipal">
+      <div style="display: flex; gap: 12px; margin-bottom: 20px;">
+        <input 
+          type="text" 
+          id="campoBusca" 
+          placeholder="Buscar por nome, CPF ou matrícula..." 
+          aria-label="Campo de busca de alunos"
+          style="flex: 1; padding: 12px; border: 1px solid #d0dce6; border-radius: 8px; font-size: 14px;"
+          onkeyup="filtrarAlunos()"
+        >
+        <a href="../../secretaria/cadastroAlunos.html" class="btn btnPrimario" aria-label="Cadastrar novo aluno">
+          + Novo Aluno
+        </a>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px;">
+        <select id="filtroUnidade" onchange="filtrarAlunos()" aria-label="Filtrar por unidade" style="padding: 10px; border: 1px solid #d0dce6; border-radius: 8px;">
+          <option value="">Todas as Unidades</option>
+          <option value="1">Escola Municipal Centro</option>
+          <option value="2">Escola Estadual Norte</option>
+          <option value="3">CEI Infantil Leste</option>
+          <option value="4">EMEF Sul Integrada</option>
+        </select>
+
+        <select id="filtroSerie" onchange="filtrarAlunos()" aria-label="Filtrar por série" style="padding: 10px; border: 1px solid #d0dce6; border-radius: 8px;">
+          <option value="">Todas as Séries</option>
+          <option value="EI">Educação Infantil</option>
+          <option value="1-3">1º ao 3º ano</option>
+          <option value="4-5">4º ao 5º ano</option>
+          <option value="6-9">6º ao 9º ano</option>
+        </select>
+
+        <select id="filtroNeurodiversidade" onchange="filtrarAlunos()" aria-label="Filtrar por diagnóstico" style="padding: 10px; border: 1px solid #d0dce6; border-radius: 8px;">
+          <option value="">Todos os Diagnósticos</option>
+          <option value="autismo">Autismo</option>
+          <option value="tdah">TDAH</option>
+          <option value="altas">Altas Habilidades</option>
+          <option value="auditiva">Deficiência Auditiva</option>
+        </select>
+
+        <select id="filtroStatus" onchange="filtrarAlunos()" aria-label="Filtrar por status" style="padding: 10px; border: 1px solid #d0dce6; border-radius: 8px;">
+          <option value="">Todos os Status</option>
+          <option value="ativo">Ativo</option>
+          <option value="inativo">Inativo</option>
+          <option value="acompanhamento">Em Acompanhamento</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- LISTA DE ALUNOS -->
+    <section class="containerPrincipal">
+      <table class="tabelaResponsiva" id="tabelaAlunos">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Matrícula</th>
+            <th>Unidade</th>
+            <th>Série</th>
+            <th>Diagnóstico</th>
+            <th>Status</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="aluno" data-nome="João Silva" data-unidade="1" data-serie="1-3" data-diagnostico="autismo" data-status="ativo">
+            <td>João Silva</td>
+            <td>MAT20240001</td>
+            <td>Escola Municipal Centro</td>
+            <td>1º ano</td>
+            <td><span class="badge badgeInfo">Autismo</span></td>
+            <td><span class="badge badgeSucesso">Ativo</span></td>
+            <td>
+              <div class="acoes">
+                <button class="btn btnVer" style="padding: 6px 12px; font-size: 12px;" onclick="abrirDetalhes(1)">Ver</button>
+                <a href="../../secretaria/atualizarAlunos.html?id=1" class="btn btnEditar" style="padding: 6px 12px; font-size: 12px;">Editar</a>
+              </div>
+            </td>
+          </tr>
+          <tr class="aluno" data-nome="Maria Santos" data-unidade="2" data-serie="4-5" data-diagnostico="tdah" data-status="acompanhamento">
+            <td>Maria Santos</td>
+            <td>MAT20240002</td>
+            <td>Escola Estadual Norte</td>
+            <td>4º ano</td>
+            <td><span class="badge badgeAviso">TDAH</span></td>
+            <td><span class="badge badgeInfo">Em Acompanhamento</span></td>
+            <td>
+              <div class="acoes">
+                <button class="btn btnVer" style="padding: 6px 12px; font-size: 12px;" onclick="abrirDetalhes(2)">Ver</button>
+                <a href="../../secretaria/atualizarAlunos.html?id=2" class="btn btnEditar" style="padding: 6px 12px; font-size: 12px;">Editar</a>
+              </div>
+            </td>
+          </tr>
+          <tr class="aluno" data-nome="Pedro Oliveira" data-unidade="1" data-serie="6-9" data-diagnostico="altas" data-status="ativo">
+            <td>Pedro Oliveira</td>
+            <td>MAT20240003</td>
+            <td>Escola Municipal Centro</td>
+            <td>7º ano</td>
+            <td><span class="badge badgeSucesso">Altas Habilidades</span></td>
+            <td><span class="badge badgeSucesso">Ativo</span></td>
+            <td>
+              <div class="acoes">
+                <button class="btn btnVer" style="padding: 6px 12px; font-size: 12px;" onclick="abrirDetalhes(3)">Ver</button>
+                <a href="../../secretaria/atualizarAlunos.html?id=3" class="btn btnEditar" style="padding: 6px 12px; font-size: 12px;">Editar</a>
+              </div>
+            </td>
+          </tr>
+          <tr class="aluno" data-nome="Sofia Costa" data-unidade="3" data-serie="EI" data-diagnostico="auditiva" data-status="ativo">
+            <td>Sofia Costa</td>
+            <td>MAT20240004</td>
+            <td>CEI Infantil Leste</td>
+            <td>Infantil II</td>
+            <td><span class="badge badgePerigo">Deficiência Auditiva</span></td>
+            <td><span class="badge badgeSucesso">Ativo</span></td>
+            <td>
+              <div class="acoes">
+                <button class="btn btnVer" style="padding: 6px 12px; font-size: 12px;" onclick="abrirDetalhes(4)">Ver</button>
+                <a href="../../secretaria/atualizarAlunos.html?id=4" class="btn btnEditar" style="padding: 6px 12px; font-size: 12px;">Editar</a>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ESTATÍSTICAS -->
+    <section class="painelIndicadores" style="margin-top: 30px;">
+      <div class="cardIndicador info">
+        <div class="numeroIndicador">1,247</div>
+        <div class="labelIndicador">Total de Alunos</div>
+      </div>
+      <div class="cardIndicador sucesso">
+        <div class="numeroIndicador">342</div>
+        <div class="labelIndicador">Com Diagnóstico</div>
+      </div>
+      <div class="cardIndicador aviso">
+        <div class="numeroIndicador">128</div>
+        <div class="labelIndicador">Em Acompanhamento</div>
+      </div>
+      <div class="cardIndicador perigo">
+        <div class="numeroIndicador">6</div>
+        <div class="labelIndicador">Inativos</div>
+      </div>
+    </section>
+  </main>
+
+  <!-- MODAL DE DETALHES -->
+  <div id="modalDetalhes" class="modal">
+    <div class="modalConteudo" style="max-width: 600px;">
+      <h2>Detalhes do Aluno</h2>
+      <div id="conteudoModal" style="margin: 20px 0;">
+        <!-- Preenchido via JavaScript -->
+      </div>
+      <div style="display: flex; gap: 12px; justify-content: flex-end;">
+        <button class="btn btnSecundario" onclick="fecharModal()">Fechar</button>
+        <a href="../../secretaria/atualizarAlunos.html" class="btn btnPrimario">Editar Aluno</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- VLIBRAS -->
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script>
+
+  <script>
+    function navegarPara(pagina) {
+      window.location.href = pagina;
+    }
+
+    function logout() {
+      if (confirm('Tem certeza que deseja sair do sistema?')) {
+        window.location.href = '../../../../pages/auth/login.html';
+      }
+    }
+
+    function filtrarAlunos() {
+      const busca = document.getElementById('campoBusca').value.toLowerCase();
+      const unidade = document.getElementById('filtroUnidade').value;
+      const serie = document.getElementById('filtroSerie').value;
+      const diagnostico = document.getElementById('filtroNeurodiversidade').value;
+      const status = document.getElementById('filtroStatus').value;
+
+      document.querySelectorAll('.aluno').forEach(row => {
+        const nome = row.getAttribute('data-nome').toLowerCase();
+        const unidadeRow = row.getAttribute('data-unidade');
+        const serieRow = row.getAttribute('data-serie');
+        const diagnosticoRow = row.getAttribute('data-diagnostico');
+        const statusRow = row.getAttribute('data-status');
+
+        let mostrar = true;
+
+        if (busca && !nome.includes(busca)) {
+          mostrar = false;
+        }
+
+        if (unidade && unidadeRow !== unidade) {
+          mostrar = false;
+        }
+
+        if (serie && serieRow !== serie) {
+          mostrar = false;
+        }
+
+        if (diagnostico && diagnosticoRow !== diagnostico) {
+          mostrar = false;
+        }
+
+        if (status && statusRow !== status) {
+          mostrar = false;
+        }
+
+        row.style.display = mostrar ? '' : 'none';
+      });
+    }
+
+    function abrirDetalhes(id) {
+      const alunos = [
+        { nome: 'João Silva', matricula: 'MAT20240001', cpf: '123.456.789-00', nascimento: '15/03/2018', unidade: 'Escola Municipal Centro', serie: '1º ano', diagnostico: 'Autismo', laudo: 'Sim' },
+        { nome: 'Maria Santos', matricula: 'MAT20240002', cpf: '234.567.890-11', nascimento: '22/07/2017', unidade: 'Escola Estadual Norte', serie: '4º ano', diagnostico: 'TDAH', laudo: 'Sim' },
+        { nome: 'Pedro Oliveira', matricula: 'MAT20240003', cpf: '345.678.901-22', nascimento: '10/11/2012', unidade: 'Escola Municipal Centro', serie: '7º ano', diagnostico: 'Altas Habilidades', laudo: 'Sim' },
+        { nome: 'Sofia Costa', matricula: 'MAT20240004', cpf: '456.789.012-33', nascimento: '05/09/2020', unidade: 'CEI Infantil Leste', serie: 'Infantil II', diagnostico: 'Deficiência Auditiva', laudo: 'Sim' }
+      ];
+
+      const aluno = alunos[id - 1];
+      const html = `
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+          <div><strong>Nome:</strong> ${aluno.nome}</div>
+          <div><strong>Matrícula:</strong> ${aluno.matricula}</div>
+          <div><strong>CPF:</strong> ${aluno.cpf}</div>
+          <div><strong>Data de Nascimento:</strong> ${aluno.nascimento}</div>
+          <div><strong>Unidade:</strong> ${aluno.unidade}</div>
+          <div><strong>Série:</strong> ${aluno.serie}</div>
+          <div><strong>Diagnóstico:</strong> ${aluno.diagnostico}</div>
+          <div><strong>Possui Laudo:</strong> ${aluno.laudo}</div>
+        </div>
+      `;
+
+      document.getElementById('conteudoModal').innerHTML = html;
+      document.getElementById('modalDetalhes').classList.add('ativo');
+    }
+
+    function fecharModal() {
+      document.getElementById('modalDetalhes').classList.remove('ativo');
+    }
+
+    window.onclick = function(event) {
+      const modal = document.getElementById('modalDetalhes');
+      if (event.target === modal) {
+        fecharModal();
+      }
+    }
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

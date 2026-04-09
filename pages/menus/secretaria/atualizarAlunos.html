@@ -5,18 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SAADI - Atualizar Aluno</title>
-    <link rel="stylesheet" href="../../css/menuSecretaria.css">
-    <link rel="stylesheet" href="../../css/menuSecretaria/atualizarAlunos.css">
+    <link rel="stylesheet" href="../../../css/menuSecretaria.css">
+    <link rel="stylesheet" href="../../../css/menuSecretaria/atualizarAlunos.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link rel="shortcut icon" href="../../img/favicon-duas-mãos-32px-branco.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="shortcut icon" href="../../../img/favicon-duas-mãos-32px-branco.png" type="image/x-icon">
 </head>
 
 <body>
     <div class="app">
         <nav class="menuLateral" aria-label="Menu principal da secretaria escolar">
-            <a class="menuSecretaria" id="telaInicial" href="/pages/menus/menuSecretariaEscolar.html">
+            <a class="menuSecretaria" id="telaInicial" href="/pages/menus/secretaria/menuSecretariaEscolar.html">
                 <div class="logoContainer">
                     <div class="logoMenu"><img src="/img/icons8-duas-mãos-windows-11-filled/Logo.png"
                             alt="Logo: Duas mãos abertas"></div>
@@ -37,38 +38,52 @@
                 <div class="config">
                     <button type="button" aria-label="Abrir configurações"
                         onclick="alert('Configurações ainda não disponíveis!')">
-                        <img src="/img/config.png" alt="Configurações">
+                        <img src="/img/engrenagem.png" alt="Configurações">
                     </button>
                 </div>
             </div>
 
             <hr>
 
-            <a class="botoesLaterais" href="/pages/menus/cadastroAlunos.html">
+            <a class="botoesLaterais" href="/pages/menus/secretaria/cadastroAlunos.html">
                 <div class="alinhamento">
-                    <div class="fotos"><img src="/img/cadastro.png" alt="Cadastrar aluno"></div>
+                    <div class="fotos"><img src="/img/icon-cadastro.png" alt="Cadastrar aluno"></div>
                     <p>Cadastrar Aluno</p>
                 </div>
             </a>
 
-            <a class="botoesLaterais" href="/pages/menus/listarAlunos.html">
+            <a class="botoesLaterais" href="/pages/menus/secretaria/listarAlunos.html">
                 <div class="alinhamento">
-                    <div class="fotos"><img src="/img/lista.png" alt="Lista de alunos"></div>
+                    <div class="fotos"><img src="/img/icon-lista.png" alt="Lista de alunos"></div>
                     <p>Lista de Alunos</p>
                 </div>
             </a>
 
-            <a class="botoesLaterais" href="/pages/menus/atualizarAlunos.html">
+            <a class="botoesLaterais" href="/pages/menus/secretaria/atualizarAlunos.html">
                 <div class="alinhamento ativoItem">
-                    <div class="fotos"><img src="/img/atualizar.png" alt="Atualizar alunos"></div>
+                    <div class="fotos"><img src="/img/icon-atualizar.png" alt="Atualizar alunos"></div>
                     <p>Atualizar Alunos</p>
                 </div>
             </a>
 
-            <a class="botoesLaterais" href="/pages/menus/deletarAlunos.html">
+            <a class="botoesLaterais" href="/pages/menus/secretaria/deletarAlunos.html">
                 <div class="alinhamento">
-                    <div class="fotos"><img src="/img/deletar.png" alt="Excluir alunos"></div>
+                    <div class="fotos"><img src="/img/icon-deletar.png" alt="Excluir alunos"></div>
                     <p>Excluir Alunos</p>
+                </div>
+            </a>
+
+            <a class="botoesLaterais" href="/pages/menus/secretaria/relatoriosSecretaria.html">
+                <div class="alinhamento">
+                    <div class="fotos"><img src="/img/icon-relatorio.png" alt="Relatórios"></div>
+                    <p>Relatórios</p>
+                </div>
+            </a>
+
+            <a class="botoesLaterais" href="/pages/menus/secretaria/encaminhamentosSecretaria.html">
+                <div class="alinhamento">
+                    <div class="fotos"><img src="/img/icon-encaminhar.png" alt="Encaminhamentos"></div>
+                    <p>Encaminhamentos</p>
                 </div>
             </a>
 
@@ -76,7 +91,7 @@
                 <hr>
             </div>
 
-            <a class="textoSair" href="/index.html">
+            <a class="textoSair" href="/pages/auth/login.html">
                 <div class="sair">
                     <div class="fotoSair"><img src="/img/sair.png" alt="Sair"></div>
                     <p>Sair da Conta</p>
@@ -150,14 +165,16 @@
                     <div class="linha">
                         <div class="campo full">
                             <label for="endereco">Endereço</label>
-                            <textarea id="endereco" name="endereco" rows="3" required>Rua Exemplo, 123 - Bairro Centro</textarea>
+                            <textarea id="endereco" name="endereco" rows="3"
+                                required>Rua Exemplo, 123 - Bairro Centro</textarea>
                         </div>
                     </div>
 
                     <div class="linha">
                         <div class="campo full">
                             <label for="laudo_medico">Laudo médico</label>
-                            <textarea id="laudo_medico" name="laudo_medico" rows="4" required>Descrição atual do laudo médico do aluno.</textarea>
+                            <textarea id="laudo_medico" name="laudo_medico" rows="4"
+                                required>Descrição atual do laudo médico do aluno.</textarea>
                         </div>
                     </div>
 
@@ -171,13 +188,25 @@
                     </div>
 
                     <div class="acoes">
-                        <a class="btnSecundario" href="/pages/menus/menuSecretariaEscolar.html">Cancelar</a>
+                        <a class="btnSecundario" href="/pages/menus/secretaria/menuSecretariaEscolar.html">Cancelar</a>
                         <button type="submit" class="btnPrimario">Salvar Atualizações</button>
                     </div>
                 </form>
             </section>
         </main>
     </div>
+
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
 </body>
 
 </html>

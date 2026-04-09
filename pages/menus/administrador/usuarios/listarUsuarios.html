@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Listar Usuários - Administrador</title>
+  <link rel="icon" href="../../../../img/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="../../../../css/menuAdministrador.css">
+  <link rel="stylesheet" href="../../../../css/administrador/usuarios.css">
+</head>
+<body>
+  <!-- MENU LATERAL -->
+  <aside class="menuLateral">
+    <div class="logoContainer">
+      <img src="../../../../img/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
+      <div class="textoBranding">
+        <div class="nomeBrand">SAADI</div>
+        <div class="nivelAcesso">Nível: Administrador</div>
+      </div>
+    </div>
+
+    <div class="Perfil">
+      <div class="nomePerfil">Usuário Logado</div>
+      <div class="emailPerfil">usuario@escola.edu.br</div>
+    </div>
+
+                <div class="botoesLaterais">
+      <button class="btnLateral" onclick="navegarPara('../menuAdministrador.html')" aria-label="Voltar ao Painel Principal">
+        <img src="/img/icon-lista.png" alt="">
+        <span>Painel Principal</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('../unidades/listarUnidades.html')" aria-label="Gerenciar Unidades Escolares">
+        <img src="/img/icon-cadastro.png" alt="">
+        <span>Unidades Escolares</span>
+      </button>
+      <button class="btnLateral ativo" onclick="navegarPara('../usuarios/listarUsuarios.html')" aria-label="Gerenciar Usuários do Sistema">
+        <img src="/img/perfil.png" alt="">
+        <span>Usuários do Sistema</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('../relatoriosAdministrador.html')" aria-label="Ver Relatórios Consolidados">
+        <img src="/img/icon-lista.png" alt="">
+        <span>Relatórios</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('../auditoria.html')" aria-label="Consultar Auditoria e Histórico">
+        <img src="/img/icon-lista.png" alt="">
+        <span>Auditoria</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('../parametros.html')" aria-label="Gerenciar Parâmetros do Sistema">
+        <img src="/img/engrenagem.png" alt="">
+        <span>Parâmetros</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('../alunos/listarAlunos.html')" aria-label="Acessar Gestão Central de Alunos">
+        <img src="/img/icon-lista.png" alt="">
+        <span>Alunos - Nível Central</span>
+      </button>
+    </div>
+
+    <div class="sair">
+      <button class="btnSair" onclick="logout()" aria-label="Fazer logout do sistema">
+        <img src="/img/sair.png" alt="">
+        <span>Sair da Conta</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="conteudoPrincipal">
+    <!-- CABEÇALHO -->
+    <section class="cabecalhoDashboard">
+      <h1>Usuários do Sistema</h1>
+      <p>Visualize e gerencie todos os usuários cadastrados</p>
+    </section>
+
+    <!-- BARRA DE BUSCA E FILTROS -->
+    <section class="containerPrincipal">
+      <div class="barraBuscaUsuarios">
+        <input 
+          type="text" 
+          id="campoBusca" 
+          placeholder="Buscar por nome, email ou matrícula..." 
+          aria-label="Campo de busca de usuários"
+          onkeyup="filtrarUsuarios()"
+        >
+        <a href="cadastroUsuarios.html" class="btn btnPrimario" aria-label="Criar novo usuário">
+          + Novo Usuário
+        </a>
+      </div>
+
+      <div class="filtrosUsuarios">
+        <select id="filtroPerfil" onchange="filtrarUsuarios()" aria-label="Filtrar por perfil">
+          <option value="">Todos os Perfis</option>
+          <option value="administrador">Administrador</option>
+          <option value="secretaria">Secretaria</option>
+          <option value="psicopedagogo">Psicopedagogo</option>
+          <option value="professor">Professor</option>
+          <option value="diretor">Diretor</option>
+        </select>
+
+        <select id="filtroStatus" onchange="filtrarUsuarios()" aria-label="Filtrar por status">
+          <option value="">Todos os Status</option>
+          <option value="ativo">Ativo</option>
+          <option value="inativo">Inativo</option>
+          <option value="bloqueado">Bloqueado</option>
+        </select>
+
+        <select id="filtroUnidade" onchange="filtrarUsuarios()" aria-label="Filtrar por unidade">
+          <option value="">Todas as Unidades</option>
+          <option value="1">Escola Municipal Centro</option>
+          <option value="2">Escola Estadual Norte</option>
+          <option value="3">CEI Infantil Leste</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- LISTA DE USUÁRIOS -->
+    <section class="containerPrincipal">
+      <table class="tabelaResponsiva" id="tabelaUsuarios">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Perfil</th>
+            <th>Unidade</th>
+            <th>Status</th>
+            <th>Último Acesso</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="usuario" data-nome="Admin Master" data-perfil="administrador" data-status="ativo" data-unidade="1">
+            <td>Admin Master</td>
+            <td>admin@escola.edu.br</td>
+            <td><span class="badge badgeInfo">Administrador</span></td>
+            <td>Todos as Unidades</td>
+            <td><span class="badge badgeSucesso">Ativo</span></td>
+            <td>02/04/2026 - 14:35</td>
+            <td>
+              <div class="acoes">
+                <a href="atualizarUsuarios.html?id=1" class="btn btnVer" style="padding: 6px 12px; font-size: 12px;">Ver</a>
+                <a href="atualizarUsuarios.html?id=1" class="btn btnEditar" style="padding: 6px 12px; font-size: 12px;">Editar</a>
+                <button onclick="confirmarDelecao(1)" class="btn btnDeletar" style="padding: 6px 12px; font-size: 12px;">Deletar</button>
+              </div>
+            </td>
+          </tr>
+          <tr class="usuario" data-nome="Maria da Silva" data-perfil="secretaria" data-status="ativo" data-unidade="1">
+            <td>Maria da Silva</td>
+            <td>maria@escola.edu.br</td>
+            <td><span class="badge badgeSucesso">Secretaria</span></td>
+            <td>Escola Municipal Centro</td>
+            <td><span class="badge badgeSucesso">Ativo</span></td>
+            <td>02/04/2026 - 13:20</td>
+            <td>
+              <div class="acoes">
+                <a href="atualizarUsuarios.html?id=2" class="btn btnVer" style="padding: 6px 12px; font-size: 12px;">Ver</a>
+                <a href="atualizarUsuarios.html?id=2" class="btn btnEditar" style="padding: 6px 12px; font-size: 12px;">Editar</a>
+                <button onclick="confirmarDelecao(2)" class="btn btnDeletar" style="padding: 6px 12px; font-size: 12px;">Deletar</button>
+              </div>
+            </td>
+          </tr>
+          <tr class="usuario" data-nome="Dra. Ana Santos" data-perfil="psicopedagogo" data-status="ativo" data-unidade="1">
+            <td>Dra. Ana Santos</td>
+            <td>ana@escola.edu.br</td>
+            <td><span class="badge badgeAviso">Psicopedagogo</span></td>
+            <td>Escola Municipal Centro</td>
+            <td><span class="badge badgeSucesso">Ativo</span></td>
+            <td>01/04/2026 - 10:15</td>
+            <td>
+              <div class="acoes">
+                <a href="atualizarUsuarios.html?id=3" class="btn btnVer" style="padding: 6px 12px; font-size: 12px;">Ver</a>
+                <a href="atualizarUsuarios.html?id=3" class="btn btnEditar" style="padding: 6px 12px; font-size: 12px;">Editar</a>
+                <button onclick="confirmarDelecao(3)" class="btn btnDeletar" style="padding: 6px 12px; font-size: 12px;">Deletar</button>
+              </div>
+            </td>
+          </tr>
+          <tr class="usuario" data-nome="Prof. Carlos Costa" data-perfil="professor" data-status="ativo" data-unidade="2">
+            <td>Prof. Carlos Costa</td>
+            <td>carlos@escola.edu.br</td>
+            <td><span class="badge badgeInfo">Professor</span></td>
+            <td>Escola Estadual Norte</td>
+            <td><span class="badge badgeSucesso">Ativo</span></td>
+            <td>31/03/2026 - 16:45</td>
+            <td>
+              <div class="acoes">
+                <a href="atualizarUsuarios.html?id=4" class="btn btnVer" style="padding: 6px 12px; font-size: 12px;">Ver</a>
+                <a href="atualizarUsuarios.html?id=4" class="btn btnEditar" style="padding: 6px 12px; font-size: 12px;">Editar</a>
+                <button onclick="confirmarDelecao(4)" class="btn btnDeletar" style="padding: 6px 12px; font-size: 12px;">Deletar</button>
+              </div>
+            </td>
+          </tr>
+          <tr class="usuario" data-nome="Roberto Inativo" data-perfil="professor" data-status="inativo" data-unidade="3">
+            <td>Roberto Inativo</td>
+            <td>roberto@escola.edu.br</td>
+            <td><span class="badge badgeInfo">Professor</span></td>
+            <td>CEI Infantil Leste</td>
+            <td><span class="badge badgePerigo">Inativo</span></td>
+            <td>15/03/2026 - 09:30</td>
+            <td>
+              <div class="acoes">
+                <a href="atualizarUsuarios.html?id=5" class="btn btnVer" style="padding: 6px 12px; font-size: 12px;">Ver</a>
+                <a href="atualizarUsuarios.html?id=5" class="btn btnEditar" style="padding: 6px 12px; font-size: 12px;">Editar</a>
+                <button onclick="confirmarDelecao(5)" class="btn btnDeletar" style="padding: 6px 12px; font-size: 12px;">Deletar</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <!-- MODAL DE CONFIRMAÇÃO DE EXCLUSÃO -->
+  <div id="modalDelecao" class="modal">
+    <div class="modalConteudo">
+      <h2>Confirmar Exclusão</h2>
+      <p>Tem certeza que deseja deletar este usuário do sistema? Esta ação não pode ser desfeita.</p>
+      <div class="modalBotoes">
+        <button class="btn btnSecundario btnFecharModal" onclick="fecharModal()">Cancelar</button>
+        <button class="btn btnPerigo" onclick="executarDelecao()">Deletar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- VLIBRAS -->
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script>
+
+  <script>
+    let idDelecao = null;
+
+    function navegarPara(pagina) {
+      window.location.href = pagina;
+    }
+
+    function logout() {
+      if (confirm('Tem certeza que deseja sair do sistema?')) {
+        window.location.href = '../../../../pages/auth/login.html';
+      }
+    }
+
+    function filtrarUsuarios() {
+      const busca = document.getElementById('campoBusca').value.toLowerCase();
+      const perfil = document.getElementById('filtroPerfil').value;
+      const status = document.getElementById('filtroStatus').value;
+      const unidade = document.getElementById('filtroUnidade').value;
+
+      document.querySelectorAll('.usuario').forEach(row => {
+        const nome = row.getAttribute('data-nome').toLowerCase();
+        const perfilRow = row.getAttribute('data-perfil');
+        const statusRow = row.getAttribute('data-status');
+        const unidadeRow = row.getAttribute('data-unidade');
+
+        let mostrar = true;
+
+        if (busca && !nome.includes(busca)) {
+          mostrar = false;
+        }
+
+        if (perfil && perfilRow !== perfil) {
+          mostrar = false;
+        }
+
+        if (status && statusRow !== status) {
+          mostrar = false;
+        }
+
+        if (unidade && unidadeRow !== unidade) {
+          mostrar = false;
+        }
+
+        row.style.display = mostrar ? '' : 'none';
+      });
+    }
+
+    function confirmarDelecao(id) {
+      idDelecao = id;
+      document.getElementById('modalDelecao').classList.add('ativo');
+    }
+
+    function fecharModal() {
+      document.getElementById('modalDelecao').classList.remove('ativo');
+      idDelecao = null;
+    }
+
+    function executarDelecao() {
+      alert('Usuário ' + idDelecao + ' deletado com sucesso!');
+      fecharModal();
+      location.reload();
+    }
+
+    window.onclick = function(event) {
+      const modal = document.getElementById('modalDelecao');
+      if (event.target === modal) {
+        fecharModal();
+      }
+    }
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

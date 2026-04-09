@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auditoria - Administrador</title>
+  <link rel="icon" href="../../../../img/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="../../../../css/menuAdministrador.css">
+</head>
+<body>
+  <!-- MENU LATERAL -->
+  <aside class="menuLateral">
+    <div class="logoContainer">
+      <img src="../../../../img/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
+      <div class="textoBranding">
+        <div class="nomeBrand">SAADI</div>
+        <div class="nivelAcesso">Nível: Administrador</div>
+      </div>
+    </div>
+
+    <div class="Perfil">
+      <div class="nomePerfil">Usuário Logado</div>
+      <div class="emailPerfil">usuario@escola.edu.br</div>
+    </div>
+
+                <div class="botoesLaterais">
+      <button class="btnLateral" onclick="navegarPara('menuAdministrador.html')" aria-label="Voltar ao Painel Principal">
+        <img src="/img/icon-lista.png" alt="">
+        <span>Painel Principal</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('unidades/listarUnidades.html')" aria-label="Gerenciar Unidades Escolares">
+        <img src="/img/icon-cadastro.png" alt="">
+        <span>Unidades Escolares</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('usuarios/listarUsuarios.html')" aria-label="Gerenciar Usuários do Sistema">
+        <img src="/img/perfil.png" alt="">
+        <span>Usuários do Sistema</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('relatoriosAdministrador.html')" aria-label="Ver Relatórios Consolidados">
+        <img src="/img/icon-lista.png" alt="">
+        <span>Relatórios</span>
+      </button>
+      <button class="btnLateral ativo" onclick="navegarPara('auditoria.html')" aria-label="Consultar Auditoria e Histórico">
+        <img src="/img/icon-lista.png" alt="">
+        <span>Auditoria</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('parametros.html')" aria-label="Gerenciar Parâmetros do Sistema">
+        <img src="/img/engrenagem.png" alt="">
+        <span>Parâmetros</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('alunos/listarAlunos.html')" aria-label="Acessar Gestão Central de Alunos">
+        <img src="/img/icon-lista.png" alt="">
+        <span>Alunos - Nível Central</span>
+      </button>
+    </div>
+
+    <div class="sair">
+      <button class="btnSair" onclick="logout()" aria-label="Fazer logout do sistema">
+        <img src="/img/sair.png" alt="">
+        <span>Sair da Conta</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="conteudoPrincipal">
+    <!-- CABEÇALHO -->
+    <section class="cabecalhoDashboard">
+      <h1>Auditoria e Histórico de Ações</h1>
+      <p>Visualize o histórico de todas as ações realizadas no sistema para fins de rastreabilidade e segurança</p>
+    </section>
+
+    <!-- FILTROS -->
+    <section class="containerPrincipal">
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 20px;">
+        <div>
+          <label for="filtroUsuario" style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px;">Usuário:</label>
+          <input type="text" id="filtroUsuario" placeholder="Nome do usuário..." style="width: 100%; padding: 10px; border: 1px solid #d0dce6; border-radius: 8px;">
+        </div>
+        <div>
+          <label for="filtroTipo" style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px;">Tipo de Ação:</label>
+          <select id="filtroTipo" style="width: 100%; padding: 10px; border: 1px solid #d0dce6; border-radius: 8px;">
+            <option>Todas</option>
+            <option>Criação</option>
+            <option>Atualização</option>
+            <option>Exclusão</option>
+            <option>Login</option>
+            <option>Logout</option>
+          </select>
+        </div>
+        <div>
+          <label for="filtroDataInicio" style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px;">Data Inicial:</label>
+          <input type="date" id="filtroDataInicio" style="width: 100%; padding: 10px; border: 1px solid #d0dce6; border-radius: 8px;">
+        </div>
+        <div>
+          <label for="filtroDataFim" style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px;">Data Final:</label>
+          <input type="date" id="filtroDataFim" style="width: 100%; padding: 10px; border: 1px solid #d0dce6; border-radius: 8px;">
+        </div>
+      </div>
+      <div style="display: flex; gap: 12px;">
+        <button class="btn btnPrimario" onclick="aplicarFiltros()">🔍 Filtrar</button>
+        <button class="btn btnSecundario" onclick="limparFiltros()">🔄 Limpar Filtros</button>
+      </div>
+    </section>
+
+    <!-- RESUMO DE ATIVIDADES -->
+    <section class="containerPrincipal">
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 20px;">
+        <div style="background: #eef3f8; padding: 15px; border-radius: 8px; text-align: center;">
+          <div style="font-size: 24px; font-weight: 700; color: #3498db;">1,247</div>
+          <div style="font-size: 12px; color: #566575; margin-top: 5px;">TOTAL DE AÇÕES</div>
+        </div>
+        <div style="background: #eef3f8; padding: 15px; border-radius: 8px; text-align: center;">
+          <div style="font-size: 24px; font-weight: 700; color: #27ae60;">542</div>
+          <div style="font-size: 12px; color: #566575; margin-top: 5px;">CRIAÇÕES</div>
+        </div>
+        <div style="background: #eef3f8; padding: 15px; border-radius: 8px; text-align: center;">
+          <div style="font-size: 24px; font-weight: 700; color: #f39c12;">634</div>
+          <div style="font-size: 12px; color: #566575; margin-top: 5px;">ATUALIZAÇÕES</div>
+        </div>
+        <div style="background: #eef3f8; padding: 15px; border-radius: 8px; text-align: center;">
+          <div style="font-size: 24px; font-weight: 700; color: #e74c3c;">71</div>
+          <div style="font-size: 12px; color: #566575; margin-top: 5px;">EXCLUSÕES</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TABELA DE AUDITORIA -->
+    <section class="containerPrincipal">
+      <table class="tabelaResponsiva">
+        <thead>
+          <tr>
+            <th>Data/Hora</th>
+            <th>Usuário</th>
+            <th>Ação</th>
+            <th>Entidade</th>
+            <th>Detalhes</th>
+            <th>Resultado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>02/04/2026 - 14:35</td>
+            <td>Admin Master</td>
+            <td><span class="badge badgeSucesso">Criação</span></td>
+            <td>Usuário</td>
+            <td>Maria da Silva (maria@escola.edu.br)</td>
+            <td>✓ Sucesso</td>
+          </tr>
+          <tr>
+            <td>02/04/2026 - 13:20</td>
+            <td>Maria da Silva</td>
+            <td><span class="badge badgeInfo">Atualização</span></td>
+            <td>Aluno</td>
+            <td>João Silva (ID: 1245) - Dados atualizados</td>
+            <td>✓ Sucesso</td>
+          </tr>
+          <tr>
+            <td>02/04/2026 - 12:15</td>
+            <td>Dra. Ana Santos</td>
+            <td><span class="badge badgeInfo">Atualização</span></td>
+            <td>Relatório</td>
+            <td>Parecer de Sofia M. - Novos comentários adicionados</td>
+            <td>✓ Sucesso</td>
+          </tr>
+          <tr>
+            <td>01/04/2026 - 16:45</td>
+            <td>Admin Master</td>
+            <td><span class="badge badgeAviso">Exclusão</span></td>
+            <td>Usuário</td>
+            <td>Prof. Pedro (pedro@escola.edu.br) - Conta desativada</td>
+            <td>✓ Sucesso</td>
+          </tr>
+          <tr>
+            <td>01/04/2026 - 15:30</td>
+            <td>Maria da Silva</td>
+            <td><span class="badge badgeSucesso">Criação</span></td>
+            <td>Aluno</td>
+            <td>Lucas Santos - Novo registro</td>
+            <td>✓ Sucesso</td>
+          </tr>
+          <tr>
+            <td>01/04/2026 - 14:00</td>
+            <td>Admin Master</td>
+            <td><span class="badge badgeInfo">Atualização</span></td>
+            <td>Unidade</td>
+            <td>Escola Municipal Centro - Dados atualizados</td>
+            <td>✓ Sucesso</td>
+          </tr>
+          <tr>
+            <td>31/03/2026 - 18:00</td>
+            <td>Sistema</td>
+            <td><span class="badge badgeSucesso">Backup</span></td>
+            <td>Base de Dados</td>
+            <td>Backup automático realizado - 2.3 GB</td>
+            <td>✓ Sucesso</td>
+          </tr>
+          <tr>
+            <td>31/03/2026 - 09:20</td>
+            <td>Prof. Carlos Costa</td>
+            <td><span class="badge badgeSucesso">Criação</span></td>
+            <td>Observação</td>
+            <td>Observação sobre aluno - Maria Silva</td>
+            <td>✓ Sucesso</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- PAGINAÇÃO -->
+    <section class="containerPrincipal">
+      <div style="display: flex; gap: 8px; justify-content: center; margin-top: 20px;">
+        <button class="btn btnSecundario" style="padding: 8px 12px;">← Anterior</button>
+        <button class="btn btnPrimario" style="padding: 8px 16px;">1</button>
+        <button class="btn btnSecundario" style="padding: 8px 12px;">2</button>
+        <button class="btn btnSecundario" style="padding: 8px 12px;">3</button>
+        <button class="btn btnSecundario" style="padding: 8px 12px;">Próxima →</button>
+      </div>
+    </section>
+
+    <!-- BOTÕES DE EXPORTAÇÃO -->
+    <section class="containerPrincipal">
+      <div style="display: flex; gap: 12px;">
+        <button class="btn btnPrimario" onclick="exportarPDF()">📥 Exportar em PDF</button>
+        <button class="btn btnPrimario" onclick="exportarCSV()">📊 Exportar em CSV</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- VLIBRAS -->
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script>
+
+  <script>
+    function navegarPara(pagina) {
+      window.location.href = pagina;
+    }
+
+    function logout() {
+      if (confirm('Tem certeza que deseja sair do sistema?')) {
+        window.location.href = '../../../../pages/auth/login.html';
+      }
+    }
+
+    function aplicarFiltros() {
+      alert('Filtros aplicados');
+    }
+
+    function limparFiltros() {
+      document.getElementById('filtroUsuario').value = '';
+      document.getElementById('filtroTipo').value = 'Todas';
+      document.getElementById('filtroDataInicio').value = '';
+      document.getElementById('filtroDataFim').value = '';
+      alert('Filtros limpos');
+    }
+
+    function exportarPDF() {
+      alert('Exportando auditoria em PDF...');
+    }
+
+    function exportarCSV() {
+      alert('Exportando auditoria em CSV...');
+    }
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

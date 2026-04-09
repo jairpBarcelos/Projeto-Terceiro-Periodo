@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Listar Unidades Escolares - Administrador</title>
+  <link rel="icon" href="../../../../img/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="../../../../css/menuAdministrador.css">
+  <link rel="stylesheet" href="../../../../css/administrador/unidades.css">
+</head>
+<body>
+  <!-- MENU LATERAL -->
+  <aside class="menuLateral">
+    <div class="logoContainer">
+      <img src="../../../../img/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
+      <div class="textoBranding">
+        <div class="nomeBrand">SAADI</div>
+        <div class="nivelAcesso">Nível: Administrador</div>
+      </div>
+    </div>
+
+    <div class="Perfil">
+      <div class="nomePerfil">Usuário Logado</div>
+      <div class="emailPerfil">usuario@escola.edu.br</div>
+    </div>
+
+                <div class="botoesLaterais">
+      <button class="btnLateral" onclick="navegarPara('../menuAdministrador.html')" aria-label="Voltar ao Painel Principal">
+        <img src="/img/icon-lista.png" alt="">
+        <span>Painel Principal</span>
+      </button>
+      <button class="btnLateral ativo" onclick="navegarPara('../unidades/listarUnidades.html')" aria-label="Gerenciar Unidades Escolares">
+        <img src="/img/icon-cadastro.png" alt="">
+        <span>Unidades Escolares</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('../usuarios/listarUsuarios.html')" aria-label="Gerenciar Usuários do Sistema">
+        <img src="/img/perfil.png" alt="">
+        <span>Usuários do Sistema</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('../relatoriosAdministrador.html')" aria-label="Ver Relatórios Consolidados">
+        <img src="/img/icon-lista.png" alt="">
+        <span>Relatórios</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('../auditoria.html')" aria-label="Consultar Auditoria e Histórico">
+        <img src="/img/icon-lista.png" alt="">
+        <span>Auditoria</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('../parametros.html')" aria-label="Gerenciar Parâmetros do Sistema">
+        <img src="/img/engrenagem.png" alt="">
+        <span>Parâmetros</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('../alunos/listarAlunos.html')" aria-label="Acessar Gestão Central de Alunos">
+        <img src="/img/icon-lista.png" alt="">
+        <span>Alunos - Nível Central</span>
+      </button>
+    </div>
+
+    <div class="sair">
+      <button class="btnSair" onclick="logout()" aria-label="Fazer logout do sistema">
+        <img src="/img/sair.png" alt="">
+        <span>Sair da Conta</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="conteudoPrincipal">
+    <!-- CABEÇALHO -->
+    <section class="cabecalhoDashboard">
+      <h1>Unidades Escolares</h1>
+      <p>Visualize e gerencie todas as escolas cadastradas no sistema</p>
+    </section>
+
+    <!-- BARRA DE BUSCA E FILTROS -->
+    <section class="containerPrincipal">
+      <div class="barraBuscaUnidades">
+        <input 
+          type="text" 
+          id="campoBusca" 
+          placeholder="Buscar por nome, cidade ou CNPJ..." 
+          aria-label="Campo de busca de unidades"
+          onkeyup="filtrarUnidades()"
+        >
+        <a href="cadastroUnidades.html" class="btn btnPrimario" aria-label="Criar nova unidade escolar">
+          + Nova Unidade
+        </a>
+      </div>
+    </section>
+
+    <!-- LISTA DE UNIDADES -->
+    <section class="containerPrincipal">
+      <table class="tabelaResponsiva" id="tabelaUnidades">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Bairro</th>
+            <th>CNPJ</th>
+            <th>Diretor</th>
+            <th>Status</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="unidade" data-nome="Escola Municipal Centro" data-estado="SP" data-status="ativa">
+            <td>Escola Municipal Centro</td>
+            <td>Centro</td>
+            <td>12.345.678/0001-90</td>
+            <td>Prof. Roberto</td>
+            <td><span class="badge badgeSucesso">Ativa</span></td>
+            <td>
+              <div class="acoes">
+                <a href="atualizarUnidades.html?id=1" class="btn btnVer" style="padding: 6px 12px; font-size: 12px;">Ver</a>
+                <a href="atualizarUnidades.html?id=1" class="btn btnEditar" style="padding: 6px 12px; font-size: 12px;">Editar</a>
+                <button onclick="confirmarDelecao(1)" class="btn btnDeletar" style="padding: 6px 12px; font-size: 12px;">Deletar</button>
+              </div>
+            </td>
+          </tr>
+          <tr class="unidade" data-nome="Escola Estadual Norte" data-estado="SP" data-status="ativa">
+            <td>Escola Estadual Norte</td>
+            <td>Vila Nova</td>
+            <td>87.654.321/0001-45</td>
+            <td>Dra. Fernanda</td>
+            <td><span class="badge badgeSucesso">Ativa</span></td>
+            <td>
+              <div class="acoes">
+                <a href="atualizarUnidades.html?id=2" class="btn btnVer" style="padding: 6px 12px; font-size: 12px;">Ver</a>
+                <a href="atualizarUnidades.html?id=2" class="btn btnEditar" style="padding: 6px 12px; font-size: 12px;">Editar</a>
+                <button onclick="confirmarDelecao(2)" class="btn btnDeletar" style="padding: 6px 12px; font-size: 12px;">Deletar</button>
+              </div>
+            </td>
+          </tr>
+          <tr class="unidade" data-nome="CEI Infantil Leste" data-estado="RJ" data-status="ativa">
+            <td>CEI Infantil Leste</td>
+            <td>Consolação</td>
+            <td>11.111.111/0001-11</td>
+            <td>Prof. Marcelo</td>
+            <td><span class="badge badgeSucesso">Ativa</span></td>
+            <td>
+              <div class="acoes">
+                <a href="atualizarUnidades.html?id=3" class="btn btnVer" style="padding: 6px 12px; font-size: 12px;">Ver</a>
+                <a href="atualizarUnidades.html?id=3" class="btn btnEditar" style="padding: 6px 12px; font-size: 12px;">Editar</a>
+                <button onclick="confirmarDelecao(3)" class="btn btnDeletar" style="padding: 6px 12px; font-size: 12px;">Deletar</button>
+              </div>
+            </td>
+          </tr>
+          <tr class="unidade" data-nome="EMEF Sul Integrada" data-estado="MG" data-status="manutencao">
+            <td>EMEF Sul Integrada</td>
+            <td>Brooklin</td>
+            <td>22.222.222/0001-22</td>
+            <td>Prof. Patricia</td>
+            <td><span class="badge badgeAviso">Em Manutenção</span></td>
+            <td>
+              <div class="acoes">
+                <a href="atualizarUnidades.html?id=4" class="btn btnVer" style="padding: 6px 12px; font-size: 12px;">Ver</a>
+                <a href="atualizarUnidades.html?id=4" class="btn btnEditar" style="padding: 6px 12px; font-size: 12px;">Editar</a>
+                <button onclick="confirmarDelecao(4)" class="btn btnDeletar" style="padding: 6px 12px; font-size: 12px;">Deletar</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <!-- MODAL DE CONFIRMAÇÃO DE EXCLUSÃO -->
+  <div id="modalDelecao" class="modal">
+    <div class="modalConteudo">
+      <h2>Confirmar Exclusão</h2>
+      <p>Tem certeza que deseja deletar esta unidade escolar? Esta ação não pode ser desfeita.</p>
+      <div class="modalBotoes">
+        <button class="btn btnSecundario btnFecharModal" onclick="fecharModal()">Cancelar</button>
+        <button class="btn btnPerigo" onclick="executarDelecao()">Deletar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- VLIBRAS -->
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script>
+
+  <script>
+    let idDelecao = null;
+
+    function navegarPara(pagina) {
+      window.location.href = pagina;
+    }
+
+    function logout() {
+      if (confirm('Tem certeza que deseja sair do sistema?')) {
+        window.location.href = '../../../../pages/auth/login.html';
+      }
+    }
+
+    function filtrarUnidades() {
+      const busca = document.getElementById('campoBusca').value.toLowerCase();
+      const estado = document.getElementById('filtroEstado').value;
+      const status = document.getElementById('filtroStatus').value;
+
+      document.querySelectorAll('.unidade').forEach(row => {
+        const nome = row.getAttribute('data-nome').toLowerCase();
+        const estadoRow = row.getAttribute('data-estado');
+        const statusRow = row.getAttribute('data-status');
+
+        let mostrar = true;
+
+        if (busca && !nome.includes(busca)) {
+          mostrar = false;
+        }
+
+        if (estado && estadoRow !== estado) {
+          mostrar = false;
+        }
+
+        if (status && statusRow !== status) {
+          mostrar = false;
+        }
+
+        row.style.display = mostrar ? '' : 'none';
+      });
+    }
+
+    function confirmarDelecao(id) {
+      idDelecao = id;
+      document.getElementById('modalDelecao').classList.add('ativo');
+    }
+
+    function fecharModal() {
+      document.getElementById('modalDelecao').classList.remove('ativo');
+      idDelecao = null;
+    }
+
+    function executarDelecao() {
+      alert('Unidade ' + idDelecao + ' deletada com sucesso!');
+      fecharModal();
+      location.reload();
+    }
+
+    // Fechar modal ao clicar fora
+    window.onclick = function(event) {
+      const modal = document.getElementById('modalDelecao');
+      if (event.target === modal) {
+        fecharModal();
+      }
+    }
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

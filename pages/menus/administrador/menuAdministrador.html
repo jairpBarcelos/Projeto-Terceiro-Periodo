@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAADI | Painel do Administrador</title>
+  <link rel="icon" href="../../../img/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="../../../css/menuAdministrador.css">
+</head>
+<body>
+  <!-- MENU LATERAL -->
+  <aside class="menuLateral">
+    <div class="logoContainer">
+      <img src="../../../img/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
+      <div class="textoBranding">
+        <div class="nomeBrand">SAADI</div>
+        <div class="nivelAcesso">Nível: Administrador</div>
+      </div>
+    </div>
+
+    <div class="Perfil">
+      <div class="nomePerfil">Usuário Logado</div>
+      <div class="emailPerfil">usuario@escola.edu.br</div>
+    </div>
+
+                <div class="botoesLaterais">
+      <button class="btnLateral ativo" onclick="navegarPara('menuAdministrador.html')" aria-label="Voltar ao Painel Principal">
+        <img src="/img/icon-lista.png" alt="">
+        <span>Painel Principal</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('unidades/listarUnidades.html')" aria-label="Gerenciar Unidades Escolares">
+        <img src="/img/icon-cadastro.png" alt="">
+        <span>Unidades Escolares</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('usuarios/listarUsuarios.html')" aria-label="Gerenciar Usuários do Sistema">
+        <img src="/img/perfil.png" alt="">
+        <span>Usuários do Sistema</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('relatoriosAdministrador.html')" aria-label="Ver Relatórios Consolidados">
+        <img src="/img/icon-lista.png" alt="">
+        <span>Relatórios</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('auditoria.html')" aria-label="Consultar Auditoria e Histórico">
+        <img src="/img/icon-lista.png" alt="">
+        <span>Auditoria</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('parametros.html')" aria-label="Gerenciar Parâmetros do Sistema">
+        <img src="/img/engrenagem.png" alt="">
+        <span>Parâmetros</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('alunos/listarAlunos.html')" aria-label="Acessar Gestão Central de Alunos">
+        <img src="/img/icon-lista.png" alt="">
+        <span>Alunos - Nível Central</span>
+      </button>
+    </div>
+
+    <div class="sair">
+      <button class="btnSair" onclick="logout()" aria-label="Fazer logout do sistema">
+        <img src="/img/sair.png" alt="">
+        <span>Sair da Conta</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="conteudoPrincipal">
+    <!-- CABEÇALHO -->
+    <section class="cabecalhoDashboard">
+      <h1>Painel do Administrador</h1>
+      <p>Gestão centralizada do sistema educacional, usuários, unidades escolares e auditoria</p>
+    </section>
+
+    <!-- INDICADORES PRINCIPAIS -->
+    <section class="painelIndicadores">
+      <div class="cardIndicador info">
+        <div class="numeroIndicador">12</div>
+        <div class="labelIndicador">Unidades Escolares</div>
+      </div>
+      <div class="cardIndicador sucesso">
+        <div class="numeroIndicador">47</div>
+        <div class="labelIndicador">Usuários Ativos</div>
+      </div>
+      <div class="cardIndicador aviso">
+        <div class="numeroIndicador">8</div>
+        <div class="labelIndicador">Configurações Pendentes</div>
+      </div>
+      <div class="cardIndicador perigo">
+        <div class="numeroIndicador">3</div>
+        <div class="labelIndicador">Alertas de Segurança</div>
+      </div>
+    </section>
+
+    <!-- AÇÕES PRINCIPAIS -->
+    <section class="containerPrincipal">
+      <h2>
+        Gerenciamento do Sistema
+      </h2>
+      <p class="subtituloSecao">Escolha um modulo para administrar dados, acessos e configuracoes globais do sistema.</p>
+      
+      <div class="gradeNavegacao">
+        <!-- Unidades Escolares -->
+        <a href="unidades/listarUnidades.html" class="cartaoNavegacao" aria-label="Acessar gestão de unidades escolares">
+          <img src="../../../img/icons8-duas-mãos-windows-11-filled/icons8-prédio-96.png" alt="">
+          <div class="nomeCartao">Unidades Escolares</div>
+          <div class="descricaoCartao">Cadastro e manutenção de unidades</div>
+        </a>
+
+        <!-- Usuários do Sistema -->
+        <a href="usuarios/listarUsuarios.html" class="cartaoNavegacao" aria-label="Acessar gestão de usuários">
+          <img src="../../../img/icons8-duas-mãos-windows-11-filled/icons8-usuário-96.png" alt="">
+          <div class="nomeCartao">Usuários do Sistema</div>
+          <div class="descricaoCartao">Cadastro e gerenciamento de usuários</div>
+        </a>
+
+        <!-- Relatórios Consolidados -->
+        <a href="relatoriosAdministrador.html" class="cartaoNavegacao" aria-label="Acessar relatórios consolidados">
+          <img src="../../../img/icons8-duas-mãos-windows-11-filled/icons8-gráfico-de-barras-96.png" alt="">
+          <div class="nomeCartao">Relatórios Consolidados</div>
+          <div class="descricaoCartao">Análise geral de todas as escolas</div>
+        </a>
+
+        <!-- Auditoria e Histórico -->
+        <a href="auditoria.html" class="cartaoNavegacao" aria-label="Acessar auditoria e histórico">
+          <img src="../../../img/icons8-duas-mãos-windows-11-filled/icons8-log-96.png" alt="">
+          <div class="nomeCartao">Auditoria</div>
+          <div class="descricaoCartao">Histórico de ações e mudanças</div>
+        </a>
+
+        <!-- Parâmetros do Sistema -->
+        <a href="parametros.html" class="cartaoNavegacao" aria-label="Acessar configurações do sistema">
+          <img src="../../../img/icons8-duas-mãos-windows-11-filled/icons8-configurações-96.png" alt="">
+          <div class="nomeCartao">Parâmetros do Sistema</div>
+          <div class="descricaoCartao">Configurações e parâmetros globais</div>
+        </a>
+
+        <!-- Cadastro de Alunos Central -->
+        <a href="alunos/listarAlunos.html" class="cartaoNavegacao" aria-label="Acessar gestão central de alunos">
+          <img src="../../../img/icons8-duas-mãos-windows-11-filled/icons8-alunos-96.png" alt="">
+          <div class="nomeCartao">Alunos - Nível Central</div>
+          <div class="descricaoCartao">Consulta e atualização centralizada</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- RESUMO DE ATIVIDADES -->
+    <section class="containerPrincipal">
+      <h2>
+        Atividades Recentes
+      </h2>
+      
+      <table class="tabelaResponsiva">
+        <thead>
+          <tr>
+            <th>Data/Hora</th>
+            <th>Usuário</th>
+            <th>Ação</th>
+            <th>Entidade</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>02/04/2026 - 14:32</td>
+            <td>Secretária Maria</td>
+            <td>Cadastro de Aluno</td>
+            <td>João Silva</td>
+            <td><span class="badge badgeSucesso">Sucesso</span></td>
+          </tr>
+          <tr>
+            <td>02/04/2026 - 13:15</td>
+            <td>Admin Master</td>
+            <td>Criação de Usuário</td>
+            <td>Prof. Carlos</td>
+            <td><span class="badge badgeSucesso">Sucesso</span></td>
+          </tr>
+          <tr>
+            <td>01/04/2026 - 16:45</td>
+            <td>Psicopedagoga Ana</td>
+            <td>Atualização de Relatório</td>
+            <td>Aluna Sofia</td>
+            <td><span class="badge badgeSucesso">Sucesso</span></td>
+          </tr>
+          <tr>
+            <td>01/04/2026 - 09:20</td>
+            <td>Admin Master</td>
+            <td>Alteração de Permissões</td>
+            <td>Papel Secretaria</td>
+            <td><span class="badge badgeAviso">Alteração</span></td>
+          </tr>
+          <tr>
+            <td>31/03/2026 - 18:00</td>
+            <td>Sistema</td>
+            <td>Backup Automático</td>
+            <td>Base de Dados</td>
+            <td><span class="badge badgeSucesso">Sucesso</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- MONITORAMENTO DO SISTEMA -->
+    <section class="containerPrincipal">
+      <h2>
+        Status do Sistema
+      </h2>
+      
+      <div class="statusSistemaGrid">
+        <div class="statusSistemaCard sucesso">
+          <h3>Banco de Dados</h3>
+          <div class="statusSistemaValor">OK</div>
+          <div class="statusSistemaMeta">Online - Funcionando</div>
+        </div>
+        
+        <div class="statusSistemaCard aviso">
+          <h3>Armazenamento</h3>
+          <div class="statusSistemaValor">73%</div>
+          <div class="statusSistemaMeta">Limite de Alerta: 80%</div>
+        </div>
+        
+        <div class="statusSistemaCard info">
+          <h3>Ultima Sincronizacao</h3>
+          <div class="statusSistemaMeta">02/04/2026 - 12:35</div>
+          <div class="statusSistemaTempo">Ha 2 horas</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- VLIBRAS -->
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script>
+
+  <!-- SCRIPT -->
+  <script>
+    function navegarPara(pagina) {
+      window.location.href = pagina;
+    }
+
+    function logout() {
+      if (confirm('Tem certeza que deseja sair do sistema?')) {
+        window.location.href = '../../../pages/auth/login.html';
+      }
+    }
+
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

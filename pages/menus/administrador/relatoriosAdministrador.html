@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Relatórios Consolidados - Administrador</title>
+  <link rel="icon" href="../../../../img/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="../../../../css/menuAdministrador.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <!-- MENU LATERAL -->
+  <aside class="menuLateral">
+    <div class="logoContainer">
+      <img src="../../../../img/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
+      <div class="textoBranding">
+        <div class="nomeBrand">SAADI</div>
+        <div class="nivelAcesso">Nível: Administrador</div>
+      </div>
+    </div>
+
+    <div class="Perfil">
+      <div class="nomePerfil">Usuário Logado</div>
+      <div class="emailPerfil">usuario@escola.edu.br</div>
+    </div>
+
+                <div class="botoesLaterais">
+      <button class="btnLateral" onclick="navegarPara('menuAdministrador.html')" aria-label="Voltar ao Painel Principal">
+        <img src="/img/icon-lista.png" alt="">
+        <span>Painel Principal</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('unidades/listarUnidades.html')" aria-label="Gerenciar Unidades Escolares">
+        <img src="/img/icon-cadastro.png" alt="">
+        <span>Unidades Escolares</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('usuarios/listarUsuarios.html')" aria-label="Gerenciar Usuários do Sistema">
+        <img src="/img/perfil.png" alt="">
+        <span>Usuários do Sistema</span>
+      </button>
+
+      <button class="btnLateral ativo" onclick="navegarPara('relatoriosAdministrador.html')" aria-label="Ver Relatórios Consolidados">
+        <img src="/img/icon-lista.png" alt="">
+        <span>Relatórios</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('auditoria.html')" aria-label="Consultar Auditoria e Histórico">
+        <img src="/img/icon-lista.png" alt="">
+        <span>Auditoria</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('parametros.html')" aria-label="Gerenciar Parâmetros do Sistema">
+        <img src="/img/engrenagem.png" alt="">
+        <span>Parâmetros</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('alunos/listarAlunos.html')" aria-label="Acessar Gestão Central de Alunos">
+        <img src="/img/icon-lista.png" alt="">
+        <span>Alunos - Nível Central</span>
+      </button>
+    </div>
+
+    <div class="sair">
+      <button class="btnSair" onclick="logout()" aria-label="Fazer logout do sistema">
+        <img src="/img/sair.png" alt="">
+        <span>Sair da Conta</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="conteudoPrincipal">
+    <!-- CABEÇALHO -->
+    <section class="cabecalhoDashboard">
+      <h1>Relatórios Consolidados</h1>
+      <p>Visualize estatísticas gerais de todas as unidades escolares do sistema</p>
+    </section>
+
+    <!-- FILTROS -->
+    <section class="containerPrincipal">
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 20px;">
+        <div>
+          <label for="filtroPeriodo" style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px;">Período:</label>
+          <select id="filtroPeriodo" style="width: 100%; padding: 10px; border: 1px solid #d0dce6; border-radius: 8px;">
+            <option>Últimos 30 dias</option>
+            <option>Último trimestre</option>
+            <option>2026</option>
+            <option>2025</option>
+          </select>
+        </div>
+        <div>
+          <label for="filtroUnidade" style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px;">Unidade:</label>
+          <select id="filtroUnidade" style="width: 100%; padding: 10px; border: 1px solid #d0dce6; border-radius: 8px;">
+            <option>Todas as unidades</option>
+            <option>Escola Municipal Centro</option>
+            <option>Escola Estadual Norte</option>
+            <option>CEI Infantil Leste</option>
+          </select>
+        </div>
+        <div>
+          <label for="filtroSerie" style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px;">Série:</label>
+          <select id="filtroSerie" style="width: 100%; padding: 10px; border: 1px solid #d0dce6; border-radius: 8px;">
+            <option>Todas as séries</option>
+            <option>Educação Infantil</option>
+            <option>1º ao 3º ano</option>
+            <option>4º ao 5º ano</option>
+            <option>6º ao 9º ano</option>
+          </select>
+        </div>
+        <div>
+          <label for="filtroNeurodiversidade" style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px;">Tipo:
+          </label>
+          <select id="filtroNeurodiversidade" style="width: 100%; padding: 10px; border: 1px solid #d0dce6; border-radius: 8px;">
+            <option>Todos os tipos</option>
+            <option>Autismo</option>
+            <option>TDAH</option>
+            <option>Altas Habilidades</option>
+            <option>Deficiência Auditiva</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- INDICADORES PRINCIPAIS -->
+    <section class="painelIndicadores" style="margin-bottom: 30px;">
+      <div class="cardIndicador info">
+        <div class="numeroIndicador">1,247</div>
+        <div class="labelIndicador">Total de Alunos</div>
+      </div>
+      <div class="cardIndicador sucesso">
+        <div class="numeroIndicador">342</div>
+        <div class="labelIndicador">Com Laudos</div>
+      </div>
+      <div class="cardIndicador aviso">
+        <div class="numeroIndicador">128</div>
+        <div class="labelIndicador">Em Acompanhamento</div>
+      </div>
+      <div class="cardIndicador perigo">
+        <div class="numeroIndicador">45</div>
+        <div class="labelIndicador">Encaminhamentos Pendentes</div>
+      </div>
+    </section>
+
+    <!-- GRÁFICOS -->
+    <section style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 30px;">
+      <div class="containerPrincipal">
+        <h2 style="margin-bottom: 20px;">Distribuição por Tipo de Neurodiversidade</h2>
+        <div style="height: 300px; position: relative;">
+          <canvas id="graficoNeurodiversidade" aria-label="Gráfico de distribuição de neurodiversidades"></canvas>
+        </div>
+      </div>
+
+      <div class="containerPrincipal">
+        <h2 style="margin-bottom: 20px;">Alunos por Série</h2>
+        <div style="height: 300px; position: relative;">
+          <canvas id="graficoSeries" aria-label="Gráfico de alunos por série"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- TABELA DE RESUMO POR UNIDADE -->
+    <section class="containerPrincipal">
+      <h2 style="margin-bottom: 20px;">Resumo por Unidade Escolar</h2>
+      <table class="tabelaResponsiva">
+        <thead>
+          <tr>
+            <th>Unidade</th>
+            <th>Total de Alunos</th>
+            <th>Com Laudos</th>
+            <th>Em Acompanhamento</th>
+            <th>Taxa de Abrangência</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Escola Municipal Centro</td>
+            <td>325</td>
+            <td>92</td>
+            <td>28</td>
+            <td><span class="badge badgeSucesso">28,3%</span></td>
+          </tr>
+          <tr>
+            <td>Escola Estadual Norte</td>
+            <td>418</td>
+            <td>108</td>
+            <td>35</td>
+            <td><span class="badge badgeSucesso">25,8%</span></td>
+          </tr>
+          <tr>
+            <td>CEI Infantil Leste</td>
+            <td>256</td>
+            <td>64</td>
+            <td>22</td>
+            <td><span class="badge badgeSucesso">25%</span></td>
+          </tr>
+          <tr>
+            <td>EMEF Sul Integrada</td>
+            <td>248</td>
+            <td>78</td>
+            <td>43</td>
+            <td><span class="badge badgeAviso">31,5%</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- BOTÕES DE EXPORTAÇÃO -->
+    <section class="containerPrincipal">
+      <div style="display: flex; gap: 12px;">
+        <button class="btn btnPrimario" onclick="exportarPDF()">📥 Exportar em PDF</button>
+        <button class="btn btnPrimario" onclick="exportarExcel()">📊 Exportar em Excel</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- VLIBRAS -->
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script>
+
+  <script>
+    function navegarPara(pagina) {
+      window.location.href = pagina;
+    }
+
+    function logout() {
+      if (confirm('Tem certeza que deseja sair do sistema?')) {
+        window.location.href = '../../../../pages/auth/login.html';
+      }
+    }
+
+    // Gráfico - Distribuição por Neurodiversidade
+    const ctxNeurodiversidade = document.getElementById('graficoNeurodiversidade').getContext('2d');
+    new Chart(ctxNeurodiversidade, {
+      type: 'doughnut',
+      data: {
+        labels: ['Autismo', 'TDAH', 'Altas Habilidades', 'Deficiência Auditiva', 'Outros'],
+        datasets: [{
+          data: [120, 95, 68, 42, 17],
+          backgroundColor: [
+            '#3498db',
+            '#e74c3c',
+            '#2ecc71',
+            '#f39c12',
+            '#95a5a6'
+          ],
+          borderColor: '@fff',
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              font: { size: 12 },
+              padding: 15
+            }
+          }
+        }
+      }
+    });
+
+    // Gráfico - Alunos por Série
+    const ctxSeries = document.getElementById('graficoSeries').getContext('2d');
+    new Chart(ctxSeries, {
+      type: 'bar',
+      data: {
+        labels: ['Educação Infantil', '1º ao 3º ano', '4º ao 5º ano', '6º ao 9º ano'],
+        datasets: [{
+          label: 'Alunos',
+          data: [320, 285, 340, 302],
+          backgroundColor: '#3498db',
+          borderColor: '#2980b9',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        indexAxis: 'x',
+        plugins: {
+          legend: {
+            display: true,
+            labels: { font: { size: 12 }, padding: 15 }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: { font: { size: 11 } }
+          }
+        }
+      }
+    });
+
+    function exportarPDF() {
+      alert('Exportando relatório em PDF...');
+    }
+
+    function exportarExcel() {
+      alert('Exportando relatório em Excel...');
+    }
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

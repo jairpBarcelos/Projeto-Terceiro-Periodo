@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAADI | Triagens e Avaliacoes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../css/menuPsicopedagogo.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="shortcut icon" href="../../../img/favicon-duas-mãos-32px-branco.png" type="image/x-icon">
+</head>
+
+<body>
+    <a class="pularConteudo" href="#conteudo-principal">Pular para o conteudo principal</a>
+    <div class="app">
+        <nav class="menuLateral" aria-label="Menu principal do psicopedagogo">
+            <a class="menuSecretaria" id="telaInicial" href="/pages/menus/psicopedagogo/menuPsicopedagogo.html">
+                <div class="logoContainer">
+                    <div class="logoMenu"><img src="/img/icons8-duas-mãos-windows-11-filled/Logo.png"
+                            alt="Logo: Duas Mãos abertas"></div>
+                    <div>
+                        <h3>SAADI</h3>
+                        <p>Psicopedagogo</p>
+                    </div>
+                </div>
+            </a>
+
+            <hr>
+
+            <div class="Perfil">
+                <div class="fotoPerfil"><img src="/img/perfil.png" alt="Foto de Perfil vazia"></div>
+                <div>
+                    <p>Bem-vindo(a), Seu Nome!</p>
+                </div>
+                <div class="config">
+                    <button type="button" aria-label="Abrir configuracoes">
+                        <img src="/img/engrenagem.png" alt="Configurações">
+                    </button>
+                </div>
+            </div>
+            <hr>
+
+            <a class="botoesLaterais" href="/pages/menus/psicopedagogo/triagensAvaliacoes.html" aria-current="page">
+                <div class="alinhamento">
+                    <div class="fotos"><img src="/img/icon-cadastro.png" alt="Triagens"></div>
+                    <p>Triagens e Avaliações</p>
+                </div>
+            </a>
+
+            <a class="botoesLaterais" href="/pages/menus/psicopedagogo/planosAcompanhamento.html">
+                <div class="alinhamento">
+                    <div class="fotos"><img src="/img/icon-lista.png" alt="Planos"></div>
+                    <p>Planos de Acompanhamento</p>
+                </div>
+            </a>
+
+            <a class="botoesLaterais" href="/pages/menus/psicopedagogo/encaminhamentosPsicopedagogo.html">
+                <div class="alinhamento">
+                    <div class="fotos"><img src="/img/icon-atualizar.png" alt="Encaminhamentos"></div>
+                    <p>Encaminhamentos</p>
+                </div>
+            </a>
+
+            <a class="botoesLaterais" href="/pages/menus/psicopedagogo/relatoriosPsicopedagogo.html">
+                <div class="alinhamento">
+                    <div class="fotos"><img src="/img/icon-relatorio.png" alt="Relatórios"></div>
+                    <p>Relatórios</p>
+                </div>
+            </a>
+
+            <div class="baixo">
+                <hr>
+            </div>
+            <a class="textoSair" href="/pages/auth/login.html">
+                <div class="sair">
+                    <div class="fotoSair"><img src="/img/sair.png" alt="Sair"></div>
+                    <p> Sair da Conta </p>
+                </div>
+            </a>
+        </nav>
+
+        <main id="conteudo-principal" class="conteudoPricipal" tabindex="-1">
+            <section class="cabecalhoInstituicao" aria-label="Instituição vinculada ao usuário">
+                <p class="cabecalhoLabel">Módulo</p>
+                <h2 class="nomeInstituicao">Triagens e Avaliações Psicopedagógicas</h2>
+            </section>
+
+            <div class="inferior">
+                <div class="ladoEsquerdo">
+                    <section class="painelIntro" aria-label="Descrição do módulo de triagens">
+                        <p class="painelIntroTag">Gestão de Triagens</p>
+                        <h1 class="painelIntroTitulo">Registre e acompanhe avaliações iniciais dos estudantes</h1>
+                        <p class="painelIntroTexto">
+                            Organize as triagens por prioridade, etapa e situação. Este módulo facilita a visão dos
+                            casos novos e ajuda na definição de planos de atendimento mais assertivos.
+                        </p>
+                        <p class="painelIntroTexto">
+                            Utilize as informações para documentar observações pedagógicas, hipóteses iniciais e
+                            necessidades de encaminhamento para equipe multiprofissional.
+                        </p>
+                    </section>
+                </div>
+
+                <div class="ladoDireito">
+                    <section class="dashboardPainel" aria-label="Resumo de triagens">
+                        <div class="dashboardCabecalho">
+                            <h3 class="dashboardTitulo">Resumo</h3>
+                            <p class="dashboardSubtitulo">Panorama rápido das triagens</p>
+                        </div>
+
+                        <div class="caixaTotal cardDestaque">
+                            <div class="metricaInfo">
+                                <p class="metricaRotulo">Total de Triagens</p>
+                                <p class="metricaComplemento">Período atual</p>
+                            </div>
+                            <div class="contagem">32</div>
+                        </div>
+
+                        <div class="fileira">
+                            <div class="metricaCard autistas">
+                                <div class="metricaInfo">
+                                    <p class="metricaRotulo">Aguardando Entrevista</p>
+                                </div>
+                                <div class="contagem">7</div>
+                            </div>
+
+                            <div class="metricaCard tdah">
+                                <div class="metricaInfo">
+                                    <p class="metricaRotulo">Em Avaliação</p>
+                                </div>
+                                <div class="contagem">14</div>
+                            </div>
+
+                            <div class="metricaCard dislexia">
+                                <div class="metricaInfo">
+                                    <p class="metricaRotulo">Concluídas</p>
+                                </div>
+                                <div class="contagem">11</div>
+                            </div>
+
+                            <div class="metricaCard outras">
+                                <div class="metricaInfo">
+                                    <p class="metricaRotulo">Alta Prioridade</p>
+                                </div>
+                                <div class="contagem">3</div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+
+        <section class="psicoBloco" aria-label="Registro de atendimento psicopedagógico">
+            <h3>Registrar Atendimento Psicopedagógico</h3>
+            <p class="psicoInfo">Regra aplicada: somente psicopedagogo registra atendimento, com aluno, data e vínculo
+                institucional.</p>
+            <form class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label" for="atendimentoAluno">Aluno</label>
+                    <select id="atendimentoAluno" class="form-select">
+                        <option>Ana Luiza Santos</option>
+                        <option>João Pedro Silva</option>
+                        <option>Beatriz Souza</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label" for="atendimentoData">Data</label>
+                    <input id="atendimentoData" type="date" class="form-control" value="2026-04-03">
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label" for="atendimentoTipo">Tipo de registro</label>
+                    <select id="atendimentoTipo" class="form-select">
+                        <option value="triagem">Triagem</option>
+                        <option value="acompanhamento">Acompanhamento</option>
+                        <option value="concluido">Concluído</option>
+                    </select>
+                </div>
+                <div class="col-12">
+                    <label class="form-label" for="atendimentoDescricao">Descrição</label>
+                    <textarea id="atendimentoDescricao" class="form-control"
+                        rows="2">Entrevista inicial com responsáveis para levantamento de demandas.</textarea>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="atendimentoEvolucao">Evolução</label>
+                    <textarea id="atendimentoEvolucao" class="form-control"
+                        rows="2">Aluno apresentou boa adesão às estratégias de rotina estruturada.</textarea>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="atendimentoObservacoes">Observações</label>
+                    <textarea id="atendimentoObservacoes" class="form-control"
+                        rows="2">Agendar devolutiva com família em 15 dias.</textarea>
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-primary" type="button">Salvar atendimento</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="psicoBloco" aria-label="Histórico de atendimentos">
+            <h3>Histórico de Atendimentos</h3>
+            <div class="psicoTabelaWrap">
+                <table class="table table-striped align-middle">
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Aluno</th>
+                            <th>Tipo</th>
+                            <th>Descrição</th>
+                            <th>Evolução</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>03/04/2026</td>
+                            <td>Ana Luiza Santos</td>
+                            <td>Triagem</td>
+                            <td>Entrevista inicial com responsáveis</td>
+                            <td>Boa adaptação às orientações</td>
+                        </tr>
+                        <tr>
+                            <td>01/04/2026</td>
+                            <td>João Pedro Silva</td>
+                            <td>Acompanhamento</td>
+                            <td>Atividade de atenção sustentada</td>
+                            <td>Melhora no tempo de foco</td>
+                        </tr>
+                        <tr>
+                            <td>28/03/2026</td>
+                            <td>Beatriz Souza</td>
+                            <td>Concluído</td>
+                            <td>Fechamento de ciclo de intervenção</td>
+                            <td>Meta principal atingida</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+</body>
+
+</html>

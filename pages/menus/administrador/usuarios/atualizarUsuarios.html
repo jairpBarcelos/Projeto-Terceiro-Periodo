@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atualizar Usuário - Administrador</title>
+  <link rel="icon" href="../../../../img/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="../../../../css/menuAdministrador.css">
+  <link rel="stylesheet" href="../../../../css/administrador/usuarios.css">
+</head>
+<body>
+  <!-- MENU LATERAL -->
+  <aside class="menuLateral">
+    <div class="logoContainer">
+      <img src="../../../../img/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
+      <div class="textoBranding">
+        <div class="nomeBrand">SAADI</div>
+        <div class="nivelAcesso">Nível: Administrador</div>
+      </div>
+    </div>
+
+    <div class="Perfil">
+      <div class="nomePerfil">Usuário Logado</div>
+      <div class="emailPerfil">usuario@escola.edu.br</div>
+    </div>
+
+                <div class="botoesLaterais">
+      <button class="btnLateral" onclick="navegarPara('../menuAdministrador.html')" aria-label="Voltar ao Painel Principal">
+        <img src="/img/icon-lista.png" alt="">
+        <span>Painel Principal</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('../unidades/listarUnidades.html')" aria-label="Gerenciar Unidades Escolares">
+        <img src="/img/icon-cadastro.png" alt="">
+        <span>Unidades Escolares</span>
+      </button>
+      <button class="btnLateral ativo" onclick="navegarPara('../usuarios/listarUsuarios.html')" aria-label="Gerenciar Usuários do Sistema">
+        <img src="/img/perfil.png" alt="">
+        <span>Usuários do Sistema</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('../relatoriosAdministrador.html')" aria-label="Ver Relatórios Consolidados">
+        <img src="/img/icon-lista.png" alt="">
+        <span>Relatórios</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('../auditoria.html')" aria-label="Consultar Auditoria e Histórico">
+        <img src="/img/icon-lista.png" alt="">
+        <span>Auditoria</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('../parametros.html')" aria-label="Gerenciar Parâmetros do Sistema">
+        <img src="/img/engrenagem.png" alt="">
+        <span>Parâmetros</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('../alunos/listarAlunos.html')" aria-label="Acessar Gestão Central de Alunos">
+        <img src="/img/icon-lista.png" alt="">
+        <span>Alunos - Nível Central</span>
+      </button>
+    </div>
+
+    <div class="sair">
+      <button class="btnSair" onclick="logout()" aria-label="Fazer logout do sistema">
+        <img src="/img/sair.png" alt="">
+        <span>Sair da Conta</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="conteudoPrincipal">
+    <!-- CABEÇALHO -->
+    <section class="cabecalhoDashboard">
+      <h1>Atualizar Usuário</h1>
+      <p>Modifique os dados de acesso e informações do usuário</p>
+    </section>
+
+    <!-- FORMULÁRIO DE ATUALIZAÇÃO -->
+    <section class="containerPrincipal">
+      <form class="formulario" onsubmit="salvarUsuario(event)" aria-label="Formulário de atualização de usuário">
+        <!-- SEÇÃO 1: DADOS PESSOAIS -->
+        <div style="grid-column: span 2; margin-bottom: 0;">
+          <h3 style="color: #1a3a52; font-size: 16px; margin-bottom: 15px;">Dados Pessoais</h3>
+        </div>
+
+        <div class="grupoFormulario">
+          <label for="nomeCompleto">Nome Completo *</label>
+          <input type="text" id="nomeCompleto" name="nomeCompleto" value="Maria da Silva" required aria-label="Nome completo do usuário">
+        </div>
+
+        <div class="grupoFormulario">
+          <label for="cpf">CPF *</label>
+          <input type="text" id="cpf" name="cpf" value="123.456.789-00" required aria-label="CPF do usuário" disabled>
+        </div>
+
+        <div class="grupoFormulario">
+          <label for="email">Email Institucional *</label>
+          <input type="email" id="email" name="email" value="maria@escola.edu.br" required aria-label="Email institucional">
+        </div>
+
+        <div class="grupoFormulario">
+          <label for="telefone">Telefone</label>
+          <input type="tel" id="telefone" name="telefone" value="(11) 99999-8888" aria-label="Telefone de contato">
+        </div>
+
+        <!-- SEÇÃO 2: DADOS DE ACESSO -->
+        <div style="grid-column: span 2; margin-top: 25px; margin-bottom: 0;">
+          <h3 style="color: #1a3a52; font-size: 16px; margin-bottom: 15px;">Dados de Acesso</h3>
+        </div>
+
+        <div class="grupoFormulario">
+          <label for="usuario">Usuário/Matrícula *</label>
+          <input type="text" id="usuario" name="usuario" value="maria.silva" required aria-label="Nome de usuário ou matrícula">
+        </div>
+
+        <div class="grupoFormulario">
+          <label for="novasenha">Nova Senha (deixe vazio para manter)</label>
+          <input type="password" id="novasenha" name="novasenha" aria-label="Nova senha do usuário" placeholder="Mínimo 8 caracteres">
+        </div>
+
+        <div class="grupoFormulario">
+          <label for="confirmaSenha">Confirmar Nova Senha</label>
+          <input type="password" id="confirmaSenha" name="confirmaSenha" aria-label="Confirmação de nova senha" placeholder="Digite novamente">
+        </div>
+
+        <div class="grupoFormulario">
+          <label for="perfil">Perfil de Acesso *</label>
+          <select id="perfil" name="perfil" required aria-label="Perfil de acesso do usuário">
+            <option value="secretaria" selected>Secretaria</option>
+            <option value="administrador">Administrador</option>
+            <option value="psicopedagogo">Psicopedagogo</option>
+            <option value="professor">Professor</option>
+            <option value="diretor">Diretor</option>
+          </select>
+        </div>
+
+        <!-- SEÇÃO 3: VINCULAÇÃO -->
+        <div style="grid-column: span 2; margin-top: 25px; margin-bottom: 0;">
+          <h3 style="color: #1a3a52; font-size: 16px; margin-bottom: 15px;">Vinculação Organizacional</h3>
+        </div>
+
+        <div class="grupoFormulario">
+          <label for="unidade">Unidade Escolar *</label>
+          <select id="unidade" name="unidade" required aria-label="Unidade escolar">
+            <option value="1" selected>Escola Municipal Centro</option>
+            <option value="2">Escola Estadual Norte</option>
+            <option value="3">CEI Infantil Leste</option>
+            <option value="4">EMEF Sul Integrada</option>
+          </select>
+        </div>
+
+        <div class="grupoFormulario">
+          <label for="departamento">Departamento</label>
+          <select id="departamento" name="departamento" aria-label="Departamento">
+            <option value="secretaria" selected>Secretaria</option>
+            <option value="pedagogico">Pedagógico</option>
+            <option value="administrativo">Administrativo</option>
+          </select>
+        </div>
+
+        <!-- SEÇÃO 4: INFORMAÇÕES ADICIONAIS -->
+        <div style="grid-column: span 2; margin-top: 25px; margin-bottom: 0;">
+          <h3 style="color: #1a3a52; font-size: 16px; margin-bottom: 15px;">Informações Adicionais</h3>
+        </div>
+
+        <div class="grupoFormulario">
+          <label for="status">Status *</label>
+          <select id="status" name="status" required aria-label="Status do usuário">
+            <option value="ativo" selected>Ativo</option>
+            <option value="inativo">Inativo</option>
+            <option value="bloqueado">Bloqueado</option>
+          </select>
+        </div>
+
+        <div class="grupoFormulario">
+          <label for="dataAdmissao">Data de Admissão</label>
+          <input type="date" id="dataAdmissao" name="dataAdmissao" value="2020-01-15" aria-label="Data de admissão">
+        </div>
+
+        <div class="grupoFormulario" style="grid-column: span 2;">
+          <label for="ultimoAcesso">Último Acesso</label>
+          <input type="text" value="02/04/2026 - 13:20" disabled style="background: #f0f0f0; cursor: not-allowed;">
+        </div>
+
+        <div style="grid-column: span 2;">
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+            <input type="checkbox" id="forcarMudancaSenha" name="forcarMudancaSenha" aria-label="Forçar mudança de senha no próximo login">
+            <span style="color: #2c3e50; font-size: 14px;">Forçar mudança de senha no próximo login</span>
+          </label>
+        </div>
+
+        <!-- BOTÕES -->
+        <div class="botoesPrimarios" style="grid-column: span 2;">
+          <a href="listarUsuarios.html" class="btn btnSecundario">Cancelar</a>
+          <button type="button" class="btn btnPerigo" onclick="confirmarDelecao()">Deletar Usuário</button>
+          <button type="submit" class="btn btnSucesso">Salvar Alterações</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <!-- MODAL DE CONFIRMAÇÃO DE EXCLUSÃO -->
+  <div id="modalDelecao" class="modal">
+    <div class="modalConteudo">
+      <h2>Confirmar Exclusão</h2>
+      <p>Tem certeza que deseja deletar este usuário? Esta ação não pode ser desfeita.</p>
+      <div class="modalBotoes">
+        <button class="btn btnSecundario btnFecharModal" onclick="fecharModal()">Cancelar</button>
+        <button class="btn btnPerigo" onclick="executarDelecao()">Deletar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- VLIBRAS -->
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script>
+
+  <script>
+    function navegarPara(pagina) {
+      window.location.href = pagina;
+    }
+
+    function logout() {
+      if (confirm('Tem certeza que deseja sair do sistema?')) {
+        window.location.href = '../../../../pages/auth/login.html';
+      }
+    }
+
+    function salvarUsuario(event) {
+      event.preventDefault();
+      const novaSenha = document.getElementById('novasenha').value;
+      const confirmaSenha = document.getElementById('confirmaSenha').value;
+
+      if (novaSenha && novaSenha !== confirmaSenha) {
+        alert('As senhas não coincidem!');
+        return;
+      }
+
+      if (novaSenha && novaSenha.length < 8) {
+        alert('A senha deve ter no mínimo 8 caracteres!');
+        return;
+      }
+
+      alert('Usuário atualizado com sucesso!');
+      window.location.href = 'listarUsuarios.html';
+    }
+
+    function confirmarDelecao() {
+      document.getElementById('modalDelecao').classList.add('ativo');
+    }
+
+    function fecharModal() {
+      document.getElementById('modalDelecao').classList.remove('ativo');
+    }
+
+    function executarDelecao() {
+      alert('Usuário deletado com sucesso!');
+      window.location.href = 'listarUsuarios.html';
+    }
+
+    window.onclick = function(event) {
+      const modal = document.getElementById('modalDelecao');
+      if (event.target === modal) {
+        fecharModal();
+      }
+    }
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

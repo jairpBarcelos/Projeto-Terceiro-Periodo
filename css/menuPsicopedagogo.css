@@ -1,8 +1,22 @@
-*{
+* {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+:root {
+    --psico-900: #163a63;
+    --psico-800: #1f4f85;
+    --psico-700: #2e5f92;
+    --psico-600: #4c7adf;
+    --psico-200: #c5dbf2;
+    --psico-100: #eaf3ff;
+    --surface: #ffffff;
+    --bg: #e8eef6;
+    --text-900: #153353;
+    --text-700: #5b6f86;
+    --danger: #e14e5b;
 }
 
 *:focus {
@@ -11,17 +25,45 @@
 }
 
 html {
-    font-size: 16px; 
+    font-size: 16px;
+}
+
+body {
+    background: linear-gradient(180deg, #eef3f8 0%, var(--bg) 100%);
+    color: var(--text-900);
+}
+
+.pularConteudo {
+    position: absolute;
+    left: -9999px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.pularConteudo:focus {
+    position: fixed;
+    left: 16px;
+    top: 16px;
+    width: auto;
+    height: auto;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: var(--surface);
+    color: var(--psico-900);
+    z-index: 9999;
 }
 
 .app {
     display: block;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .menuLateral {
-    background: linear-gradient(180deg, #102845 0%, #163a63 55%, #1b4777 100%);
+    background: linear-gradient(180deg, var(--psico-900) 0%, var(--psico-800) 55%, var(--psico-700) 100%);
     width: 25%;
+    min-width: 280px;
     height: 100vh;
     position: fixed;
     left: 0;
@@ -55,36 +97,36 @@ html {
     background: rgba(255, 255, 255, 0.04);
 }
 
-.logoContainer:hover{
+.logoContainer:hover {
     background-color: rgba(157, 207, 255, 0.16);
     border-color: rgba(157, 207, 255, 0.34);
-
 }
 
 .menuSecretaria:focus-visible .logoContainer {
     border: 3px solid #93c8ff;
 }
 
-.conteudoPricipal{
+.conteudoPricipal,
+.conteudoPrincipal {
     background: linear-gradient(180deg, #eef3f8 0%, #e8eef6 100%);
     margin-left: 25%;
-    height: 100vh;
+    min-height: 100vh;
     overflow-y: auto;
+    padding-bottom: 24px;
 }
 
-.menuSecretaria{
+.menuSecretaria {
     color: #f3f8ff;
     text-decoration: none;
 }
 
-
 .logoMenu {
-  display: flex;
-  align-items: center;
-  gap: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
-.logoMenu img{
+.logoMenu img {
     width: 54px;
     height: 54px;
     border-radius: 14px;
@@ -104,14 +146,10 @@ html {
     color: #ffffff;
 }
 
-.menuSaad{
-    border: blac;
-}
-
-.Perfil{
+.Perfil {
     display: flex;
     align-items: center;
-    gap:10px;
+    gap: 10px;
     width: calc(100% - 20px);
     margin: 12px 10px;
     padding: 10px;
@@ -120,11 +158,11 @@ html {
     border: 1px solid rgba(160, 201, 243, 0.16);
 }
 
-.fotoPerfil{
+.fotoPerfil {
     margin: 0;
 }
 
-.fotoPerfil img{
+.fotoPerfil img {
     width: 60px;
     height: 60px;
     border-radius: 50%;
@@ -141,7 +179,7 @@ button {
     border: none;
     outline: none;
     background-color: transparent;
-    cursor: pointer; 
+    cursor: pointer;
 }
 
 button:focus {
@@ -149,10 +187,11 @@ button:focus {
     outline-offset: 2px;
 }
 
-.config{
+.config {
     margin-left: auto;
-    padding:10px;
+    padding: 10px;
 }
+
 .config img {
     width: 30px;
     height: 30px;
@@ -161,23 +200,28 @@ button:focus {
     opacity: 0.95;
 }
 
-.alinhamento{
+.alinhamento {
     display: flex;
     align-items: center;
     padding: 11px 12px;
     margin: 10px;
-    gap:10px;
+    gap: 10px;
     border-radius: 12px;
     transition: background-color 0.25s ease, transform 0.25s ease;
 }
 
 .botoesLaterais:hover .alinhamento,
-.botoesLaterais:focus-visible .alinhamento{
+.botoesLaterais:focus-visible .alinhamento {
     background-color: rgba(157, 207, 255, 0.16);
     transform: translateX(2px);
 }
 
-.fotos img{
+.botoesLaterais[aria-current='page'] .alinhamento {
+    background-color: rgba(157, 207, 255, 0.2);
+    border: 1px solid rgba(157, 207, 255, 0.34);
+}
+
+.fotos img {
     width: 34px;
     height: 34px;
     padding: 5px;
@@ -185,7 +229,7 @@ button:focus {
     background: rgba(255, 255, 255, 0.14);
 }
 
-.botoesLaterais{
+.botoesLaterais {
     color: #f3f8ff;
     text-decoration: none;
 }
@@ -195,27 +239,20 @@ button:focus {
     font-weight: 500;
 }
 
-
-.textoSair{
+.textoSair {
     color: #f3f8ff;
     text-decoration: none;
 }
 
-
-.textoSair:hover .sair {
-    background-color: #e14e5b;
-    color: white;
-    transition: 0.3s;  
-}
-
+.textoSair:hover .sair,
 .textoSair:focus-visible .sair {
-    background-color: #e14e5b;
+    background-color: var(--danger);
     color: white;
+    transition: 0.3s;
 }
 
-
-.sair{
-    gap:10px;
+.sair {
+    gap: 10px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -223,7 +260,7 @@ button:focus {
     border-radius: 12px;
     padding: 10px 12px;
     margin: 10px;
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(160, 201, 243, 0.16);
     margin-top: auto;
 }
@@ -232,12 +269,11 @@ button:focus {
     margin: 3px 0 0;
 }
 
-.fotoSair img{
+.fotoSair img {
     width: 34px;
     height: 34px;
     opacity: 0.95;
 }
-
 
 .baixo {
     display: block;
@@ -257,11 +293,10 @@ hr {
     border-right: 1px solid rgba(183, 214, 247, 0.24);
 }
 
-
 .cabecalhoInstituicao {
     margin: 24px auto 8px;
     width: min(92%, 900px);
-    background: linear-gradient(135deg, #1e3a5f 0%, #2a5a88 100%);
+    background: linear-gradient(135deg, var(--psico-900) 0%, var(--psico-700) 100%);
     border-radius: 18px;
     padding: 22px 26px;
     color: #ffffff;
@@ -273,7 +308,7 @@ hr {
     font-size: 0.9rem;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    opacity: 0.85;
+    opacity: 0.9;
 }
 
 .nomeInstituicao {
@@ -291,7 +326,7 @@ hr {
 }
 
 .painelIntro {
-    background: #ffffff;
+    background: var(--surface);
     border: 1px solid #d9e3ee;
     border-radius: 18px;
     padding: 24px;
@@ -313,14 +348,14 @@ hr {
 
 .painelIntroTitulo {
     margin: 6px 0 14px;
-    color: #163a63;
+    color: var(--psico-900);
     font-size: clamp(1.2rem, 2.2vw, 1.9rem);
     line-height: 1.25;
 }
 
 .painelIntroTexto {
     margin: 0;
-    color: #3c516b;
+    color: var(--text-700);
     line-height: 1.7;
     font-size: 1rem;
 }
@@ -331,7 +366,7 @@ hr {
 
 .ladoDireito {
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     align-items: center;
     justify-content: flex-start;
     width: 50%;
@@ -355,7 +390,7 @@ hr {
 
 .dashboardTitulo {
     margin: 0;
-    color: #163a63;
+    color: var(--psico-900);
     font-size: 1.7rem;
     font-weight: 700;
     letter-spacing: 0.01em;
@@ -375,90 +410,8 @@ hr {
     width: 100%;
 }
 
-@media screen and (max-width: 900px) {
-    .app {
-        height: auto;
-        min-height: 100vh;
-    }
-
-    .menuLateral {
-        position: static;
-        width: 100%;
-        height: auto;
-        box-shadow: none;
-        border-right: none;
-        border-bottom: 1px solid rgba(183, 214, 247, 0.24);
-        padding-bottom: 10px;
-        overflow-y: visible;
-        flex-direction: row;
-        flex-wrap: wrap;
-    }
-
-    .menuLateral > *:not(.baixo):not(.textoSair) {
-        flex-shrink: 1;
-    }
-
-    .sair {
-        position: static;
-        width: calc(100% - 20px);
-        margin: 10px;
-        margin-top: auto;
-    }
-
-    .conteudoPricipal {
-        margin-left: 0;
-        height: auto;
-        min-height: 100vh;
-    }
-
-    .cabecalhoInstituicao {
-        width: 94%;
-        padding: 18px 18px;
-    }
-
-    .inferior {
-        flex-direction: column;
-        gap: 16px;
-    }
-
-    .ladoEsquerdo,
-    .ladoDireito {
-        width: 100%;
-        padding-left: 24px;
-        padding-right: 24px;
-        margin: 0;
-    }
-
-    .painelIntro {
-        padding: 20px;
-    }
-}
-
-@media screen and (min-width: 641px) and (max-width: 1024px) {
-    .menuLateral {
-        width: 30%;
-    }
-
-    .conteudoPricipal {
-        margin-left: 30%;
-    }
-}
-
-@media screen and (max-width: 640px) {
-    .painelIntro {
-        border-radius: 14px;
-        padding: 16px;
-    }
-
-    .painelIntroTexto {
-        font-size: 0.95rem;
-        line-height: 1.6;
-    }
-}
-
-
 .caixaTotal {
-    background: linear-gradient(135deg, #1e3a5f 0%, #2e5f92 100%);
+    background: linear-gradient(135deg, var(--psico-900) 0%, var(--psico-700) 100%);
     border-radius: 16px;
     padding: 20px;
     color: white;
@@ -534,6 +487,47 @@ hr {
     border-left: 5px solid #8f63d8;
 }
 
+.psicoBloco {
+    width: min(92%, 900px);
+    margin: 0 auto 18px;
+    background: #ffffff;
+    border: 1px solid #d7e4f2;
+    border-radius: 18px;
+    padding: 18px;
+    box-shadow: 0 8px 20px rgba(30, 58, 95, 0.1);
+}
+
+.app > .psicoBloco {
+    width: auto;
+    max-width: none;
+    margin-left: calc(25% + 24px);
+    margin-right: 24px;
+}
+
+.psicoBloco h3 {
+    color: var(--psico-900);
+    margin-bottom: 12px;
+}
+
+.psicoBloco .form-label {
+    font-weight: 600;
+    color: var(--psico-800);
+}
+
+.psicoTabelaWrap {
+    overflow-x: auto;
+}
+
+.psicoTabelaWrap table {
+    min-width: 760px;
+}
+
+.psicoInfo {
+    color: #5b6f86;
+    font-size: 0.92rem;
+    margin-bottom: 12px;
+}
+
 @media screen and (max-width: 1100px) {
     .dashboardPainel {
         width: min(100%, 560px);
@@ -541,12 +535,101 @@ hr {
 }
 
 @media screen and (max-width: 900px) {
+    .app {
+        min-height: 100vh;
+    }
+
+    .menuLateral {
+        position: static;
+        width: 100%;
+        min-width: 0;
+        height: auto;
+        box-shadow: none;
+        border-right: none;
+        border-bottom: 1px solid rgba(183, 214, 247, 0.24);
+        padding-bottom: 10px;
+        overflow-y: visible;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .menuLateral > *:not(.baixo):not(.textoSair) {
+        flex-shrink: 1;
+    }
+
+    .sair {
+        position: static;
+        width: calc(100% - 20px);
+        margin: 10px;
+        margin-top: auto;
+    }
+
+    .conteudoPricipal,
+    .conteudoPrincipal {
+        margin-left: 0;
+        min-height: 100vh;
+    }
+
+    .cabecalhoInstituicao {
+        width: 94%;
+        padding: 18px;
+    }
+
+    .inferior {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .ladoEsquerdo,
+    .ladoDireito {
+        width: 100%;
+        padding-left: 24px;
+        padding-right: 24px;
+        margin: 0;
+    }
+
+    .painelIntro {
+        padding: 20px;
+    }
+
     .dashboardPainel {
         width: 100%;
     }
+
+    .app > .psicoBloco {
+        width: min(94%, 900px);
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
 
-@media screen and (max-width: 560px) {
+@media screen and (min-width: 901px) and (max-width: 1024px) {
+    .menuLateral {
+        width: 30%;
+    }
+
+    .conteudoPricipal,
+    .conteudoPrincipal {
+        margin-left: 30%;
+    }
+
+    .app > .psicoBloco {
+        margin-left: calc(30% + 18px);
+        margin-right: 18px;
+    }
+}
+
+@media screen and (max-width: 640px) {
+    .painelIntro {
+        border-radius: 14px;
+        padding: 16px;
+    }
+
+    .painelIntroTexto {
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
     .logoContainer,
     .Perfil,
     .alinhamento {
@@ -583,103 +666,3 @@ hr {
         font-size: 0.88rem;
     }
 }
-
-.modalConfigSecretaria {
-    border: 1px solid #d8e3f0;
-    border-radius: 16px;
-    overflow: hidden;
-}
-
-.modalConfigCabecalho {
-    background: linear-gradient(135deg, #1e3a5f 0%, #2b5c8d 100%);
-    color: #ffffff;
-    border-bottom: none;
-}
-
-.modalConfigCabecalho .btn-close {
-    filter: invert(1);
-}
-
-.modalConfigCorpo .modal-body {
-    background: #f7faff;
-}
-
-.modalConfigDescricao {
-    color: #355273;
-    margin-bottom: 16px;
-    line-height: 1.55;
-}
-
-.modalConfigCorpo .form-label {
-    color: #163a63;
-    font-weight: 600;
-}
-
-.modalConfigCorpo .form-control {
-    border: 1px solid #c7d9ec;
-}
-
-.modalConfigCorpo .form-control:focus,
-.modalConfigCorpo .form-check-input:focus {
-    border-color: #2b73b6;
-    box-shadow: 0 0 0 0.2rem rgba(43, 115, 182, 0.2);
-}
-
-.modalConfigCorpo .form-check-label {
-    color: #304a67;
-}
-
-.modalConfigCorpo .modal-footer {
-    background: #f7faff;
-    border-top: 1px solid #dce8f5;
-}
-
-.psicoBloco {
-    width: min(92%, 900px);
-    margin: 0 auto 18px;
-    background: #ffffff;
-    border: 1px solid #d7e4f2;
-    border-radius: 18px;
-    padding: 18px;
-    box-shadow: 0 8px 20px rgba(30, 58, 95, 0.1);
-}
-
-.app > .psicoBloco {
-    width: auto;
-    max-width: none;
-    margin-left: calc(25% + 24px);
-    margin-right: 24px;
-}
-
-.psicoBloco h3 {
-    color: #163a63;
-    margin-bottom: 12px;
-}
-
-.psicoBloco .form-label {
-    font-weight: 600;
-    color: #1f4f85;
-}
-
-.psicoTabelaWrap {
-    overflow-x: auto;
-}
-
-.psicoTabelaWrap table {
-    min-width: 760px;
-}
-
-.psicoInfo {
-    color: #5b6f86;
-    font-size: 0.92rem;
-    margin-bottom: 12px;
-}
-
-@media screen and (max-width: 900px) {
-    .app > .psicoBloco {
-        width: min(94%, 900px);
-        margin-left: auto;
-        margin-right: auto;
-    }
-}
-

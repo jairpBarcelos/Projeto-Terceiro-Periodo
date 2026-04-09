@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deletar Usuário - Administrador</title>
+  <link rel="icon" href="../../../../img/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="../../../../css/menuAdministrador.css">
+  <link rel="stylesheet" href="../../../../css/administrador/usuarios.css">
+</head>
+<body>
+  <!-- MENU LATERAL -->
+  <aside class="menuLateral">
+    <div class="logoContainer">
+      <img src="../../../../img/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
+      <div class="textoBranding">
+        <div class="nomeBrand">SAADI</div>
+        <div class="nivelAcesso">Nível: Administrador</div>
+      </div>
+    </div>
+
+    <div class="Perfil">
+      <div class="nomePerfil">Usuário Logado</div>
+      <div class="emailPerfil">usuario@escola.edu.br</div>
+    </div>
+
+                <div class="botoesLaterais">
+      <button class="btnLateral" onclick="navegarPara('../menuAdministrador.html')" aria-label="Voltar ao Painel Principal">
+        <img src="/img/icon-lista.png" alt="">
+        <span>Painel Principal</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('../unidades/listarUnidades.html')" aria-label="Gerenciar Unidades Escolares">
+        <img src="/img/icon-cadastro.png" alt="">
+        <span>Unidades Escolares</span>
+      </button>
+      <button class="btnLateral ativo" onclick="navegarPara('../usuarios/listarUsuarios.html')" aria-label="Gerenciar Usuários do Sistema">
+        <img src="/img/perfil.png" alt="">
+        <span>Usuários do Sistema</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('../relatoriosAdministrador.html')" aria-label="Ver Relatórios Consolidados">
+        <img src="/img/icon-lista.png" alt="">
+        <span>Relatórios</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('../auditoria.html')" aria-label="Consultar Auditoria e Histórico">
+        <img src="/img/icon-lista.png" alt="">
+        <span>Auditoria</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('../parametros.html')" aria-label="Gerenciar Parâmetros do Sistema">
+        <img src="/img/engrenagem.png" alt="">
+        <span>Parâmetros</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('../alunos/listarAlunos.html')" aria-label="Acessar Gestão Central de Alunos">
+        <img src="/img/icon-lista.png" alt="">
+        <span>Alunos - Nível Central</span>
+      </button>
+    </div>
+
+    <div class="sair">
+      <button class="btnSair" onclick="logout()" aria-label="Fazer logout do sistema">
+        <img src="/img/sair.png" alt="">
+        <span>Sair da Conta</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="conteudoPrincipal">
+    <!-- CABEÇALHO -->
+    <section class="cabecalhoDashboard">
+      <h1>Deletar Usuário</h1>
+      <p>Realize a exclusão de um usuário do sistema com confirmação</p>
+    </section>
+
+    <!-- BUSCA DE USUÁRIO -->
+    <section class="containerPrincipal">
+      <div style="margin-bottom: 20px;">
+        <label for="buscaUsuario" style="display: block; margin-bottom: 10px; font-weight: 600; color: #1a3a52;">Buscar Usuário para Deletar:</label>
+        <div style="display: flex; gap: 10px;">
+          <input 
+            type="text" 
+            id="buscaUsuario" 
+            placeholder="Digite o nome, email ou matrícula do usuário..." 
+            aria-label="Buscar usuário para deletar"
+            style="flex: 1; padding: 12px; border: 1px solid #d0dce6; border-radius: 8px; font-size: 14px;"
+            onkeyup="filtrarUsuarios()"
+          >
+          <button class="btn btnPrimario" onclick="buscarUsuario()">Buscar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESULTADO DA BUSCA -->
+    <section class="containerPrincipal" id="secaoResultado" style="display: none;">
+      <h2 style="margin-bottom: 20px; color: #1a3a52; display: flex; align-items: center; gap: 10px;">
+        <img src="../../../../img/icons8-duas-mãos-windows-11-filled/icons8-alerta-96.png" alt="" style="width: 24px; height: 24px;">
+        Informações do Usuário Selecionado
+      </h2>
+
+      <div style="background: #fef6f0; border-left: 4px solid #e74c3c; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+        <div style="font-size: 12px; color: #8b4513; margin-bottom: 10px; font-weight: 600;">⚠️ ATENÇÃO: Esta operação é irreversível</div>
+        <p style="color: #2c3e50; font-size: 14px; line-height: 1.6;">
+          Ao deletar um usuário, a conta será removida permanentemente do sistema. 
+          Todos os registros de atividade serão mantidos para auditoria, mas o usuário não poderá mais acessar o sistema.
+        </p>
+      </div>
+
+      <div style="background: #ffffff; border: 1px solid #bdc3c7; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+          <div>
+            <div style="font-size: 12px; color: #566575; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">Nome Completo</div>
+            <div style="font-size: 16px; color: #1a3a52; font-weight: 600; margin-top: 5px;">Maria da Silva</div>
+          </div>
+          <div>
+            <div style="font-size: 12px; color: #566575; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">Email</div>
+            <div style="font-size: 16px; color: #1a3a52; font-weight: 600; margin-top: 5px;">maria@escola.edu.br</div>
+          </div>
+          <div>
+            <div style="font-size: 12px; color: #566575; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">Perfil</div>
+            <div style="font-size: 16px; color: #1a3a52; font-weight: 600; margin-top: 5px;"><span class="badge badgeSucesso">Secretaria</span></div>
+          </div>
+          <div>
+            <div style="font-size: 12px; color: #566575; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">Status</div>
+            <div style="font-size: 16px; color: #1a3a52; font-weight: 600; margin-top: 5px;"><span class="badge badgeSucesso">Ativo</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background: #f0f9ff; border: 1px solid #bdc3c7; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+        <div style="font-size: 12px; color: #566575; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-bottom: 10px;">Dados de Vinculação:</div>
+        <ul style="list-style: none; padding-left: 0; color: #2c3e50; font-size: 14px;">
+          <li style="padding: 8px 0; border-bottom: 1px solid #d0dce6;">🏢 Unidade: <strong>Escola Municipal Centro</strong></li>
+          <li style="padding: 8px 0; border-bottom: 1px solid #d0dce6;">👤 Departamento: <strong>Secretaria</strong></li>
+          <li style="padding: 8px 0; border-bottom: 1px solid #d0dce6;">📅 Data de Admissão: <strong>15/01/2020</strong></li>
+          <li style="padding: 8px 0;">⏰ Último Acesso: <strong>02/04/2026 - 13:20</strong></li>
+        </ul>
+      </div>
+
+      <!-- CONFIRMAÇÃO -->
+      <div style="background: #fff8e1; border: 1px solid #f39c12; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+        <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer;">
+          <input 
+            type="checkbox" 
+            id="confirmacao" 
+            aria-label="Confirmar que desejo deletar o usuário"
+            style="margin-top: 2px; cursor: pointer; width: 20px; height: 20px;"
+          >
+          <span style="color: #2c3e50; font-size: 14px;">
+            Confirmo que desejo <strong>PERMANENTEMENTE</strong> remover este usuário do sistema. 
+            Entendo que a ação não pode ser desfeita.
+          </span>
+        </label>
+      </div>
+
+      <!-- BOTÕES -->
+      <div style="display: flex; gap: 12px; justify-content: flex-end;">
+        <a href="listarUsuarios.html" class="btn btnSecundario">Cancelar</a>
+        <button class="btn btnPerigo" onclick="executarDelecao()" id="btnDelecao" disabled style="opacity: 0.5; cursor: not-allowed;">
+          Confirmar Exclusão
+        </button>
+      </div>
+    </section>
+
+    <!-- LISTA DE USUÁRIOS DISPONÍVEIS -->
+    <section class="containerPrincipal" id="secaoLista">
+      <h2 style="margin-bottom: 20px; color: #1a3a52;">Usuários Disponíveis</h2>
+      <div id="listaUsuarios" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px;">
+        <!-- Preenchida via JavaScript -->
+      </div>
+    </section>
+  </main>
+
+  <!-- VLIBRAS -->
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script>
+
+  <script>
+    const usuarios = [
+      { id: 1, nome: 'Admin Master', email: 'admin@escola.edu.br', perfil: 'Administrador', status: 'Ativo' },
+      { id: 2, nome: 'Maria da Silva', email: 'maria@escola.edu.br', perfil: 'Secretaria', status: 'Ativo' },
+      { id: 3, nome: 'Dra. Ana Santos', email: 'ana@escola.edu.br', perfil: 'Psicopedagogo', status: 'Ativo' },
+      { id: 4, nome: 'Prof. Carlos Costa', email: 'carlos@escola.edu.br', perfil: 'Professor', status: 'Ativo' },
+      { id: 5, nome: 'Roberto Inativo', email: 'roberto@escola.edu.br', perfil: 'Professor', status: 'Inativo' }
+    ];
+
+    let usuarioSelecionado = null;
+
+    function navegarPara(pagina) {
+      window.location.href = pagina;
+    }
+
+    function logout() {
+      if (confirm('Tem certeza que deseja sair do sistema?')) {
+        window.location.href = '../../../../pages/auth/login.html';
+      }
+    }
+
+    function renderizarListaUsuarios() {
+      const lista = document.getElementById('listaUsuarios');
+      lista.innerHTML = usuarios.map(usuario => `
+        <div style="background: #ffffff; border: 1px solid #bdc3c7; border-radius: 8px; padding: 15px; cursor: pointer; transition: all 0.3s ease;" 
+             onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'; this.style.transform='translateY(-2px)'"
+             onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'"
+             onclick="selecionarUsuario(${usuario.id}, '${usuario.nome}')">
+          <div style="font-weight: 600; color: #1a3a52; font-size: 14px; margin-bottom: 10px;">${usuario.nome}</div>
+          <div style="font-size: 12px; color: #566575;">
+            <div style="margin-bottom: 5px;">📧 ${usuario.email}</div>
+            <div style="margin-bottom: 5px;">🎯 ${usuario.perfil}</div>
+            <div>✓ ${usuario.status}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function selecionarUsuario(id, nome) {
+      usuarioSelecionado = id;
+      document.getElementById('secaoLista').style.display = 'none';
+      document.getElementById('secaoResultado').style.display = 'block';
+      document.getElementById('confirmacao').checked = false;
+      document.getElementById('btnDelecao').disabled = true;
+      document.getElementById('btnDelecao').style.opacity = '0.5';
+      document.getElementById('btnDelecao').style.cursor = 'not-allowed';
+    }
+
+    function filtrarUsuarios() {
+      const busca = document.getElementById('buscaUsuario').value.toLowerCase();
+      const resultado = usuarios.filter(u => 
+        u.nome.toLowerCase().includes(busca) || 
+        u.email.toLowerCase().includes(busca)
+      );
+      
+      if (resultado.length > 0) {
+        document.getElementById('listaUsuarios').innerHTML = resultado.map(usuario => `
+          <div style="background: #ffffff; border: 1px solid #bdc3c7; border-radius: 8px; padding: 15px; cursor: pointer; transition: all 0.3s ease;" 
+               onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'"
+               onmouseout="this.style.boxShadow='none'"
+               onclick="selecionarUsuario(${usuario.id}, '${usuario.nome}')">
+            <div style="font-weight: 600; color: #1a3a52; font-size: 14px; margin-bottom: 10px;">${usuario.nome}</div>
+            <div style="font-size: 12px; color: #566575;">
+              <div style="margin-bottom: 5px;">📧 ${usuario.email}</div>
+              <div style="margin-bottom: 5px;">🎯 ${usuario.perfil}</div>
+              <div>✓ ${usuario.status}</div>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    function buscarUsuario() {
+      filtrarUsuarios();
+    }
+
+    document.getElementById('confirmacao')?.addEventListener('change', function() {
+      const btn = document.getElementById('btnDelecao');
+      if (this.checked) {
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        btn.style.cursor = 'pointer';
+      } else {
+        btn.disabled = true;
+        btn.style.opacity = '0.5';
+        btn.style.cursor = 'not-allowed';
+      }
+    });
+
+    function executarDelecao() {
+      if (usuarioSelecionado && document.getElementById('confirmacao').checked) {
+        alert('Usuário ' + usuarioSelecionado + ' deletado com sucesso!');
+        window.location.href = 'listarUsuarios.html';
+      }
+    }
+
+    window.addEventListener('load', renderizarListaUsuarios);
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,109 @@
+/* ESTILOS ADICIONAIS PARA O MÓDULO DE USUÁRIOS */
+
+.barraBuscaUsuarios {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.barraBuscaUsuarios input {
+  flex: 1;
+  min-height: 46px;
+  padding: 12px 14px;
+  border: 1.5px solid var(--cor-borda);
+  border-radius: 12px;
+  font-size: 14px;
+  background-color: var(--cor-branco);
+  color: var(--cor-texto-escuro);
+  transition: var(--transicao);
+}
+
+.barraBuscaUsuarios input::placeholder {
+  color: #7a8ca5;
+}
+
+.barraBuscaUsuarios input:hover {
+  border-color: #9ab4cf;
+}
+
+.barraBuscaUsuarios input:focus {
+  outline: 3px solid var(--cor-foco);
+  outline-offset: 0;
+  border-color: var(--cor-foco);
+}
+
+.filtrosUsuarios {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.filtrosUsuarios select {
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1.5px solid var(--cor-borda);
+  border-radius: 12px;
+  font-size: 14px;
+  background-color: var(--cor-branco);
+  color: var(--cor-texto-escuro);
+  cursor: pointer;
+  transition: var(--transicao);
+}
+
+.filtrosUsuarios select:hover {
+  border-color: #9ab4cf;
+}
+
+.filtrosUsuarios select:focus {
+  outline: 3px solid var(--cor-foco);
+  outline-offset: 0;
+  border-color: var(--cor-foco);
+}
+
+@media (max-width: 1100px) {
+  .filtrosUsuarios {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .barraBuscaUsuarios {
+    flex-direction: column;
+  }
+
+  .barraBuscaUsuarios input {
+    width: 100%;
+  }
+
+  .barraBuscaUsuarios .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 900px) {
+  .filtrosUsuarios {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .barraBuscaUsuarios {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .barraBuscaUsuarios input {
+    width: 100%;
+    font-size: 13px;
+  }
+
+  .filtrosUsuarios {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .filtrosUsuarios select {
+    width: 100%;
+    font-size: 13px;
+  }
+}

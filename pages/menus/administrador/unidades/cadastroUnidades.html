@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro de Unidade Escolar - Administrador</title>
+  <link rel="icon" href="../../../../img/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="../../../../css/menuAdministrador.css">
+  <link rel="stylesheet" href="../../../../css/administrador/unidades.css">
+</head>
+<body>
+  <!-- MENU LATERAL -->
+  <aside class="menuLateral">
+    <div class="logoContainer">
+      <img src="../../../../img/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
+      <div class="textoBranding">
+        <div class="nomeBrand">SAADI</div>
+        <div class="nivelAcesso">Nível: Administrador</div>
+      </div>
+    </div>
+
+    <div class="Perfil">
+      <div class="nomePerfil">Usuário Logado</div>
+      <div class="emailPerfil">usuario@escola.edu.br</div>
+    </div>
+
+                <div class="botoesLaterais">
+      <button class="btnLateral" onclick="navegarPara('../menuAdministrador.html')" aria-label="Voltar ao Painel Principal">
+        <img src="/img/icon-lista.png" alt="">
+        <span>Painel Principal</span>
+      </button>
+      <button class="btnLateral ativo" onclick="navegarPara('../unidades/listarUnidades.html')" aria-label="Gerenciar Unidades Escolares">
+        <img src="/img/icon-cadastro.png" alt="">
+        <span>Unidades Escolares</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('../usuarios/listarUsuarios.html')" aria-label="Gerenciar Usuários do Sistema">
+        <img src="/img/perfil.png" alt="">
+        <span>Usuários do Sistema</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('../relatoriosAdministrador.html')" aria-label="Ver Relatórios Consolidados">
+        <img src="/img/icon-lista.png" alt="">
+        <span>Relatórios</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('../auditoria.html')" aria-label="Consultar Auditoria e Histórico">
+        <img src="/img/icon-lista.png" alt="">
+        <span>Auditoria</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('../parametros.html')" aria-label="Gerenciar Parâmetros do Sistema">
+        <img src="/img/engrenagem.png" alt="">
+        <span>Parâmetros</span>
+      </button>
+      <button class="btnLateral" onclick="navegarPara('../alunos/listarAlunos.html')" aria-label="Acessar Gestão Central de Alunos">
+        <img src="/img/icon-lista.png" alt="">
+        <span>Alunos - Nível Central</span>
+      </button>
+    </div>
+
+    <div class="sair">
+      <button class="btnSair" onclick="logout()" aria-label="Fazer logout do sistema">
+        <img src="/img/sair.png" alt="">
+        <span>Sair da Conta</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="conteudoPrincipal">
+    <!-- CABEÇALHO -->
+    <section class="cabecalhoDashboard">
+      <h1>Cadastrar Nova Unidade Escolar</h1>
+      <p>Preencha os dados para registrar uma nova unidade escolar no sistema</p>
+    </section>
+
+    <!-- FORMULÁRIO DE CADASTRO -->
+    <section class="containerPrincipal">
+      <form class="formulario" onsubmit="salvarUnidade(event)" aria-label="Formulário de cadastro de unidade">
+        <!-- SEÇÃO 1: DADOS BÁSICOS -->
+        <div style="grid-column: span 2; margin-bottom: 0;">
+          <h3 style="color: #1a3a52; font-size: 16px; margin-bottom: 15px;">Dados Básicos da Unidade</h3>
+        </div>
+
+        <div class="grupoFormulario">
+          <label for="nomeUnidade">Nome da Unidade *</label>
+          <input type="text" id="nomeUnidade" name="nomeUnidade" required aria-label="Nome da unidade escolar" placeholder="Ex: Escola Municipal Centro">
+        </div>
+
+        <div class="grupoFormulario">
+          <label for="sigla">Sigla/Código *</label>
+          <input type="text" id="sigla" name="sigla" required aria-label="Sigla ou código da unidade" placeholder="Ex: EMMC" maxlength="10">
+        </div>
+
+        <div class="grupoFormulario">
+          <label for="cnpj">CNPJ *</label>
+          <input type="text" id="cnpj" name="cnpj" required aria-label="CNPJ da unidade" placeholder="00.000.000/0000-00">
+        </div>
+
+        <div class="grupoFormulario">
+          <label for="email">Email Oficial *</label>
+          <input type="email" id="email" name="email" required aria-label="Email oficial da unidade" placeholder="escola@municipio.edu.br">
+        </div>
+
+        <!-- SEÇÃO 2: DADOS DE CONTATO -->
+        <div style="grid-column: span 2; margin-top: 25px; margin-bottom: 0;">
+          <h3 style="color: #1a3a52; font-size: 16px; margin-bottom: 15px;">Dados de Contato</h3>
+        </div>
+
+        <div class="grupoFormulario">
+          <label for="telefone">Telefone</label>
+          <input type="tel" id="telefone" name="telefone" aria-label="Telefone de contato" placeholder="(11) 99999-9999">
+        </div>
+
+        <div class="grupoFormulario">
+          <label for="celular">Celular</label>
+          <input type="tel" id="celular" name="celular" aria-label="Celular de contato" placeholder="(11) 99999-9999">
+        </div>
+
+        <!-- SEÇÃO 3: ENDEREÇO -->
+        <div style="grid-column: span 2; margin-top: 25px; margin-bottom: 0;">
+          <h3 style="color: #1a3a52; font-size: 16px; margin-bottom: 15px;">Endereço</h3>
+        </div>
+
+        <div class="grupoFormulario coluna-dupla">
+          <label for="rua">Rua/Logradouro *</label>
+          <input type="text" id="rua" name="rua" required aria-label="Rua ou logradouro" placeholder="Ex: Avenida Paulista">
+        </div>
+
+        <div class="grupoFormulario">
+          <label for="numero">Número *</label>
+          <input type="text" id="numero" name="numero" required aria-label="Número do endereço" placeholder="123">
+        </div>
+
+        <div class="grupoFormulario">
+          <label for="complemento">Complemento</label>
+          <input type="text" id="complemento" name="complemento" aria-label="Complemento do endereço" placeholder="Apto 101, Sala 02">
+        </div>
+
+        <div class="grupoFormulario">
+          <label for="cidade">Cidade *</label>
+          <input type="text" id="cidade" name="cidade" required aria-label="Cidade" placeholder="São Paulo">
+        </div>
+
+        <div class="grupoFormulario">
+          <label for="estado">Estado *</label>
+          <select id="estado" name="estado" required aria-label="Estado">
+            <option value="">Selecione...</option>
+            <option value="SP">São Paulo</option>
+            <option value="MG">Minas Gerais</option>
+            <option value="RJ">Rio de Janeiro</option>
+            <option value="BA">Bahia</option>
+            <option value="RS">Rio Grande do Sul</option>
+            <option value="PR">Paraná</option>
+          </select>
+        </div>
+
+        <div class="grupoFormulario">
+          <label for="cep">CEP *</label>
+          <input type="text" id="cep" name="cep" required aria-label="CEP" placeholder="00000-000">
+        </div>
+
+        <!-- SEÇÃO 4: DIRETOR -->
+        <div style="grid-column: span 2; margin-top: 25px; margin-bottom: 0;">
+          <h3 style="color: #1a3a52; font-size: 16px; margin-bottom: 15px;">Diretor/Responsável</h3>
+        </div>
+
+        <div class="grupoFormulario">
+          <label for="nomeDiretor">Nome do Diretor *</label>
+          <input type="text" id="nomeDiretor" name="nomeDiretor" required aria-label="Nome do diretor ou responsável" placeholder="Prof(a). ...">
+        </div>
+
+        <div class="grupoFormulario">
+          <label for="cpfDiretor">CPF do Diretor *</label>
+          <input type="text" id="cpfDiretor" name="cpfDiretor" required aria-label="CPF do diretor" placeholder="000.000.000-00">
+        </div>
+
+        <div class="grupoFormulario">
+          <label for="emailDiretor">Email do Diretor *</label>
+          <input type="email" id="emailDiretor" name="emailDiretor" required aria-label="Email do diretor" placeholder="diretor@escola.edu.br">
+        </div>
+
+        <div class="grupoFormulario">
+          <label for="telefoneDiretor">Telefone do Diretor</label>
+          <input type="tel" id="telefoneDiretor" name="telefoneDiretor" aria-label="Telefone do diretor" placeholder="(11) 99999-9999">
+        </div>
+
+        <!-- SEÇÃO 5: INFORMAÇÕES OPERACIONAIS -->
+        <div style="grid-column: span 2; margin-top: 25px; margin-bottom: 0;">
+          <h3 style="color: #1a3a52; font-size: 16px; margin-bottom: 15px;">Informações Operacionais</h3>
+        </div>
+
+        <div class="grupoFormulario">
+          <label for="tipoUnidade">Tipo de Unidade *</label>
+          <select id="tipoUnidade" name="tipoUnidade" required aria-label="Tipo de unidade">
+            <option value="">Selecione...</option>
+            <option value="creche">Creche</option>
+            <option value="pré_escolar">Pré-escolar</option>
+            <option value="ensino_fundamental">Ensino Fundamental</option>
+            <option value="ensino_medio">Ensino Médio</option>
+            <option value="eja">EJA - Educação de Jovens e Adultos</option>
+          </select>
+        </div>
+
+        <div class="grupoFormulario">
+          <label for="status">Status da Unidade *</label>
+          <select id="status" name="status" required aria-label="Status da unidade">
+            <option value="">Selecione...</option>
+            <option value="ativa" selected>Ativa</option>
+            <option value="inativa">Inativa</option>
+            <option value="manutencao">Em Manutenção</option>
+          </select>
+        </div>
+
+        <div class="grupoFormulario">
+          <label for="dataInicio">Data de Início de Operação</label>
+          <input type="date" id="dataInicio" name="dataInicio" aria-label="Data de início de operação">
+        </div>
+
+        <div class="grupoFormulario">
+          <label for="observacoes">Observações</label>
+          <textarea id="observacoes" name="observacoes" aria-label="Observações adicionais" placeholder="Informações adicionais sobre a unidade..."></textarea>
+        </div>
+
+        <!-- BOTÕES -->
+        <div class="botoesPrimarios" style="grid-column: span 2;">
+          <a href="listarUnidades.html" class="btn btnSecundario">Cancelar</a>
+          <button type="submit" class="btn btnSucesso">Cadastrar Unidade</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <!-- VLIBRAS -->
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script>
+
+  <script>
+    function navegarPara(pagina) {
+      window.location.href = pagina;
+    }
+
+    function logout() {
+      if (confirm('Tem certeza que deseja sair do sistema?')) {
+        window.location.href = '../../../../pages/auth/login.html';
+      }
+    }
+
+    function salvarUnidade(event) {
+      event.preventDefault();
+      alert('Unidade cadastrada com sucesso!');
+      window.location.href = 'listarUnidades.html';
+    }
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
