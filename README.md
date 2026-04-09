@@ -49,6 +49,24 @@ O SAADI reduz essa fragmentação por meio de uma interface simples, padronizada
 
 Como o projeto é composto por páginas HTML, CSS e JavaScript, ele pode ser aberto em qualquer servidor estático local. A forma mais simples é usar uma extensão como Live Server no VS Code ou servir a pasta com qualquer servidor web local.
 
+## Banco de dados (PostgreSQL)
+
+O projeto inclui um bootstrap de banco para facilitar o setup em qualquer PC.
+
+1. Copie `.env.example` para `.env` e ajuste os dados de conexão.
+2. Garanta que o PostgreSQL esteja ativo.
+3. Rode o script:
+
+```bash
+python scripts/bootstrap_db.py
+```
+
+O script:
+
+- Cria o banco configurado em `PGDATABASE` (se nao existir).
+- Aplica o schema em `db/schema.sql`.
+- Aplica dados iniciais em `db/seed.sql`.
+
 ## Acessibilidade
 
 - Algumas páginas já incluem integração com VLibras.
