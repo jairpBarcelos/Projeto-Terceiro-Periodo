@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Atualizar Unidade Escolar - Administrador</title>
-  <link rel="icon" href="../../../../img/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="../../../../css/menuAdministrador.css">
   <link rel="stylesheet" href="../../../../css/administrador/unidades.css">
 </head>
@@ -12,7 +12,7 @@
   <!-- MENU LATERAL -->
   <aside class="menuLateral">
     <div class="logoContainer">
-      <img src="../../../../img/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
+      <img src="../../../../assets/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
       <div class="textoBranding">
         <div class="nomeBrand">SAADI</div>
         <div class="nivelAcesso">Nível: Administrador</div>
@@ -244,53 +244,7 @@
   <script>
     let unidadeId = null;
 
-    // Wrapper seguro para requisições (sem confiar em fetch que pode estar corrompido)
-    function fazerRequisicao(url, opcoes = {}) {
-      return new Promise((resolver, rejeitar) => {
-        const xhr = new XMLHttpRequest();
-        const metodo = opcoes.method || 'GET';
-        
-        xhr.open(metodo, url, true);
-        
-        // Headers
-        if (opcoes.headers) {
-          Object.entries(opcoes.headers).forEach(([chave, valor]) => {
-            xhr.setRequestHeader(chave, valor);
-          });
-        }
-        
-        // Manter Bearer token se apiClient.js forneceu
-        if (window.saadiAuth && window.saadiAuth.getAccessToken) {
-          const token = window.saadiAuth.getAccessToken();
-          if (token) {
-            xhr.setRequestHeader('Authorization', `Bearer ${token}`);
-          }
-        }
-
-        xhr.onload = function() {
-          try {
-            const dados = JSON.parse(xhr.responseText);
-            resolver({
-              ok: xhr.status >= 200 && xhr.status < 300,
-              status: xhr.status,
-              json: () => Promise.resolve(dados)
-            });
-          } catch(e) {
-            rejeitar(new Error(`Erro ao parsear JSON: ${e.message}`));
-          }
-        };
-
-        xhr.onerror = function() {
-          rejeitar(new Error('Erro na requisição'));
-        };
-
-        if (opcoes.body) {
-          xhr.send(opcoes.body);
-        } else {
-          xhr.send();
-        }
-      });
-    }
+    // O apiClient.js intercepta nativamente as requisições fetch para anexar credentials e gerenciar tokens.
 
     function navegarPara(pagina) {
       window.location.href = pagina;
@@ -317,59 +271,83 @@
 
     function preencherFormularioUnidade(unidade) {
       console.log('Preenchendo formulário com dados:', unidade);
-      document.getElementById('nomeUnidade').value = unidade.nome || '';
-      document.getElementById('sigla').value = unidade.sigla || '';
-      document.getElementById('cnpj').value = unidade.cnpj || '';
-      document.getElementById('email').value = unidade.email || '';
-      document.getElementById('telefone').value = unidade.telefone || '';
-      document.getElementById('celular').value = unidade.celular || '';
-      document.getElementById('rua').value = unidade.rua || '';
-      document.getElementById('numero').value = unidade.numero || '';
-      document.getElementById('complemento').value = unidade.complemento || '';
-      document.getElementById('cidade').value = unidade.cidade || '';
-      document.getElementById('estado').value = (unidade.estado || '').toUpperCase();
-      document.getElementById('cep').value = unidade.cep || '';
-      document.getElementById('nomeDiretor').value = unidade.diretor_nome || '';
-      document.getElementById('cpfDiretor').value = unidade.diretor_cpf || '';
-      document.getElementById('emailDiretor').value = unidade.diretor_email || '';
-      document.getElementById('telefoneDiretor').value = unidade.diretor_telefone || '';
-      document.getElementById('tipoUnidade').value = unidade.tipo_unidade || '';
-      document.getElementById('status').value = (unidade.status || 'ativa').toLowerCase();
+      
+      const setValor = (id, valor) => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.value = valor || '';
+        } else {
+          console.warn(`Elemento com ID "${id}" não encontrado no formulário.`);
+        }
+      };
 
-      if (unidade.data_inicio_operacao) {
-        document.getElementById('dataInicio').value = unidade.data_inicio_operacao.slice(0, 10);
+      setValor('nomeUnidade', unidade.nome);
+      setValor('sigla', unidade.sigla);
+      setValor('cnpj', unidade.cnpj);
+      setValor('email', unidade.email);
+      setValor('telefone', unidade.telefone);
+      setValor('celular', unidade.celular);
+      setValor('rua', unidade.rua);
+      setValor('numero', unidade.numero);
+      setValor('complemento', unidade.complemento);
+      setValor('cidade', unidade.cidade);
+      setValor('cep', unidade.cep);
+      setValor('nomeDiretor', unidade.diretor_nome);
+      setValor('cpfDiretor', unidade.diretor_cpf);
+      setValor('emailDiretor', unidade.diretor_email);
+      setValor('telefoneDiretor', unidade.diretor_telefone);
+      setValor('tipoUnidade', unidade.tipo_unidade);
+      setValor('observacoes', unidade.observacoes);
+
+      if (unidade.estado) {
+        setValor('estado', unidade.estado.toUpperCase());
+      }
+      
+      if (unidade.status) {
+        setValor('status', unidade.status.toLowerCase());
       }
 
-      document.getElementById('observacoes').value = unidade.observacoes || '';
+      if (unidade.data_inicio_operacao) {
+        const inputData = document.getElementById('dataInicio');
+        if (inputData) {
+          inputData.value = unidade.data_inicio_operacao.slice(0, 10);
+        }
+      }
     }
 
     async function carregarUnidade() {
       limparMensagem();
 
       try {
-        console.log('Carregando unidade ID:', unidadeId);
-        const response = await fazerRequisicao(`/api/admin/unidades/${unidadeId}`);
+        console.log('Buscando dados para unidade ID:', unidadeId);
+        const response = await fetch(`/api/admin/unidades/${unidadeId}`);
         const jsonData = await response.json();
 
-        console.log('Response status:', response.status);
-        console.log('Response data:', jsonData);
+        console.log('Status da Resposta:', response.status);
+        console.log('Dados recebidos:', jsonData);
 
         if (!response.ok) {
-          throw new Error(jsonData.message || 'Erro ao carregar unidade.');
+          throw new Error(jsonData.message || 'Erro ao carregar unidade do servidor.');
         }
 
-        const unidadeData = jsonData.data || jsonData;
-        console.log('Unidade data para preencher:', unidadeData);
+        // Tenta encontrar o objeto da unidade em diferentes níveis (data, item ou o próprio JSON)
+        const unidadeData = jsonData.data?.item || jsonData.data || jsonData.item || jsonData;
+        
+        if (!unidadeData || (!unidadeData.nome && !unidadeData.sigla)) {
+          console.warn('Dados da unidade parecem estar incompletos ou em formato inesperado:', unidadeData);
+        }
+
+        console.log('Dados processados para preenchimento:', unidadeData);
         preencherFormularioUnidade(unidadeData);
       } catch (error) {
-        console.error('Erro ao carregar unidade:', error);
-        throw error;
+        console.error('Erro na requisição de carregamento:', error);
+        mostrarMensagem('danger', 'Não foi possível carregar os dados: ' + error.message);
       }
     }
 
     function logout() {
       if (confirm('Tem certeza que deseja sair do sistema?')) {
-        fazerRequisicao('/api/auth/logout', {
+        fetch('/api/auth/logout', {
           method: 'POST'
         }).finally(() => {
           window.location.href = '/index.html';
@@ -405,7 +383,7 @@
       };
 
       try {
-        const response = await fazerRequisicao(`/api/admin/unidades/${unidadeId}`, {
+        const response = await fetch(`/api/admin/unidades/${unidadeId}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
@@ -438,7 +416,7 @@
       if (!unidadeId) return;
 
       try {
-        const response = await fazerRequisicao(`/api/admin/unidades/${unidadeId}`, {
+        const response = await fetch(`/api/admin/unidades/${unidadeId}`, {
           method: 'DELETE'
         });
         const data = await response.json();
@@ -463,7 +441,7 @@
       if (event.target === modal) {
         fecharModal();
       }
-    }
+    };
 
     (async function iniciarPagina() {
       unidadeId = obterUnidadeIdDaUrl();

@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SAADI | Painel do Administrador</title>
-  <link rel="icon" href="../../../img/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="../../../css/menuAdministrador.css">
 </head>
+
 <body>
   <!-- MENU LATERAL -->
   <aside class="menuLateral">
@@ -23,20 +25,24 @@
       <div class="emailPerfil"></div>
     </div>
 
-                <div class="botoesLaterais">
-      <button class="btnLateral ativo" onclick="navegarPara('menuAdministrador.html')" aria-label="Voltar ao Painel Principal">
+    <div class="botoesLaterais">
+      <button class="btnLateral ativo" onclick="navegarPara('menuAdministrador.html')"
+        aria-label="Voltar ao Painel Principal">
         <img src="/img/icon-lista.png" alt="">
         <span>Painel Principal</span>
       </button>
-      <button class="btnLateral" onclick="navegarPara('unidades/listarUnidades.html')" aria-label="Gerenciar Unidades Escolares">
+      <button class="btnLateral" onclick="navegarPara('unidades/listarUnidades.html')"
+        aria-label="Gerenciar Unidades Escolares">
         <img src="/img/icon-cadastro.png" alt="">
         <span>Unidades Escolares</span>
       </button>
-      <button class="btnLateral" onclick="navegarPara('usuarios/listarUsuarios.html')" aria-label="Gerenciar Usuários do Sistema">
+      <button class="btnLateral" onclick="navegarPara('usuarios/listarUsuarios.html')"
+        aria-label="Gerenciar Usuários do Sistema">
         <img src="/img/perfil.png" alt="">
         <span>Usuários do Sistema</span>
       </button>
-      <button class="btnLateral" onclick="navegarPara('relatoriosAdministrador.html')" aria-label="Ver Relatórios Consolidados">
+      <button class="btnLateral" onclick="navegarPara('relatoriosAdministrador.html')"
+        aria-label="Ver Relatórios Consolidados">
         <img src="/img/icon-lista.png" alt="">
         <span>Relatórios</span>
       </button>
@@ -48,7 +54,8 @@
         <img src="/img/engrenagem.png" alt="">
         <span>Parâmetros</span>
       </button>
-      <button class="btnLateral" onclick="navegarPara('alunos/listarAlunos.html')" aria-label="Acessar Gestão Central de Alunos">
+      <button class="btnLateral" onclick="navegarPara('alunos/listarAlunos.html')"
+        aria-label="Acessar Gestão Central de Alunos">
         <img src="/img/icon-lista.png" alt="">
         <span>Alunos - Nível Central</span>
       </button>
@@ -95,11 +102,13 @@
       <h2>
         Gerenciamento do Sistema
       </h2>
-      <p class="subtituloSecao">Escolha um modulo para administrar dados, acessos e configuracoes globais do sistema.</p>
-      
+      <p class="subtituloSecao">Escolha um modulo para administrar dados, acessos e configuracoes globais do sistema.
+      </p>
+
       <div class="gradeNavegacao">
         <!-- Unidades Escolares -->
-        <a href="unidades/listarUnidades.html" class="cartaoNavegacao" aria-label="Acessar gestão de unidades escolares">
+        <a href="unidades/listarUnidades.html" class="cartaoNavegacao"
+          aria-label="Acessar gestão de unidades escolares">
           <img src="../../../img/icons8-duas-mãos-windows-11-filled/icons8-prédio-96.png" alt="">
           <div class="nomeCartao">Unidades Escolares</div>
           <div class="descricaoCartao">Cadastro e manutenção de unidades</div>
@@ -173,15 +182,15 @@
           <div class="statusSistemaValor" id="statusBancoDados">-</div>
           <div class="statusSistemaMeta" id="textoBancoDados">-</div>
         </div>
-        
+
         <div class="statusSistemaCard aviso">
           <h3>Armazenamento</h3>
           <div class="statusSistemaValor" id="statusArmazenamento">-</div>
           <div class="statusSistemaMeta" id="textoArmazenamento">-</div>
         </div>
-        
+
         <div class="statusSistemaCard info">
-          <h3>Última Sincronização</h3>
+          <h3>ÚÚltima Sincronização</h3>
           <div class="statusSistemaMeta" id="textoSincronizacao">-</div>
           <div class="statusSistemaTempo" id="tempoSincronizacao">-</div>
         </div>
@@ -230,7 +239,7 @@
       if (!nomeEl || !emailEl) return;
 
       const primeiro = primeiroNome(nome);
-      nomeEl.textContent = primeiro ? `Olá, ${primeiro}` : 'Olá';
+      nomeEl.textContent = primeiro ? `Olááá, ${primeiro}` : 'Olááá';
 
       const partes = [email, perfil].filter(Boolean);
       emailEl.textContent = partes.length ? partes.join(' • ') : 'Sessão ativa';
@@ -301,13 +310,13 @@
           redirecionarParaLogin();
           return;
         }
-        
+
         if (!response.ok) {
           throw new Error(`Erro HTTP: ${response.status}`);
         }
 
         const dados = await lerJsonSeguro(response);
-        
+
         // Atualizar indicadores
         document.getElementById('indicadorUnidades').textContent = dados.totalUnidades || 0;
         document.getElementById('indicadorUsuarios').textContent = dados.usuariosAtivos || 0;
@@ -331,7 +340,7 @@
           redirecionarParaLogin();
           return;
         }
-        
+
         if (!response.ok) {
           throw new Error(`Erro HTTP: ${response.status}`);
         }
@@ -358,7 +367,7 @@
 
       } catch (erro) {
         console.error('Erro ao carregar atividades:', erro);
-        document.getElementById('atividadesTbody').innerHTML = 
+        document.getElementById('atividadesTbody').innerHTML =
           '<tr><td colspan="5">Erro ao carregar atividades.</td></tr>';
       }
     }
@@ -374,7 +383,7 @@
           redirecionarParaLogin();
           return;
         }
-        
+
         if (!response.ok) {
           throw new Error(`Erro HTTP: ${response.status}`);
         }
@@ -432,13 +441,5 @@
     })();
   </script>
 </body>
+
 </html>
-
-
-
-
-
-
-
-
-

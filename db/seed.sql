@@ -80,7 +80,12 @@ VALUES
     ('TDAH', 'Transtorno de Deficit de Atencao e Hiperatividade'),
     ('Dislexia', 'Transtorno especifico de aprendizagem'),
     ('Deficiencia Auditiva', 'Surdez e deficiencia auditiva'),
-    ('Altas Habilidades', 'Superdotacao e altas habilidades')
+    ('Altas Habilidades', 'Superdotacao e altas habilidades'),
+    ('Discalculia', 'Transtorno especifico de aprendizagem com prejuizo na matematica'),
+    ('Disgrafia', 'Transtorno especifico de aprendizagem com prejuizo na expressao escrita'),
+    ('Transtorno do Processamento Sensorial', 'Dificuldade em organizar e responder a informacoes sensoriais'),
+    ('Sindrome de Tourette', 'Transtorno neurologico caracterizado por tiques motores e vocais'),
+    ('Deficiencia Intelectual', 'Limitacoes significativas no funcionamento intelectual e comportamento adaptativo')
 ON CONFLICT (nome) DO NOTHING;
 
 INSERT INTO parametros_sistema (chave, valor_json, descricao)
