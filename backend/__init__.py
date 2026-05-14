@@ -16,6 +16,7 @@ from backend.routes.admin_dashboard import admin_dashboard_bp
 from backend.routes.admin_extra import admin_extra_bp
 from backend.config import Config
 from backend.routes.auth import auth_bp
+from backend.routes.alunos import alunos_bp
 
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
@@ -36,6 +37,7 @@ def create_app(config_object: type[Config] = Config) -> Flask:
     app.register_blueprint(admin_usuarios_bp)
     app.register_blueprint(admin_dashboard_bp)
     app.register_blueprint(admin_extra_bp)
+    app.register_blueprint(alunos_bp)
 
     @app.after_request
     def set_security_headers(response):
@@ -90,6 +92,10 @@ def create_app(config_object: type[Config] = Config) -> Flask:
     @app.get('/index.html')
     def login_page():
         return send_from_directory(FRONTEND_DIR, 'index.html')
+
+    @app.get('/favicon.ico')
+    def favicon():
+        return send_from_directory(FRONTEND_DIR / 'assets', 'favicon.ico')
 
     @app.get('/css/<path:filename>')
     def css_assets(filename: str):

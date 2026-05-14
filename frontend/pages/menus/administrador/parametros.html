@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Parâmetros do Sistema - Administrador</title>
-  <link rel="icon" href="../../../../img/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="../../../../css/menuAdministrador.css">
 </head>
 <body>
   <!-- MENU LATERAL -->
   <aside class="menuLateral">
     <div class="logoContainer">
-      <img src="../../../../img/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
+      <img src="../../../../assets/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
       <div class="textoBranding">
         <div class="nomeBrand">SAADI</div>
         <div class="nivelAcesso">Nível: Administrador</div>
@@ -162,7 +162,7 @@
         </div>
 
         <div class="botoesPrimarios" style="grid-column: span 2;">
-          <button type="button" class="btn btnSecundario" onclick="testarEmail()">🧪 Testar Configuração</button>
+          <button type="button" class="btn btnSecundario" onclick="testarEmail()">?? Testar Configuração</button>
           <button type="submit" class="btn btnSucesso">Salvar Configurações</button>
         </div>
       </form>
@@ -217,6 +217,66 @@
         </div>
       </form>
     </section>
+    <!-- MODAL ANO LETIVO -->
+    <div id="modalAnoLetivo" class="modal">
+      <div class="modalConteudo">
+        <h2 id="tituloModalAno">Novo Ano Letivo</h2>
+        <form id="formAnoLetivo" class="formulario" onsubmit="confirmarSalvarAno(event)">
+          <input type="hidden" id="anoId">
+          <div class="grupoFormulario">
+            <label for="anoInput">Ano *</label>
+            <input type="number" id="anoInput" name="ano" required min="2000" max="2100">
+          </div>
+          <div class="grupoFormulario">
+            <label for="statusAno">Status *</label>
+            <select id="statusAno" name="status" required>
+              <option value="ativo">Ativo</option>
+              <option value="arquivado">Arquivado</option>
+            </select>
+          </div>
+          <div class="grupoFormulario">
+            <label for="inicioAno">Data Início</label>
+            <input type="date" id="inicioAno" name="data_inicio">
+          </div>
+          <div class="grupoFormulario">
+            <label for="fimAno">Data Fim</label>
+            <input type="date" id="fimAno" name="data_fim">
+          </div>
+          <div class="modalBotoes" style="grid-column: span 2;">
+            <button type="button" class="btn btnSecundario" onclick="fecharModal('modalAnoLetivo')">Cancelar</button>
+            <button type="submit" class="btn btnSucesso">Salvar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL CATEGORIA -->
+    <div id="modalCategoria" class="modal">
+      <div class="modalConteudo">
+        <h2 id="tituloModalCategoria">Nova Categoria</h2>
+        <form id="formCategoria" class="formulario" onsubmit="confirmarSalvarCategoria(event)">
+          <input type="hidden" id="categoriaId">
+          <div class="grupoFormulario coluna-dupla">
+            <label for="nomeCategoria">Nome da Categoria *</label>
+            <input type="text" id="nomeCategoria" name="nome" required>
+          </div>
+          <div class="grupoFormulario coluna-dupla">
+            <label for="descricaoCategoria">Descrição</label>
+            <textarea id="descricaoCategoria" name="descricao"></textarea>
+          </div>
+          <div style="grid-column: span 2; margin-top: 10px;">
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+              <input type="checkbox" id="ativaCategoria" checked>
+              <span>Categoria Ativa</span>
+            </label>
+          </div>
+          <div class="modalBotoes" style="grid-column: span 2; margin-top: 20px;">
+            <button type="button" class="btn btnSecundario" onclick="fecharModal('modalCategoria')">Cancelar</button>
+            <button type="submit" class="btn btnSucesso">Salvar</button>
+          </div>
+        </form>
+      </div>
+    </div>
   </main>
 
   <!-- VLIBRAS -->
@@ -283,7 +343,7 @@
           <td>${formatarData(ano.data_inicio)}</td>
           <td>${formatarData(ano.data_fim)}</td>
           <td>
-            <button class="btn btnEditar" style="padding: 6px 12px; font-size:12px;" onclick="alert('Edição de anos letivos pode ser adicionada no próximo passo.')">Editar</button>
+            <button class="btn btnEditar" style="padding: 6px 12px; font-size:12px;" onclick="editarAnoLetivo(${ano.id})">Editar</button>
           </td>
         </tr>
       `).join('');
@@ -298,12 +358,11 @@
       }
 
       container.innerHTML = categorias.map((categoria) => `
-        <div style="border: 1px solid #d0dce6; border-radius: 8px; padding: 15px;">
-          <h3 style="color: #1a3a52; font-size: 14px; margin-bottom: 10px;">${categoria.nome || '-'}</h3>
+        <div style="border: 1px solid #d0dce6; border-radius: 8px; padding: 15px; opacity: ${categoria.ativa ? '1' : '0.6'}">
+          <h3 style="color: #1a3a52; font-size: 14px; margin-bottom: 10px;">${categoria.nome || '-'} ${categoria.ativa ? '' : '(Inativa)'}</h3>
           <p style="color: #566575; font-size: 13px; margin-bottom: 10px;">${categoria.descricao || '-'}</p>
           <div style="display: flex; gap: 8px;">
-            <button class="btn btnEditar" style="padding: 6px 12px; font-size:12px;" onclick="alert('Edição de categorias pode ser adicionada no próximo passo.')">Editar</button>
-            <button class="btn btnDeletar" style="padding: 6px 12px; font-size:12px;" onclick="alert('Remoção de categorias pode ser adicionada no próximo passo.')">Remover</button>
+            <button class="btn btnEditar" style="padding: 6px 12px; font-size:12px;" onclick="editarCategoria(${categoria.id})">Editar</button>
           </div>
         </div>
       `).join('');
@@ -329,7 +388,7 @@
 
     async function carregarParametros() {
       limparMensagem();
-      const response = await fetch(ENDPOINT, { headers: criarHeadersJson() });
+      const response = await fetch(ENDPOINT);
       const data = await response.json();
 
       if (!response.ok) {
@@ -356,18 +415,20 @@
         sistemaConfig: parametrosCache.sistemaConfig || {},
       };
 
-      const response = await fetch(ENDPOINT, {
-        method: 'PUT',
-        headers: { ...criarHeadersJson(), 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.message || 'Erro ao salvar configuração de email.');
-      }
+      try {
+        const response = await fetch(ENDPOINT, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message || 'Erro ao salvar configuração de email.');
 
-      parametrosCache = data.data || data;
-      mostrarMensagem('success', 'Configuração de email salva com sucesso.');
+        parametrosCache = data.data || data;
+        mostrarMensagem('success', 'Configuração de email salva com sucesso.');
+      } catch (err) {
+        mostrarMensagem('danger', err.message);
+      }
     }
 
     async function salvarConfigSistema(event) {
@@ -383,18 +444,20 @@
         },
       };
 
-      const response = await fetch(ENDPOINT, {
-        method: 'PUT',
-        headers: { ...criarHeadersJson(), 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.message || 'Erro ao salvar configurações gerais.');
-      }
+      try {
+        const response = await fetch(ENDPOINT, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message || 'Erro ao salvar configurações gerais.');
 
-      parametrosCache = data.data || data;
-      mostrarMensagem('success', 'Configurações gerais salvas com sucesso.');
+        parametrosCache = data.data || data;
+        mostrarMensagem('success', 'Configurações gerais salvas com sucesso.');
+      } catch (err) {
+        mostrarMensagem('danger', err.message);
+      }
     }
 
     function navegarPara(pagina) {
@@ -403,8 +466,7 @@
 
     function logout() {
       if (confirm('Tem certeza que deseja sair do sistema?')) {
-        fetch('/api/auth/logout', { method: 'POST', headers: criarHeadersJson() }).finally(() => {
-          localStorage.removeItem(TOKEN_KEY);
+        fetch('/api/auth/logout', { method: 'POST' }).finally(() => {
           window.location.href = '/index.html';
         });
       }
@@ -417,8 +479,7 @@
       document.getElementById('abSistema').style.display = 'none';
 
       document.querySelectorAll('.abaBotao').forEach(btn => {
-        btn.style.borderBottomColor = 'transparent';
-        btn.style.color = '#2c3e50';
+        btn.classList.remove('ativa');
       });
 
       if (aba === 'anos') {
@@ -431,21 +492,136 @@
         document.getElementById('abSistema').style.display = 'block';
       }
 
-      event.target.style.borderBottomColor = '#3498db';
-      event.target.style.color = '#3498db';
+      event.target.classList.add('ativa');
     }
+
+    function fecharModal(id) {
+      document.getElementById(id).classList.remove('ativo');
+    }
+
+    // --- LÓGICA DE ANOS LETIVOS ---
 
     function adicionarAnoLetivo() {
-      alert('Funcionalidade de cadastro de ano letivo pode ser adicionada no próximo passo.');
+      document.getElementById('tituloModalAno').textContent = 'Novo Ano Letivo';
+      document.getElementById('anoId').value = '';
+      document.getElementById('anoInput').value = new Date().getFullYear();
+      document.getElementById('statusAno').value = 'ativo';
+      document.getElementById('inicioAno').value = '';
+      document.getElementById('fimAno').value = '';
+      document.getElementById('modalAnoLetivo').classList.add('ativo');
     }
 
+    function editarAnoLetivo(id) {
+      const ano = (parametrosCache.anosLetivos || []).find(a => a.id === id);
+      if (!ano) return;
+
+      document.getElementById('tituloModalAno').textContent = 'Editar Ano Letivo';
+      document.getElementById('anoId').value = ano.id;
+      document.getElementById('anoInput').value = ano.ano;
+      document.getElementById('statusAno').value = ano.status;
+      document.getElementById('inicioAno').value = ano.data_inicio ? ano.data_inicio.slice(0, 10) : '';
+      document.getElementById('fimAno').value = ano.data_fim ? ano.data_fim.slice(0, 10) : '';
+      document.getElementById('modalAnoLetivo').classList.add('ativo');
+    }
+
+    async function confirmarSalvarAno(event) {
+      event.preventDefault();
+      const id = document.getElementById('anoId').value;
+      const payload = {
+        ano: Number(document.getElementById('anoInput').value),
+        status: document.getElementById('statusAno').value,
+        data_inicio: document.getElementById('inicioAno').value || null,
+        data_fim: document.getElementById('fimAno').value || null
+      };
+
+      try {
+        const method = id ? 'PUT' : 'POST';
+        const url = id ? `/api/admin/anos-letivos/${id}` : '/api/admin/anos-letivos';
+        
+        const response = await fetch(url, {
+          method,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await response.json();
+
+        if (!response.ok) throw new Error(data.message || 'Erro ao salvar ano letivo.');
+
+        fecharModal('modalAnoLetivo');
+        await carregarParametros();
+        mostrarMensagem('success', 'Ano letivo salvo com sucesso.');
+      } catch (err) {
+        alert(err.message);
+      }
+    }
+
+    // --- LÓGICA DE CATEGORIAS ---
+
     function adicionarCategoria() {
-      alert('Funcionalidade de cadastro de categoria pode ser adicionada no próximo passo.');
+      document.getElementById('tituloModalCategoria').textContent = 'Nova Categoria';
+      document.getElementById('categoriaId').value = '';
+      document.getElementById('nomeCategoria').value = '';
+      document.getElementById('descricaoCategoria').value = '';
+      document.getElementById('ativaCategoria').checked = true;
+      document.getElementById('modalCategoria').classList.add('ativo');
+    }
+
+    function editarCategoria(id) {
+      const cat = (parametrosCache.categorias || []).find(c => c.id === id);
+      if (!cat) return;
+
+      document.getElementById('tituloModalCategoria').textContent = 'Editar Categoria';
+      document.getElementById('categoriaId').value = cat.id;
+      document.getElementById('nomeCategoria').value = cat.nome;
+      document.getElementById('descricaoCategoria').value = cat.descricao || '';
+      document.getElementById('ativaCategoria').checked = cat.ativa;
+      document.getElementById('modalCategoria').classList.add('ativo');
+    }
+
+    async function confirmarSalvarCategoria(event) {
+      event.preventDefault();
+      const id = document.getElementById('categoriaId').value;
+      const payload = {
+        nome: document.getElementById('nomeCategoria').value.trim(),
+        descricao: document.getElementById('descricaoCategoria').value.trim(),
+        ativa: document.getElementById('ativaCategoria').checked,
+      };
+
+      if (!payload.nome) {
+        alert('O nome da categoria é obrigatório.');
+        return;
+      }
+
+      try {
+        const method = id ? 'PUT' : 'POST';
+        const url = id ? `/api/admin/categorias/${id}` : '/api/admin/categorias';
+
+        const response = await fetch(url, {
+          method,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const data = await response.json();
+
+        if (!response.ok) throw new Error(data.message || 'Erro ao salvar categoria.');
+
+        fecharModal('modalCategoria');
+        await carregarParametros();
+        mostrarMensagem('success', id ? 'Categoria atualizada com sucesso.' : 'Categoria criada com sucesso.');
+      } catch (err) {
+        alert(err.message);
+      }
     }
 
     function testarEmail() {
       alert('A validação real pode ser adicionada quando o envio SMTP estiver integrado.');
     }
+
+    window.onclick = function(event) {
+      if (event.target.classList.contains('modal')) {
+        event.target.classList.remove('ativo');
+      }
+    };
 
     (async function iniciarPagina() {
       try {

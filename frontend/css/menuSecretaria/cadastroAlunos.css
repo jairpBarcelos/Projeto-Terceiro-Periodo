@@ -1,4 +1,4 @@
-﻿.conteudoPrincipal {
+.conteudoPrincipal {
     margin-left: 25%;
     min-height: 100vh;
     padding: 30px;
@@ -156,7 +156,7 @@
 
 @media screen and (max-width: 1100px) {
     .conteudoPrincipal {
-        margin-left: 30%;
+        margin-left: 25%;
     }
 }
 

@@ -39,13 +39,7 @@ from backend.services.auth_service import (
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/api/auth')
 
-PROFILE_REDIRECTS = {
-    'administrador': '/pages/menus/administrador/menuAdministrador.html',
-    'secretaria': '/pages/menus/secretaria/menuSecretariaEscolar.html',
-    'psicopedagogo': '/pages/menus/psicopedagogo/menuPsicopedagogo.html',
-    'professor': '/pages/menus/secretaria/menuSecretariaEscolar.html',
-    'diretor': '/pages/menus/administrador/menuAdministrador.html',
-}
+
 
 
 @auth_bp.post('/login')
@@ -120,16 +114,46 @@ def refresh_token():
 @jwt_required()
 def me():
     claims = get_jwt()
+    usuario = Usuario.query.get(int(claims['sub']))
+    if not usuario:
+        return error('Usuario nao encontrado.', 404, 'NOT_FOUND')
+        
     return success(
         'Sessao validada com sucesso.',
         data={
             'authenticated': True,
-            'user_id': int(claims['sub']),
-            'user_name': claims.get('nome'),
-            'profile_name': claims.get('perfil'),
-            'redirect_url': PROFILE_REDIRECTS.get(claims.get('perfil'), '/index.html'),
+            'user_id': usuario.id,
+            'user_name': usuario.nome_completo,
+            'email': usuario.email,
+            'cpf': usuario.cpf,
+            'perfil': usuario.perfil.nome,
+            'unidade_id': usuario.unidade_id,
+            'unidade_nome': usuario.unidade.nome if usuario.unidade else None,
+            'redirect_url': PROFILE_REDIRECTS.get(usuario.perfil.nome, '/index.html'),
         },
     )
+
+
+@auth_bp.put('/me')
+@jwt_required()
+def update_me():
+    usuario_id = int(get_jwt_identity())
+    usuario = Usuario.query.get(usuario_id)
+    if not usuario:
+        return error('Usuario nao encontrado.', 404, 'NOT_FOUND')
+
+    payload = request.get_json(silent=True) or {}
+    
+    if 'nome_completo' in payload:
+        usuario.nome_completo = payload['nome_completo']
+    
+    if 'senha' in payload and payload['senha'].strip():
+        usuario.senha_hash = senha_segura(payload['senha'])
+
+    db.session.commit()
+    registrar_atividade(usuario, 'Atualização de Perfil', 'Usuário', f'ID: {usuario.id}', 'Sucesso')
+
+    return success('Perfil atualizado com sucesso.', data={'user': serializar_usuario(usuario)})
 
 
 @auth_bp.post('/register')

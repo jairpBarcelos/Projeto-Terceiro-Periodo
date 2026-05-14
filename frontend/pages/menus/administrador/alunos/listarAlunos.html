@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Alunos - Nível Central - Administrador</title>
-  <link rel="icon" href="../../../../img/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="../../../../css/menuAdministrador.css">
 </head>
 <body>
   <!-- MENU LATERAL -->
   <aside class="menuLateral">
     <div class="logoContainer">
-      <img src="../../../../img/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
+      <img src="../../../../assets/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
       <div class="textoBranding">
         <div class="nomeBrand">SAADI</div>
         <div class="nivelAcesso">Nível: Administrador</div>
@@ -84,9 +84,9 @@
         <button class="btn btnSecundario" onclick="filtrarAlunos()" aria-label="Executar busca de alunos">
           Buscar
         </button>
-        <a href="../../secretaria/cadastroAlunos.html" class="btn btnPrimario" aria-label="Cadastrar novo aluno">
+        <button class="btn btnPrimario" onclick="abrirModalAluno()" aria-label="Cadastrar novo aluno">
           + Novo Aluno
-        </a>
+        </button>
       </div>
 
       <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px;">
@@ -164,13 +164,70 @@
   <div id="modalDetalhes" class="modal">
     <div class="modalConteudo" style="max-width: 600px;">
       <h2>Detalhes do Aluno</h2>
-      <div id="conteudoModal" style="margin: 20px 0;">
-        <!-- Preenchido via JavaScript -->
-      </div>
+      <div id="conteudoModal" style="margin: 20px 0;"></div>
       <div style="display: flex; gap: 12px; justify-content: flex-end;">
         <button class="btn btnSecundario" onclick="fecharModal()">Fechar</button>
-        <a href="../../secretaria/atualizarAlunos.html" class="btn btnPrimario">Editar Aluno</a>
+        <button class="btn btnPrimario" id="btnEditarDoDetalhe" onclick="">Editar Aluno</button>
       </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE CADASTRO / EDIÇÃO -->
+  <div id="modalAluno" class="modal">
+    <div class="modalConteudo" style="max-width: 650px;">
+      <h2 id="tituloModalAluno">Novo Aluno</h2>
+      <form id="formAluno" class="formulario" onsubmit="salvarAluno(event)">
+        <input type="hidden" id="alunoIdModal">
+        <div class="grupoFormulario coluna-dupla">
+          <label for="alunoNome">Nome Completo *</label>
+          <input type="text" id="alunoNome" required maxlength="150">
+        </div>
+        <div class="grupoFormulario">
+          <label for="alunoCpf">CPF</label>
+          <input type="text" id="alunoCpf" placeholder="000.000.000-00" maxlength="14">
+        </div>
+        <div class="grupoFormulario">
+          <label for="alunoNascimento">Data de Nascimento *</label>
+          <input type="date" id="alunoNascimento" required>
+        </div>
+        <div class="grupoFormulario">
+          <label for="alunoUnidade">Unidade *</label>
+          <select id="alunoUnidade" required></select>
+        </div>
+        <div class="grupoFormulario">
+          <label for="alunoSerie">Série / Turma</label>
+          <input type="text" id="alunoSerie" maxlength="80">
+        </div>
+        <div class="grupoFormulario">
+          <label for="alunoSuporte">Nível de Suporte</label>
+          <select id="alunoSuporte">
+            <option value="">Não informado</option>
+            <option value="1">Nível 1</option>
+            <option value="2">Nível 2</option>
+            <option value="3">Nível 3</option>
+          </select>
+        </div>
+        <div class="grupoFormulario coluna-dupla">
+          <label for="alunoEndereco">Endereço</label>
+          <textarea id="alunoEndereco" rows="2"></textarea>
+        </div>
+        <div class="grupoFormulario">
+          <label for="alunoResponsavel">Nome do Responsável *</label>
+          <input type="text" id="alunoResponsavel" required maxlength="150">
+        </div>
+        <div class="grupoFormulario">
+          <label for="alunoTelefone">Telefone do Responsável *</label>
+          <input type="tel" id="alunoTelefone" required maxlength="30" placeholder="(00) 00000-0000">
+        </div>
+        <div class="grupoFormulario coluna-dupla">
+          <label for="alunoLaudo">Descrição do Laudo Médico</label>
+          <textarea id="alunoLaudo" rows="3"></textarea>
+        </div>
+        <div class="modalBotoes" style="grid-column: span 2; margin-top: 15px;">
+          <button type="button" class="btn btnSecundario" onclick="fecharModalAluno()">Cancelar</button>
+          <button type="submit" class="btn btnSucesso" id="btnSalvarAluno">Salvar</button>
+        </div>
+      </form>
     </div>
   </div>
 
@@ -295,7 +352,7 @@
           <td>
             <div class="acoes">
               <button class="btn btnVer" style="padding: 6px 12px; font-size: 12px;" onclick="abrirDetalhes(${aluno.id})">Ver</button>
-              <a href="../../secretaria/atualizarAlunos.html?id=${aluno.id}" class="btn btnEditar" style="padding: 6px 12px; font-size: 12px;">Editar</a>
+              <button class="btn btnEditar" style="padding: 6px 12px; font-size: 12px;" onclick="abrirModalAluno(${aluno.id})">Editar</button>
             </div>
           </td>
         </tr>
@@ -364,8 +421,8 @@
           <div><strong>Telefone do Responsável:</strong> ${aluno.responsavel_telefone || '-'}</div>
         </div>
       `;
-
       document.getElementById('conteudoModal').innerHTML = html;
+      document.getElementById('btnEditarDoDetalhe').onclick = function () { fecharModal(); abrirModalAluno(id); };
       document.getElementById('modalDetalhes').classList.add('ativo');
     }
 
@@ -373,12 +430,94 @@
       document.getElementById('modalDetalhes').classList.remove('ativo');
     }
 
-    window.onclick = function(event) {
-      const modal = document.getElementById('modalDetalhes');
-      if (event.target === modal) {
-        fecharModal();
+    function fecharModalAluno() {
+      document.getElementById('modalAluno').classList.remove('ativo');
+    }
+
+    function popularSelectUnidades() {
+      const select = document.getElementById('alunoUnidade');
+      select.innerHTML = '<option value="">Selecione a unidade</option>';
+      for (const u of unidadesCache) {
+        select.innerHTML += `<option value="${u.id}">${u.nome}</option>`;
       }
     }
+
+    function abrirModalAluno(id) {
+      popularSelectUnidades();
+      const form = document.getElementById('formAluno');
+      form.reset();
+      document.getElementById('alunoIdModal').value = '';
+
+      if (id) {
+        const aluno = alunosCache.find((a) => a.id === id);
+        if (!aluno) return;
+        document.getElementById('tituloModalAluno').textContent = 'Editar Aluno';
+        document.getElementById('alunoIdModal').value = aluno.id;
+        document.getElementById('alunoNome').value = aluno.nome || '';
+        document.getElementById('alunoCpf').value = aluno.cpf || '';
+        document.getElementById('alunoNascimento').value = aluno.data_nascimento ? aluno.data_nascimento.slice(0, 10) : '';
+        document.getElementById('alunoUnidade').value = aluno.unidade_id || '';
+        document.getElementById('alunoSerie').value = aluno.serie || '';
+        document.getElementById('alunoSuporte').value = aluno.nivel_suporte || '';
+        document.getElementById('alunoEndereco').value = aluno.endereco || '';
+        document.getElementById('alunoResponsavel').value = aluno.responsavel_nome || '';
+        document.getElementById('alunoTelefone').value = aluno.responsavel_telefone || '';
+      } else {
+        document.getElementById('tituloModalAluno').textContent = 'Novo Aluno';
+      }
+
+      document.getElementById('modalAluno').classList.add('ativo');
+    }
+
+    async function salvarAluno(event) {
+      event.preventDefault();
+      const id = document.getElementById('alunoIdModal').value;
+      const payload = {
+        nome_completo: document.getElementById('alunoNome').value.trim(),
+        cpf: document.getElementById('alunoCpf').value.trim() || null,
+        data_nascimento: document.getElementById('alunoNascimento').value,
+        unidade_id: Number(document.getElementById('alunoUnidade').value),
+        serie_turma: document.getElementById('alunoSerie').value.trim() || null,
+        nivel_suporte: document.getElementById('alunoSuporte').value ? Number(document.getElementById('alunoSuporte').value) : null,
+        endereco: document.getElementById('alunoEndereco').value.trim() || null,
+        responsavel_nome: document.getElementById('alunoResponsavel').value.trim(),
+        responsavel_telefone: document.getElementById('alunoTelefone').value.trim(),
+      };
+
+      const laudo = document.getElementById('alunoLaudo').value.trim();
+      if (laudo && !id) payload.laudo_descricao = laudo;
+
+      const btn = document.getElementById('btnSalvarAluno');
+      btn.textContent = 'Salvando...';
+      btn.disabled = true;
+
+      try {
+        const method = id ? 'PUT' : 'POST';
+        const url = id ? `/api/alunos/${id}` : '/api/alunos';
+        const response = await fetch(url, {
+          method,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message || 'Erro ao salvar aluno.');
+
+        fecharModalAluno();
+        await carregarAlunos();
+        mostrarMensagem('success', id ? 'Aluno atualizado com sucesso.' : 'Aluno cadastrado com sucesso.');
+      } catch (err) {
+        alert(err.message);
+      } finally {
+        btn.textContent = 'Salvar';
+        btn.disabled = false;
+      }
+    }
+
+    window.onclick = function(event) {
+      if (event.target.classList.contains('modal')) {
+        event.target.classList.remove('ativo');
+      }
+    };
 
     (async function iniciarPagina() {
       try {

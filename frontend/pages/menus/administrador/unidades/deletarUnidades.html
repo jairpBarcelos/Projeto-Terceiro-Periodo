@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Deletar Unidade Escolar - Administrador</title>
-  <link rel="icon" href="../../../../img/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="../../../../css/menuAdministrador.css">
   <link rel="stylesheet" href="../../../../css/administrador/unidades.css">
 </head>
@@ -12,7 +12,7 @@
   <!-- MENU LATERAL -->
   <aside class="menuLateral">
     <div class="logoContainer">
-      <img src="../../../../img/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
+      <img src="../../../../assets/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
       <div class="textoBranding">
         <div class="nomeBrand">SAADI</div>
         <div class="nivelAcesso">Nível: Administrador</div>
@@ -92,12 +92,12 @@
     <!-- RESULTADO DA BUSCA -->
     <section class="containerPrincipal" id="secaoResultado" style="display: none;">
       <h2 style="margin-bottom: 20px; color: #1a3a52; display: flex; align-items: center; gap: 10px;">
-        <img src="../../../../img/icons8-duas-mãos-windows-11-filled/icons8-alerta-96.png" alt="" style="width: 24px; height: 24px;">
+        <img src="../../../../assets/icons8-duas-mãos-windows-11-filled/icons8-alerta-96.png" alt="" style="width: 24px; height: 24px;">
         Informações da Unidade Selecionada
       </h2>
 
       <div style="background: #fef6f0; border-left: 4px solid #e74c3c; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-        <div style="font-size: 12px; color: #8b4513; margin-bottom: 10px; font-weight: 600;">⚠️ ATENÇÃO: Esta operação é irreversível</div>
+        <div style="font-size: 12px; color: #8b4513; margin-bottom: 10px; font-weight: 600;">?? ATENÇÃO: Esta operação é irreversível</div>
         <p style="color: #2c3e50; font-size: 14px; line-height: 1.6;">
           Ao deletar uma unidade escolar, todos os dados associados (usuários, alunos, relatórios) também serão removidos do sistema. 
           Certifique-se de fazer backup dos dados antes de proceder.
@@ -128,10 +128,10 @@
       <div style="background: #f0f9ff; border: 1px solid #bdc3c7; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
         <div style="font-size: 12px; color: #566575; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-bottom: 10px;">Dados Associados que Serão Removidos:</div>
         <ul style="list-style: none; padding-left: 0; color: #2c3e50; font-size: 14px;">
-          <li style="padding: 8px 0; border-bottom: 1px solid #d0dce6;">📌 Usuários vinculados: <strong>5 usuários</strong></li>
-          <li style="padding: 8px 0; border-bottom: 1px solid #d0dce6;">📌 Alunos cadastrados: <strong>127 alunos</strong></li>
-          <li style="padding: 8px 0; border-bottom: 1px solid #d0dce6;">📌 Relatórios gerados: <strong>23 relatórios</strong></li>
-          <li style="padding: 8px 0;">📌 Registros de auditoria: <strong>156 registros</strong></li>
+          <li style="padding: 8px 0; border-bottom: 1px solid #d0dce6;">?? Usuários vinculados: <strong>5 usuários</strong></li>
+          <li style="padding: 8px 0; border-bottom: 1px solid #d0dce6;">?? Alunos cadastrados: <strong>127 alunos</strong></li>
+          <li style="padding: 8px 0; border-bottom: 1px solid #d0dce6;">?? Relatórios gerados: <strong>23 relatórios</strong></li>
+          <li style="padding: 8px 0;">?? Registros de auditoria: <strong>156 registros</strong></li>
         </ul>
       </div>
 
@@ -211,9 +211,9 @@
              onclick="selecionarUnidade(${unidade.id}, '${unidade.nome}')">
           <div style="font-weight: 600; color: #1a3a52; font-size: 14px; margin-bottom: 10px;">${unidade.nome}</div>
           <div style="font-size: 12px; color: #566575;">
-            <div style="margin-bottom: 5px;">📍 ${unidade.cidade} - ${unidade.estado}</div>
-            <div style="margin-bottom: 5px;">🏢 ${unidade.cnpj}</div>
-            <div>👤 ${unidade.diretor}</div>
+            <div style="margin-bottom: 5px;">?? ${unidade.cidade} - ${unidade.estado}</div>
+            <div style="margin-bottom: 5px;">?? ${unidade.cnpj}</div>
+            <div>?? ${unidade.diretor}</div>
           </div>
         </div>
       `).join('');
@@ -245,9 +245,9 @@
                onclick="selecionarUnidade(${unidade.id}, '${unidade.nome}')">
             <div style="font-weight: 600; color: #1a3a52; font-size: 14px; margin-bottom: 10px;">${unidade.nome}</div>
             <div style="font-size: 12px; color: #566575;">
-              <div style="margin-bottom: 5px;">📍 ${unidade.cidade} - ${unidade.estado}</div>
-              <div style="margin-bottom: 5px;">🏢 ${unidade.cnpj}</div>
-              <div>👤 ${unidade.diretor}</div>
+              <div style="margin-bottom: 5px;">?? ${unidade.cidade} - ${unidade.estado}</div>
+              <div style="margin-bottom: 5px;">?? ${unidade.cnpj}</div>
+              <div>?? ${unidade.diretor}</div>
             </div>
           </div>
         `).join('');

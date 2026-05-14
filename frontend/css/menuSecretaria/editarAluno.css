@@ -6,11 +6,11 @@
 }
 
 .cabecalhoPagina {
-    background: linear-gradient(135deg, #8f1f2b 0%, #b53a46 100%);
+    background: linear-gradient(135deg, #1e3a5f 0%, #2a5a88 100%);
     border-radius: 18px;
     padding: 24px 28px;
     color: #ffffff;
-    box-shadow: 0 8px 20px rgba(117, 28, 39, 0.24);
+    box-shadow: 0 8px 20px rgba(30, 58, 95, 0.2);
     margin-bottom: 20px;
 }
 
@@ -19,7 +19,7 @@
     font-size: 0.88rem;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    opacity: 0.9;
+    opacity: 0.88;
 }
 
 .cabecalhoPagina h1 {
@@ -34,13 +34,13 @@
 
 .formContainer {
     background: #ffffff;
-    border: 1px solid #ecd0d4;
+    border: 1px solid #d7e4f2;
     border-radius: 18px;
     padding: 24px;
-    box-shadow: 0 10px 24px rgba(97, 31, 41, 0.12);
+    box-shadow: 0 10px 24px rgba(20, 49, 83, 0.12);
 }
 
-.formExclusao {
+.formAtualizacao {
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -54,9 +54,13 @@
 .buscaLinha {
     align-items: flex-end;
     padding: 14px;
-    background: #fff6f7;
-    border: 1px solid #f0d8dc;
+    background: #f4f8fc;
+    border: 1px solid #d7e4f2;
     border-radius: 12px;
+}
+
+.linha.dupla .campo {
+    flex: 1;
 }
 
 .campo {
@@ -66,27 +70,49 @@
     width: 100%;
 }
 
+.campo.full {
+    width: 100%;
+}
+
 .campo label {
-    color: #6b2530;
+    color: #173b63;
     font-weight: 600;
     font-size: 0.94rem;
 }
 
-.campo input {
+.campo input,
+.campo textarea {
     width: 100%;
-    border: 2px solid #dfc0c6;
+    border: 2px solid #c7d6e6;
     border-radius: 10px;
     padding: 12px 14px;
     font-size: 1rem;
-    color: #4a2128;
+    color: #183654;
     background: #ffffff;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.campo input:focus {
-    border-color: #b53a46;
-    box-shadow: 0 0 0 4px rgba(181, 58, 70, 0.16);
+.campo input[readonly] {
+    background: #f1f5f9;
+    color: #566b83;
+    border-style: dashed;
+}
+
+.campo input:focus,
+.campo textarea:focus {
+    border-color: #2a72b7;
+    box-shadow: 0 0 0 4px rgba(42, 114, 183, 0.15);
     outline: none;
+}
+
+.campo textarea {
+    resize: vertical;
+    min-height: 90px;
+}
+
+.campo input[type="file"] {
+    padding: 10px;
+    background: #f7fbff;
 }
 
 .acaoBusca {
@@ -98,63 +124,19 @@
     border: none;
     border-radius: 10px;
     padding: 0 16px;
-    background: linear-gradient(135deg, #8f1f2b 0%, #b53a46 100%);
+    background: linear-gradient(135deg, #1f63a5 0%, #2c7dcf 100%);
     color: #ffffff;
     font-weight: 600;
     cursor: pointer;
 }
 
 .btnBuscar:hover {
-    filter: brightness(1.06);
+    filter: brightness(1.05);
 }
 
-.resumoAluno {
-    background: #fffafa;
-    border: 1px solid #f0d5d9;
-    border-radius: 12px;
-    padding: 16px;
-}
-
-.resumoAluno h2 {
-    margin: 0 0 10px;
-    color: #72222e;
-    font-size: 1.1rem;
-}
-
-.resumoAluno p {
-    margin: 0 0 8px;
-    color: #5e2a33;
-    line-height: 1.45;
-}
-
-.alertaExclusao {
-    border: 1px solid #efb7bf;
-    background: #fff1f3;
-    border-radius: 10px;
-    padding: 12px 14px;
-}
-
-.alertaExclusao p {
-    margin: 0;
-    color: #862433;
-    font-weight: 600;
-}
-
-.confirmacaoLinha {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-}
-
-.confirmacaoLinha input {
-    margin-top: 4px;
-    width: 18px;
-    height: 18px;
-}
-
-.confirmacaoLinha label {
-    color: #6b2530;
-    font-weight: 500;
+.ajudaCampo {
+    color: #5c728a;
+    font-size: 0.82rem;
 }
 
 .acoes {
@@ -165,7 +147,7 @@
 }
 
 .btnSecundario,
-.btnPerigo {
+.btnPrimario {
     min-height: 44px;
     padding: 10px 18px;
     border-radius: 10px;
@@ -176,21 +158,21 @@
 }
 
 .btnSecundario {
-    background: #f4eff0;
-    color: #6b2530;
-    border: 1px solid #e7cfd4;
+    background: #eef3f8;
+    color: #173b63;
+    border: 1px solid #c7d6e6;
 }
 
-.btnPerigo {
-    background: linear-gradient(135deg, #8f1f2b 0%, #b53a46 100%);
+.btnPrimario {
+    background: linear-gradient(135deg, #1f63a5 0%, #2c7dcf 100%);
     color: #ffffff;
 }
 
 .btnSecundario:hover {
-    background: #efe3e5;
+    background: #e3edf7;
 }
 
-.btnPerigo:hover {
+.btnPrimario:hover {
     filter: brightness(1.05);
 }
 
@@ -201,7 +183,7 @@
 
 @media screen and (max-width: 1100px) {
     .conteudoPrincipal {
-        margin-left: 30%;
+        margin-left: 25%;
     }
 }
 
@@ -216,20 +198,32 @@
         align-items: stretch;
     }
 
-    .acaoBusca,
+    .acaoBusca {
+        width: 100%;
+    }
+
     .btnBuscar {
         width: 100%;
     }
 }
 
 @media screen and (max-width: 700px) {
+    .linha {
+        flex-direction: column;
+    }
+
     .acoes {
         flex-direction: column;
     }
 
     .btnSecundario,
-    .btnPerigo {
+    .btnPrimario {
         width: 100%;
         text-align: center;
     }
+}
+
+.fotoSair img {
+    width: 40px;
+    height: 40px;
 }

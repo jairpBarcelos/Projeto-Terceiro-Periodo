@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Listar Unidades Escolares - Administrador</title>
-  <link rel="icon" href="../../../../img/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="../../../../css/menuAdministrador.css">
   <link rel="stylesheet" href="../../../../css/administrador/unidades.css">
 </head>
@@ -12,7 +12,7 @@
   <!-- MENU LATERAL -->
   <aside class="menuLateral">
     <div class="logoContainer">
-      <img src="../../../../img/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
+      <img src="../../../../assets/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
       <div class="textoBranding">
         <div class="nomeBrand">SAADI</div>
         <div class="nivelAcesso">Nível: Administrador</div>
@@ -146,27 +146,8 @@
   <script src="/scripts/apiClient.js"></script>
 
   <script>
-    const TOKEN_KEY = 'saadi_access_token';
     let idDelecao = null;
     let unidadesCache = [];
-
-    function obterToken() {
-      return localStorage.getItem(TOKEN_KEY) || '';
-    }
-
-    function criarHeadersJson() {
-      const headers = { 'Accept': 'application/json' };
-      const token = obterToken();
-      if (token) {
-        headers.Authorization = `Bearer ${token}`;
-      }
-      return headers;
-    }
-
-    function redirecionarParaLogin() {
-      localStorage.removeItem(TOKEN_KEY);
-      window.location.href = '/index.html';
-    }
 
     function mostrarMensagem(tipo, texto) {
       const box = document.getElementById('mensagemUnidades');
@@ -223,15 +204,8 @@
       if (status) params.set('status', status);
 
       const url = params.toString() ? `/api/admin/unidades?${params.toString()}` : '/api/admin/unidades';
-      const response = await fetch(url, {
-        headers: criarHeadersJson()
-      });
+      const response = await fetch(url);
       const data = await response.json();
-
-      if (response.status === 401) {
-        redirecionarParaLogin();
-        return;
-      }
 
       if (!response.ok) {
         throw new Error(data.message || 'Erro ao carregar unidades.');
@@ -257,10 +231,8 @@
     function logout() {
       if (confirm('Tem certeza que deseja sair do sistema?')) {
         fetch('/api/auth/logout', {
-          method: 'POST',
-          headers: criarHeadersJson()
+          method: 'POST'
         }).finally(() => {
-          localStorage.removeItem(TOKEN_KEY);
           window.location.href = '/index.html';
         });
       }
@@ -283,14 +255,9 @@
 
       try {
         const response = await fetch(`/api/admin/unidades/${idDelecao}`, {
-          method: 'DELETE',
-          headers: criarHeadersJson()
+          method: 'DELETE'
         });
         const data = await response.json();
-        if (response.status === 401) {
-          redirecionarParaLogin();
-          return;
-        }
         if (!response.ok) {
           throw new Error(data.message || 'Erro ao excluir unidade.');
         }
@@ -310,7 +277,7 @@
       if (event.target === modal) {
         fecharModal();
       }
-    }
+    };
 
     (async function iniciarPagina() {
       try {

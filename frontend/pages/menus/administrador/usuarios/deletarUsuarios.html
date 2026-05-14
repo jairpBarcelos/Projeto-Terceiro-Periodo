@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Deletar Usuário - Administrador</title>
-  <link rel="icon" href="../../../../img/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="../../../../css/menuAdministrador.css">
   <link rel="stylesheet" href="../../../../css/administrador/usuarios.css">
 </head>
@@ -12,7 +12,7 @@
   <!-- MENU LATERAL -->
   <aside class="menuLateral">
     <div class="logoContainer">
-      <img src="../../../../img/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
+      <img src="../../../../assets/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
       <div class="textoBranding">
         <div class="nomeBrand">SAADI</div>
         <div class="nivelAcesso">Nível: Administrador</div>
@@ -92,12 +92,12 @@
     <!-- RESULTADO DA BUSCA -->
     <section class="containerPrincipal" id="secaoResultado" style="display: none;">
       <h2 style="margin-bottom: 20px; color: #1a3a52; display: flex; align-items: center; gap: 10px;">
-        <img src="../../../../img/icons8-duas-mãos-windows-11-filled/icons8-alerta-96.png" alt="" style="width: 24px; height: 24px;">
+        <img src="../../../../assets/icons8-duas-mãos-windows-11-filled/icons8-alerta-96.png" alt="" style="width: 24px; height: 24px;">
         Informações do Usuário Selecionado
       </h2>
 
       <div style="background: #fef6f0; border-left: 4px solid #e74c3c; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-        <div style="font-size: 12px; color: #8b4513; margin-bottom: 10px; font-weight: 600;">⚠️ ATENÇÃO: Esta operação é irreversível</div>
+        <div style="font-size: 12px; color: #8b4513; margin-bottom: 10px; font-weight: 600;">?? ATENÇÃO: Esta operação é irreversível</div>
         <p style="color: #2c3e50; font-size: 14px; line-height: 1.6;">
           Ao deletar um usuário, a conta será removida permanentemente do sistema. 
           Todos os registros de atividade serão mantidos para auditoria, mas o usuário não poderá mais acessar o sistema.
@@ -128,10 +128,10 @@
       <div style="background: #f0f9ff; border: 1px solid #bdc3c7; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
         <div style="font-size: 12px; color: #566575; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-bottom: 10px;">Dados de Vinculação:</div>
         <ul style="list-style: none; padding-left: 0; color: #2c3e50; font-size: 14px;">
-          <li style="padding: 8px 0; border-bottom: 1px solid #d0dce6;">🏢 Unidade: <strong>Escola Municipal Centro</strong></li>
-          <li style="padding: 8px 0; border-bottom: 1px solid #d0dce6;">👤 Departamento: <strong>Secretaria</strong></li>
-          <li style="padding: 8px 0; border-bottom: 1px solid #d0dce6;">📅 Data de Admissão: <strong>15/01/2020</strong></li>
-          <li style="padding: 8px 0;">⏰ Último Acesso: <strong>02/04/2026 - 13:20</strong></li>
+          <li style="padding: 8px 0; border-bottom: 1px solid #d0dce6;">?? Unidade: <strong>Escola Municipal Centro</strong></li>
+          <li style="padding: 8px 0; border-bottom: 1px solid #d0dce6;">?? Departamento: <strong>Secretaria</strong></li>
+          <li style="padding: 8px 0; border-bottom: 1px solid #d0dce6;">?? Data de Admissão: <strong>15/01/2020</strong></li>
+          <li style="padding: 8px 0;">? Último Acesso: <strong>02/04/2026 - 13:20</strong></li>
         </ul>
       </div>
 
@@ -212,9 +212,9 @@
              onclick="selecionarUsuario(${usuario.id}, '${usuario.nome}')">
           <div style="font-weight: 600; color: #1a3a52; font-size: 14px; margin-bottom: 10px;">${usuario.nome}</div>
           <div style="font-size: 12px; color: #566575;">
-            <div style="margin-bottom: 5px;">📧 ${usuario.email}</div>
-            <div style="margin-bottom: 5px;">🎯 ${usuario.perfil}</div>
-            <div>✓ ${usuario.status}</div>
+            <div style="margin-bottom: 5px;">?? ${usuario.email}</div>
+            <div style="margin-bottom: 5px;">?? ${usuario.perfil}</div>
+            <div>? ${usuario.status}</div>
           </div>
         </div>
       `).join('');
@@ -245,9 +245,9 @@
                onclick="selecionarUsuario(${usuario.id}, '${usuario.nome}')">
             <div style="font-weight: 600; color: #1a3a52; font-size: 14px; margin-bottom: 10px;">${usuario.nome}</div>
             <div style="font-size: 12px; color: #566575;">
-              <div style="margin-bottom: 5px;">📧 ${usuario.email}</div>
-              <div style="margin-bottom: 5px;">🎯 ${usuario.perfil}</div>
-              <div>✓ ${usuario.status}</div>
+              <div style="margin-bottom: 5px;">?? ${usuario.email}</div>
+              <div style="margin-bottom: 5px;">?? ${usuario.perfil}</div>
+              <div>? ${usuario.status}</div>
             </div>
           </div>
         `).join('');

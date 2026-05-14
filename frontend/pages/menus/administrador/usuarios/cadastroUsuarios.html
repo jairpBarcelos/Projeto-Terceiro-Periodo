@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cadastro de Usuário - Administrador</title>
-  <link rel="icon" href="../../../../img/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="../../../../css/menuAdministrador.css">
   <link rel="stylesheet" href="../../../../css/administrador/usuarios.css">
 </head>
@@ -12,7 +12,7 @@
   <!-- MENU LATERAL -->
   <aside class="menuLateral">
     <div class="logoContainer">
-      <img src="../../../../img/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
+      <img src="../../../../assets/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
       <div class="textoBranding">
         <div class="nomeBrand">SAADI</div>
         <div class="nivelAcesso">Nível: Administrador</div>
@@ -220,7 +220,7 @@
       if (nomePerfil) {
         const nome = payload.nome || payload.user_name || '';
         const primeiroNome = nome.split(' ')[0];
-        nomePerfil.textContent = primeiroNome ? `Olá, ${primeiroNome}` : 'Olá';
+        nomePerfil.textContent = primeiroNome ? `Olááá, ${primeiroNome}` : 'Olááá';
       }
 
       if (emailPerfil) {
@@ -231,53 +231,7 @@
       }
     }
 
-    // XMLHttpRequest wrapper (não sofre interferência do VLibras)
-    function fazerRequisicao(url, opcoes = {}) {
-      return new Promise((resolver, rejeitar) => {
-        const xhr = new XMLHttpRequest();
-        const metodo = opcoes.method || 'GET';
-        
-        xhr.open(metodo, url, true);
-        
-        if (opcoes.headers) {
-          Object.entries(opcoes.headers).forEach(([chave, valor]) => {
-            xhr.setRequestHeader(chave, valor);
-          });
-        }
-        
-        const token = localStorage.getItem('saadi_access_token');
-        if (token) {
-          xhr.setRequestHeader('Authorization', `Bearer ${token}`);
-        }
-
-        xhr.onload = function() {
-          try {
-            const dados = JSON.parse(xhr.responseText);
-            resolver({
-              ok: xhr.status >= 200 && xhr.status < 300,
-              status: xhr.status,
-              json: () => Promise.resolve(dados)
-            });
-          } catch(e) {
-            resolver({
-              ok: false,
-              status: xhr.status,
-              json: () => Promise.resolve({})
-            });
-          }
-        };
-
-        xhr.onerror = function() {
-          rejeitar(new Error('Erro na requisição'));
-        };
-
-        if (opcoes.body) {
-          xhr.send(opcoes.body);
-        } else {
-          xhr.send();
-        }
-      });
-    }
+    // Wrapper removido. O apiClient.js intercepta nativamente as requisições fetch para anexar credentials e gerenciar tokens.
 
     function navegarPara(pagina) {
       window.location.href = pagina;
@@ -285,7 +239,7 @@
 
     function logout() {
       if (confirm('Tem certeza que deseja sair do sistema?')) {
-        fazerRequisicao('/api/auth/logout', {
+        fetch('/api/auth/logout', {
           method: 'POST'
         }).finally(() => {
           window.location.href = '/index.html';
@@ -308,7 +262,7 @@
 
     async function carregarUnidades() {
       const select = document.getElementById('unidade');
-      const response = await fazerRequisicao('/api/admin/unidades', {
+      const response = await fetch('/api/admin/unidades', {
         headers: { 'Accept': 'application/json' }
       });
       const data = await response.json();
@@ -366,7 +320,7 @@
       };
 
       try {
-        const response = await fazerRequisicao('/api/admin/usuarios', {
+        const response = await fetch('/api/admin/usuarios', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
