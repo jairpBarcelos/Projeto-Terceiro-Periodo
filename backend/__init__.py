@@ -17,6 +17,7 @@ from backend.routes.admin_extra import admin_extra_bp
 from backend.config import Config
 from backend.routes.auth import auth_bp
 from backend.routes.alunos import alunos_bp
+from backend.routes.encaminhamentos import encaminhamentos_bp
 
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
@@ -38,6 +39,7 @@ def create_app(config_object: type[Config] = Config) -> Flask:
     app.register_blueprint(admin_dashboard_bp)
     app.register_blueprint(admin_extra_bp)
     app.register_blueprint(alunos_bp)
+    app.register_blueprint(encaminhamentos_bp)
 
     @app.after_request
     def set_security_headers(response):
