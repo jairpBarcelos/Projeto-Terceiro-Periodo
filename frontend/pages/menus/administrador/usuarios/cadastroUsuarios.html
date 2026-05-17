@@ -12,7 +12,7 @@
   <!-- MENU LATERAL -->
   <aside class="menuLateral">
     <div class="logoContainer">
-      <img src="../../../../assets/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
+      <img src="/img/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
       <div class="textoBranding">
         <div class="nomeBrand">SAADI</div>
         <div class="nivelAcesso">Nível: Administrador</div>
@@ -124,11 +124,11 @@
           <label for="perfil">Perfil de Acesso *</label>
           <select id="perfil" name="perfil" required aria-label="Perfil de acesso do usuário">
             <option value="">Selecione...</option>
-            <option value="administrador">Administrador</option>
-            <option value="secretaria">Secretaria</option>
-            <option value="psicopedagogo">Psicopedagogo</option>
-            <option value="professor">Professor</option>
-            <option value="diretor">Diretor</option>
+            <option value="1">Administrador</option>
+            <option value="2">Secretaria</option>
+            <option value="3">Psicopedagogo</option>
+            <option value="4">Professor</option>
+            <option value="5">Diretor</option>
           </select>
         </div>
 
@@ -284,7 +284,6 @@
 
     function carregarDiretor() {
       // Simula carregamento de diretor da unidade
-      console.log('Carregando diretor da unidade selecionada');
     }
 
     async function salvarUsuario(event) {
@@ -306,7 +305,7 @@
 
       const payload = {
         unidade_id: Number(document.getElementById('unidade').value),
-        perfil_nome: document.getElementById('perfil').value,
+        perfil_id: Number(document.getElementById('perfil').value),
         nome_completo: document.getElementById('nomeCompleto').value,
         cpf: document.getElementById('cpf').value,
         email: document.getElementById('email').value,
@@ -331,7 +330,17 @@
 
         const data = await response.json();
         if (!response.ok) {
-          throw new Error(data.message || 'Erro ao cadastrar usuário.');
+          let msg = data.message || 'Erro ao cadastrar usuário.';
+          const errorDetails = data.error?.details || data.details;
+          if (errorDetails && Array.isArray(errorDetails)) {
+            const detalhes = errorDetails.map(d => `${d.loc.join('.')}: ${d.msg}`).join(' | ');
+            msg += ` (${detalhes})`;
+          } else if (errorDetails) {
+            msg += ` (${JSON.stringify(errorDetails)})`;
+          } else if (data.error?.code) {
+            msg += ` [${data.error.code}]`;
+          }
+          throw new Error(msg);
         }
 
         mostrarMensagem('success', 'Usuário cadastrado com sucesso. Redirecionando...');

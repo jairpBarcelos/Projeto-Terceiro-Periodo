@@ -11,7 +11,7 @@
   <!-- MENU LATERAL -->
   <aside class="menuLateral">
     <div class="logoContainer">
-      <img src="../../../../assets/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
+      <img src="/img/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
       <div class="textoBranding">
         <div class="nomeBrand">SAADI</div>
         <div class="nivelAcesso">Nível: Administrador</div>
@@ -98,8 +98,8 @@
         </div>
       </div>
       <div style="display: flex; gap: 12px;">
-        <button class="btn btnPrimario" onclick="aplicarFiltros()">?? Filtrar</button>
-        <button class="btn btnSecundario" onclick="limparFiltros()">?? Limpar Filtros</button>
+        <button class="btn btnPrimario" onclick="aplicarFiltros()">Filtrar</button>
+        <button class="btn btnSecundario" onclick="limparFiltros()">Limpar Filtros</button>
       </div>
     </section>
 
@@ -153,8 +153,8 @@
     <!-- BOTÕES DE EXPORTAÇÃO -->
     <section class="containerPrincipal">
       <div style="display: flex; gap: 12px;">
-        <button class="btn btnPrimario" onclick="exportarPDF()">?? Exportar em PDF</button>
-        <button class="btn btnPrimario" onclick="exportarCSV()">?? Exportar em CSV</button>
+        <button class="btn btnPrimario" onclick="exportarPDF()">Exportar em PDF</button>
+        <button class="btn btnPrimario" onclick="exportarCSV()">Exportar em CSV</button>
       </div>
     </section>
   </main>
@@ -262,7 +262,7 @@
             <td><span class="badge ${acaoBadgeClass(acao)}">${resumoRotulo(acao)}</span></td>
             <td>${item.entidade || '-'}</td>
             <td>${detalhes}</td>
-            <td>? Sucesso</td>
+            <td>Sucesso</td>
           </tr>
         `;
       }).join('');

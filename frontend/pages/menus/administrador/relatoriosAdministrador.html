@@ -12,7 +12,7 @@
   <!-- MENU LATERAL -->
   <aside class="menuLateral">
     <div class="logoContainer">
-      <img src="../../../../assets/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
+      <img src="/img/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
       <div class="textoBranding">
         <div class="nomeBrand">SAADI</div>
         <div class="nivelAcesso">Nível: Administrador</div>
@@ -408,10 +408,6 @@
     }
 
     (async function iniciarPagina() {
-      if (!obterToken()) {
-        redirecionarParaLogin();
-        return;
-      }
 
       const idsFiltros = ['filtroPeriodo', 'filtroUnidade', 'filtroSerie', 'filtroNeurodiversidade'];
       idsFiltros.forEach((id) => {

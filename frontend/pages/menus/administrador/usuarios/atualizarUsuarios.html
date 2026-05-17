@@ -12,7 +12,7 @@
   <!-- MENU LATERAL -->
   <aside class="menuLateral">
     <div class="logoContainer">
-      <img src="../../../../assets/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
+      <img src="/img/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
       <div class="textoBranding">
         <div class="nomeBrand">SAADI</div>
         <div class="nivelAcesso">Nível: Administrador</div>
@@ -123,11 +123,11 @@
         <div class="grupoFormulario">
           <label for="perfil">Perfil de Acesso *</label>
           <select id="perfil" name="perfil" required aria-label="Perfil de acesso do usuário">
-            <option value="secretaria" selected>Secretaria</option>
-            <option value="administrador">Administrador</option>
-            <option value="psicopedagogo">Psicopedagogo</option>
-            <option value="professor">Professor</option>
-            <option value="diretor">Diretor</option>
+            <option value="2" selected>Secretaria</option>
+            <option value="1">Administrador</option>
+            <option value="3">Psicopedagogo</option>
+            <option value="4">Professor</option>
+            <option value="5">Diretor</option>
           </select>
         </div>
 
@@ -276,7 +276,6 @@
     }
 
     function preencherFormularioUsuario(usuario) {
-      console.log('Preenchendo formulário com dados do usuário:', usuario);
       
       const setValor = (id, valor) => {
         const el = document.getElementById(id);
@@ -294,8 +293,8 @@
       setValor('usuario', usuario.matricula);
       setValor('unidade', usuario.unidade_id ? String(usuario.unidade_id) : '');
 
-      if (usuario.perfil_nome) {
-        setValor('perfil', usuario.perfil_nome.toLowerCase());
+      if (usuario.perfil_id) {
+        setValor('perfil', String(usuario.perfil_id));
       }
       
       if (usuario.departamento) {
@@ -357,12 +356,9 @@
       limparMensagem();
 
       try {
-        console.log('Buscando dados para usuário ID:', usuarioId);
         const response = await fetch(`/api/admin/usuarios/${usuarioId}`);
         const jsonData = await response.json();
         
-        console.log('Status da Resposta:', response.status);
-        console.log('Dados recebidos:', jsonData);
 
         if (!response.ok) {
           throw new Error(jsonData.message || 'Erro ao carregar usuário do servidor.');
@@ -370,7 +366,6 @@
 
         const usuarioData = jsonData.data?.item || jsonData.data || jsonData.item || jsonData;
         
-        console.log('Dados processados para preenchimento:', usuarioData);
         
         // Carrega as unidades primeiro, mas não deixa falhar o carregamento do usuário
         await carregarUnidades(usuarioData.unidade_id).catch(e => console.error(e));
@@ -411,7 +406,7 @@
 
       const payload = {
         unidade_id: Number(document.getElementById('unidade').value),
-        perfil_nome: document.getElementById('perfil').value,
+        perfil_id: Number(document.getElementById('perfil').value),
         nome_completo: document.getElementById('nomeCompleto').value.trim(),
         cpf: document.getElementById('cpf').value.trim(),
         email: document.getElementById('email').value.trim(),
@@ -439,7 +434,17 @@
 
         const data = await response.json();
         if (!response.ok) {
-          throw new Error(data.message || 'Erro ao atualizar usuário.');
+          let msg = data.message || 'Erro ao atualizar usuário.';
+          const errorDetails = data.error?.details || data.details;
+          if (errorDetails && Array.isArray(errorDetails)) {
+            const detalhes = errorDetails.map(d => `${d.loc.join('.')}: ${d.msg}`).join(' | ');
+            msg += ` (${detalhes})`;
+          } else if (errorDetails) {
+            msg += ` (${JSON.stringify(errorDetails)})`;
+          } else if (data.error?.code) {
+            msg += ` [${data.error.code}]`;
+          }
+          throw new Error(msg);
         }
 
         mostrarMensagem('success', 'Usuário atualizado com sucesso.');

@@ -12,7 +12,7 @@
   <!-- MENU LATERAL -->
   <aside class="menuLateral">
     <div class="logoContainer">
-      <img src="../../../../assets/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
+      <img src="/img/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
       <div class="textoBranding">
         <div class="nomeBrand">SAADI</div>
         <div class="nivelAcesso">Nível: Administrador</div>
@@ -270,7 +270,6 @@
     }
 
     function preencherFormularioUnidade(unidade) {
-      console.log('Preenchendo formulário com dados:', unidade);
       
       const setValor = (id, valor) => {
         const el = document.getElementById(id);
@@ -319,12 +318,9 @@
       limparMensagem();
 
       try {
-        console.log('Buscando dados para unidade ID:', unidadeId);
         const response = await fetch(`/api/admin/unidades/${unidadeId}`);
         const jsonData = await response.json();
 
-        console.log('Status da Resposta:', response.status);
-        console.log('Dados recebidos:', jsonData);
 
         if (!response.ok) {
           throw new Error(jsonData.message || 'Erro ao carregar unidade do servidor.');
@@ -337,7 +333,6 @@
           console.warn('Dados da unidade parecem estar incompletos ou em formato inesperado:', unidadeData);
         }
 
-        console.log('Dados processados para preenchimento:', unidadeData);
         preencherFormularioUnidade(unidadeData);
       } catch (error) {
         console.error('Erro na requisição de carregamento:', error);
@@ -446,7 +441,6 @@
     (async function iniciarPagina() {
       unidadeId = obterUnidadeIdDaUrl();
 
-      console.log('Iniciando página. ID da URL:', unidadeId);
 
       if (!unidadeId) {
         mostrarMensagem('danger', 'ID de unidade inválido na URL.');
