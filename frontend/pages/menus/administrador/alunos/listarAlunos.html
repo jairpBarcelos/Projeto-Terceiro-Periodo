@@ -11,7 +11,7 @@
   <!-- MENU LATERAL -->
   <aside class="menuLateral">
     <div class="logoContainer">
-      <img src="../../../../assets/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
+      <img src="/img/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
       <div class="textoBranding">
         <div class="nomeBrand">SAADI</div>
         <div class="nivelAcesso">Nível: Administrador</div>
@@ -353,6 +353,7 @@
             <div class="acoes">
               <button class="btn btnVer" style="padding: 6px 12px; font-size: 12px;" onclick="abrirDetalhes(${aluno.id})">Ver</button>
               <button class="btn btnEditar" style="padding: 6px 12px; font-size: 12px;" onclick="abrirModalAluno(${aluno.id})">Editar</button>
+              <button class="btn btnDeletar" style="padding: 6px 12px; font-size: 12px;" onclick="deletarAluno(${aluno.id}, '${aluno.nome}')">Excluir</button>
             </div>
           </td>
         </tr>
@@ -510,6 +511,29 @@
       } finally {
         btn.textContent = 'Salvar';
         btn.disabled = false;
+      }
+    }
+
+    async function deletarAluno(id, nome) {
+      if (!confirm(`Tem certeza que deseja remover o(a) aluno(a) "${nome}"?`)) {
+        return;
+      }
+      
+      try {
+        const response = await fetch(`/api/alunos/${id}`, {
+          method: 'DELETE',
+          headers: criarHeadersJson()
+        });
+        
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.message || 'Erro ao remover aluno.');
+        }
+        
+        mostrarMensagem('success', 'Aluno removido com sucesso.');
+        await carregarAlunos();
+      } catch (err) {
+        alert(err.message);
       }
     }
 

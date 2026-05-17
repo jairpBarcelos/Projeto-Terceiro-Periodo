@@ -11,7 +11,7 @@
   <!-- MENU LATERAL -->
   <aside class="menuLateral">
     <div class="logoContainer">
-      <img src="../../../../assets/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
+      <img src="/img/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
       <div class="textoBranding">
         <div class="nomeBrand">SAADI</div>
         <div class="nivelAcesso">Nível: Administrador</div>
@@ -278,7 +278,13 @@
 
     function logout() {
       if (confirm('Tem certeza que deseja sair do sistema?')) {
-        window.location.href = '../../../../pages/auth/login.html';
+        fetch('/api/auth/logout', { 
+            method: 'POST', 
+            headers: { 'Accept': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('saadi_access_token') || ''}` } 
+        }).finally(() => {
+          localStorage.removeItem('saadi_access_token');
+          window.location.href = '/index.html';
+        });
       }
     }
 
