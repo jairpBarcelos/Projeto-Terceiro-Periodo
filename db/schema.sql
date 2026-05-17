@@ -97,6 +97,10 @@ CREATE TABLE IF NOT EXISTS categorias_neurodiversidade (
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
+-- Garante o default mesmo em bancos criados antes deste constraint existir
+ALTER TABLE categorias_neurodiversidade
+    ALTER COLUMN ativa SET DEFAULT TRUE;
+
 CREATE TABLE IF NOT EXISTS alunos (
     id BIGSERIAL PRIMARY KEY,
     unidade_id BIGINT NOT NULL REFERENCES unidades(id),
@@ -149,6 +153,10 @@ CREATE TABLE IF NOT EXISTS triagens (
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+-- Campos adicionais para o módulo de Nova Triagem (idempotentes)
+ALTER TABLE triagens ADD COLUMN IF NOT EXISTS queixa_principal TEXT;
+ALTER TABLE triagens ADD COLUMN IF NOT EXISTS avaliacoes_json JSONB;
 
 CREATE TABLE IF NOT EXISTS planos_acompanhamento (
     id BIGSERIAL PRIMARY KEY,

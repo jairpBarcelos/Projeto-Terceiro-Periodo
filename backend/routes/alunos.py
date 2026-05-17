@@ -15,6 +15,7 @@ from backend.services.alunos_service import (
     buscar_aluno_service,
     criar_aluno_service,
     deletar_aluno_service,
+    historico_aluno_service,
     listar_alunos_service,
     registrar_atividade_aluno,
     serializar_aluno,
@@ -98,3 +99,9 @@ def deletar_aluno(aluno_id: int):
     aluno = deletar_aluno_service(aluno)
     registrar_atividade_aluno(int(get_jwt_identity()), 'delete', aluno)
     return success('Aluno removido com sucesso (soft delete).')
+
+
+@alunos_bp.get('/historico/<int:aluno_id>')
+@jwt_required_any
+def get_historico_aluno(aluno_id: int):
+    return success('Historico carregado.', data=historico_aluno_service(aluno_id))
