@@ -244,6 +244,16 @@ h1 "Painel do Administrador"
 
 ---
 
+### 8.1. USABILIDADE EM MODAIS E DIÁLOGOS (1.4.10 - Reflow / 2.1.2 - No Keyboard Trap)
+**Status:** ✓ Implementado
+
+**Padrões de design aplicados a modais:**
+- **Overflow Inteligente:** Para formulários extensos dentro de modais (como o cadastro de novo aluno no painel da secretaria), o container possui rolagem interna nativa (`max-height: 90vh` e `overflow-y: auto`). Isso garante que em telas de baixa resolução ou com alto nível de zoom, os botões de ação inferiores ("Salvar" ou "Cancelar") permaneçam perfeitamente visíveis e acessíveis sem distorcer o layout.
+- **Navegação com Escape:** A tecla `Escape` pode ser usada a qualquer momento para fechar os modais ativos de forma rápida e intuitiva.
+- **Foco Automatizado:** Ao abrir um modal, o foco é transferido programaticamente para o primeiro campo interativo relevante, evitando navegações desnecessárias via teclado ou leitores de tela.
+
+---
+
 ### 9. RESPONSIVIDADE (1.4.10 - Reflow)
 **Status:** ✓ Implementado
 

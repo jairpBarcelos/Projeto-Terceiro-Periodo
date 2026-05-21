@@ -1,103 +1,136 @@
-# Integração Frontend + Backend
+# Guia de Integração Frontend + Backend - SAADI
 
-Este guia mostra como ligar o frontend HTML/JS ao backend Flask utilizando autenticação segura com **Cookies HttpOnly**.
-*Aviso: Nunca manipule tokens diretamente via `localStorage`. Eles são automaticamente gerenciados pelo navegador via cookies.*
+Este guia descreve os padrões técnicos de comunicação entre a interface (Frontend HTML/Vanilla JS) e o servidor (Backend Flask + PostgreSQL) do sistema SAADI, com foco em segurança, padronização de dados e tratamento automatizado de sessões.
 
-## 1. Login
+---
 
-O endpoint retorna as informações do usuário logado em `data.user`. O navegador salvará os cookies automaticamente.
+## 🔒 1. Modelo de Segurança de Autenticação
 
-```javascript
-const response = await fetch('/api/auth/login', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  },
-  body: JSON.stringify({
-    email: document.getElementById('email').value,
-    senha: document.getElementById('senha').value
-  })
-});
+O SAADI utiliza **Cookies HttpOnly** para armazenar e trafegar os tokens JWT (`access_token_cookie` e `refresh_token_cookie`). 
 
-const data = await response.json();
+### Por que HttpOnly?
+- **Imunidade contra XSS:** O token não fica legível no JavaScript do navegador (`localStorage` ou `document.cookie`). Se um script malicioso for injetado, ele não conseguirá roubar as credenciais do usuário.
+- **Transmissão Automática:** O navegador anexa automaticamente os cookies nas requisições destinadas ao mesmo domínio, desde que configuradas corretamente.
 
-if (!response.ok) {
-  throw new Error(data.message || 'Falha no login');
-}
+---
 
-// Salva apenas informações não-sensíveis para UX (ex: exibir o nome na tela)
-if (data.user) {
-    localStorage.setItem('saadi_user_info', JSON.stringify(data.user));
-}
+## 🛠️ 2. O Cliente de API Global (`apiClient.js`)
 
-// O token não está mais na resposta JSON (data.access_token). O Backend injetou o HttpOnly Cookie!
-window.location.href = data.redirect_url;
-```
-
-## 2. Realizando Requisições Autenticadas (Listagem/Cadastro)
-
-**Regra de Ouro:** Todas as chamadas para `/api/*` devem incluir `credentials: 'same-origin'` no fetch para o navegador anexar os cookies HttpOnly.
-Você **NÃO** precisa mais enviar o header `Authorization: Bearer <token>`.
-
-```javascript
-// Exemplo: Listagem
-const response = await fetch('/api/admin/usuarios?page=1&limit=20', {
-  method: 'GET',
-  credentials: 'same-origin', // <--- OBRIGATÓRIO PARA ENVIAR O COOKIE
-  headers: {
-    'Accept': 'application/json'
-  }
-});
-
-const data = await response.json();
-console.log(data.items);
-```
-
-## 3. Cadastro com POST
-
-```javascript
-const response = await fetch('/api/admin/unidades', {
-  method: 'POST',
-  credentials: 'same-origin', // <--- OBRIGATÓRIO PARA ENVIAR O COOKIE
-  headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  },
-  body: JSON.stringify({
-    nome: 'Escola Municipal Centro',
-    sigla: 'EMC',
-    cnpj: '00.000.000/0001-00',
-    email: 'contato@escola.edu.br'
-  })
-});
-
-const data = await response.json();
-```
-
-## 4. Uso Global (Recomendado)
-
-Para evitar repetir `credentials: 'same-origin'` em cada requisição, recomendamos importar o script global `apiClient.js` nas suas páginas HTML:
+Para simplificar e blindar as requisições no Frontend, o projeto conta com o `apiClient.js`, localizado em `frontend/js/apiClient.js` e acessível nas páginas HTML via:
 
 ```html
+<!-- Importar antes de qualquer script que realize requisições HTTP -->
 <script src="/scripts/apiClient.js"></script>
 ```
 
-Ele irá sobrescrever o `fetch` nativo e **injetar automaticamente** as credenciais e tratar a renovação de sessão (`/api/auth/refresh`) nos bastidores. 
-Assim, você poderá fazer os `fetch('/api/...')` normalmente em sua página.
+### O que o `apiClient.js` faz automaticamente?
+1. **Configuração CORS e Credentials:** Garante que toda requisição de API envie a instrução `credentials: 'same-origin'` (essencial para que o cookie HttpOnly seja anexado).
+2. **Resolução de URL:** Adiciona automaticamente a origem correta para as chamadas `/api/*`.
+3. **Intercepção de Erros de Sessão (401/Expired):** Caso a sessão expire durante uma chamada comum, o client tenta fazer o refresh de forma silenciosa chamando `/api/auth/refresh`. Se falhar, redireciona o usuário para a página de login automaticamente.
+4. **Header de JSON:** Adiciona `Content-Type: application/json` e `Accept: application/json` por padrão sempre que houver payload.
 
-## 5. Logout
+---
+
+## 🚀 3. Exemplos Práticos de Uso
+
+### A. Login e Inicialização de Sessão
+Ao fazer o login com sucesso, o backend injeta os cookies e responde com os dados básicos do usuário para controle de UX.
 
 ```javascript
-await fetch('/api/auth/logout', {
+// O login é feito enviando as credenciais normais
+const resposta = await fetch('/api/auth/login', {
   method: 'POST',
-  credentials: 'same-origin',
-  headers: {
-    'Accept': 'application/json'
-  }
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ email, senha })
 });
 
-// Limpa dados de UX
-localStorage.removeItem('saadi_user_info');
-window.location.href = '/index.html';
+const resultado = await resposta.json();
+
+if (!resposta.ok) {
+  throw new Error(resultado.message || 'Falha na autenticação.');
+}
+
+// O token está seguro no cookie HttpOnly gerenciado pelo navegador!
+// Guardamos informações públicas do perfil apenas para renderização na tela (UX)
+localStorage.setItem('saadi_user', JSON.stringify(resultado.data.user));
+
+// Redireciona de acordo com a URL fornecida pelo backend
+window.location.href = resultado.data.redirect_url;
 ```
+
+### B. Listagem com Filtros e Paginação (GET)
+Exemplo extraído do fluxo de triagens ou encaminhamentos:
+
+```javascript
+// A chamada é simples! O apiClient trata os cookies sob o capô.
+try {
+  const response = await fetch('/api/encaminhamentos?status=aberto&limit=10&page=1');
+  const result = await response.json();
+  
+  if (response.ok) {
+    const encaminhamentos = result.data.items;
+    renderizarTabela(encaminhamentos);
+  } else {
+    exibirAlerta(result.message || 'Erro ao carregar dados.');
+  }
+} catch (error) {
+  console.error('Falha de rede:', error);
+}
+```
+
+### C. Cadastro com Envio de Payload (POST)
+Exemplo de encaminhamento de aluno para atendimento psicopedagógico:
+
+```javascript
+const payload = {
+  aluno_id: 12,
+  motivo: "Apresenta dificuldades acentuadas na leitura e escrita rápida.",
+  observacoes: "Foi conversado com a família previamente.",
+  urgente: true
+};
+
+try {
+  const response = await fetch('/api/encaminhamentos', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+  
+  const result = await response.json();
+  
+  if (response.status === 201) {
+    exibirToast('Encaminhamento realizado com sucesso!');
+    fecharModal();
+  } else {
+    exibirMensagemErro(result.message);
+  }
+} catch (error) {
+  exibirToast('Erro de conexão com o servidor.');
+}
+```
+
+### D. Logout Seguro (POST)
+Limpa os cookies seguros no backend e limpa o estado de UX no frontend.
+
+```javascript
+try {
+  await fetch('/api/auth/logout', { method: 'POST' });
+} catch (err) {
+  console.warn('Erro ao notificar logout no servidor:', err);
+} finally {
+  localStorage.removeItem('saadi_user');
+  window.location.href = '/index.html';
+}
+```
+
+---
+
+## ⚠️ 4. Boas Práticas Cruciais
+
+1. **Nunca use Headers Manuais de Bearer Token:**
+   * Evite fazer: `headers: { 'Authorization': 'Bearer ' + token }`. 
+   * Deixe que o navegador utilize os **Cookies**.
+2. **Utilize o `apiClient.js`:**
+   * Ele protege as chamadas e evita duplicações de código de intercepção e tratamento de expiração de token.
+3. **Validação de Formulários:**
+   * Valide no HTML/JS antes de disparar o fetch para economizar requisições e prover feedbacks imediatos (ex: obrigatoriedade de campos, formato de e-mail, etc.).
