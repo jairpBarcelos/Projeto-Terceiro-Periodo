@@ -161,12 +161,15 @@ class Triagem(BaseModel):
     data_registro = db.Column(db.Date, nullable=False)
     tipo_registro = db.Column(db.String(30), nullable=False)
     status = db.Column(db.String(30), nullable=False, default='aguardando_entrevista')
+    queixa_principal = db.Column(db.Text)
     descricao = db.Column(db.Text)
     evolucao = db.Column(db.Text)
     observacoes = db.Column(db.Text)
+    avaliacoes_json = db.Column(JSONB)
 
     aluno = db.relationship('Aluno', backref=db.backref('triagens', lazy=True))
     psicopedagogo = db.relationship('Usuario', foreign_keys=[psicopedagogo_id], backref=db.backref('triagens', lazy=True))
+
 
 
 class PlanoAcompanhamento(BaseModel):

@@ -666,3 +666,183 @@ hr {
         font-size: 0.88rem;
     }
 }
+
+/* ── Nova Triagem ── */
+.btn-nova-triagem {
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    border: 1.5px solid rgba(255,255,255,0.4);
+    border-radius: 10px;
+    padding: 10px 22px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s, transform .15s;
+    white-space: nowrap;
+}
+.btn-nova-triagem:hover {
+    background: rgba(255,255,255,0.28);
+    transform: translateY(-1px);
+}
+
+/* ── Seções do modal de avaliação ── */
+.avaliacao-secao {
+    background: #f8fbff;
+    border: 1px solid #dce8f5;
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin-bottom: 16px;
+}
+.avaliacao-secao-titulo {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--psico-900);
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--psico-200);
+}
+.avaliacao-cognitiva-titulo    { border-bottom-color: #4c7adf; color: #1f4f85; }
+.avaliacao-pedagogica-titulo   { border-bottom-color: #0f9d93; color: #0a6b66; }
+.avaliacao-comportamental-titulo { border-bottom-color: #ed8c2b; color: #a35c0a; }
+.avaliacao-socioemocional-titulo { border-bottom-color: #8f63d8; color: #5a3a99; }
+
+.avaliacao-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+}
+.avaliacao-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff;
+    border: 1.5px solid #d7e4f2;
+    border-radius: 10px;
+    padding: 10px 14px;
+    cursor: pointer;
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: #163a63;
+    transition: border-color .18s, background .18s, box-shadow .18s;
+    user-select: none;
+}
+.avaliacao-item:hover {
+    border-color: #4c7adf;
+    background: #eaf3ff;
+    box-shadow: 0 2px 8px rgba(76,122,223,.12);
+}
+.avaliacao-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--psico-600);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+.avaliacao-item:has(input:checked) {
+    border-color: var(--psico-600);
+    background: #eaf3ff;
+    box-shadow: 0 0 0 3px rgba(76,122,223,.15);
+}
+
+
+/* === Historico do Aluno === */
+.hist-aluno-card {
+    display: flex; align-items: flex-start; gap: 24px;
+    background: linear-gradient(135deg, #163a63 0%, #2e5f92 100%);
+    color: #fff; border-radius: 16px; padding: 20px 24px;
+    margin-bottom: 20px; flex-wrap: wrap;
+}
+.hist-aluno-info { display: flex; flex-direction: column; gap: 4px; }
+.hist-aluno-info strong { font-size: 1.15rem; }
+.hist-aluno-info span { font-size: .88rem; opacity: .85; }
+.hist-aluno-tags { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.hist-tag {
+    background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3);
+    border-radius: 999px; padding: 4px 12px; font-size: .82rem; font-weight: 600;
+}
+.hist-tab-content { border: 1px solid #dee2e6; border-top: none; border-radius: 0 0 12px 12px; padding: 16px; background: #fff; }
+.hist-linha {
+    display: flex; gap: 16px; padding: 14px 0;
+    border-bottom: 1px solid #edf2f8;
+}
+.hist-linha:last-child { border-bottom: none; }
+.hist-linha-data {
+    min-width: 88px; font-size: .82rem; color: #4c7adf;
+    font-weight: 700; padding-top: 2px;
+}
+.hist-linha-body { flex: 1; }
+.hist-av-bloco {
+    background: #f8fbff; border: 1px solid #dce8f5;
+    border-radius: 12px; padding: 14px 16px; margin-bottom: 10px;
+}
+.hist-av-meta { font-size: .82rem; color: #5b6f86; margin-bottom: 8px; }
+.hist-av-itens { display: flex; flex-wrap: wrap; gap: 6px; }
+.hist-av-tag {
+    background: #eaf3ff; color: #163a63; border: 1px solid #c5dbf2;
+    border-radius: 999px; padding: 3px 12px; font-size: .82rem; font-weight: 600;
+}
+
+/* === Cards de Triagem no Historico === */
+.triagem-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+    padding: 16px 0;
+}
+.triagem-card {
+    background: #fff;
+    border: 1.5px solid #dce8f5;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(22,58,99,.07);
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow .2s, transform .15s;
+}
+.triagem-card:hover {
+    box-shadow: 0 6px 24px rgba(22,58,99,.14);
+    transform: translateY(-2px);
+}
+.triagem-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: linear-gradient(135deg, #f0f6ff, #e8f1fb);
+    border-bottom: 1px solid #dce8f5;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.triagem-card-meta { display: flex; flex-direction: column; gap: 2px; }
+.triagem-card-data { font-size: .82rem; font-weight: 700; color: #163a63; }
+.triagem-card-tipo {
+    font-size: .75rem; color: #5b6f86;
+    text-transform: uppercase; letter-spacing: .04em;
+}
+.triagem-card-body { padding: 14px 16px; flex: 1; }
+.triagem-card-queixa { font-size: .9rem; color: #1a2e45; margin-bottom: 6px; }
+.triagem-card-desc   { font-size: .83rem; margin-bottom: 8px; }
+.triagem-card-tags   { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+.triagem-card-tag {
+    font-size: .75rem; font-weight: 600; padding: 2px 9px;
+    border-radius: 999px; border: 1px solid;
+}
+.triagem-tag-cognitiva       { background:#eaf3ff; color:#163a63; border-color:#c5dbf2; }
+.triagem-tag-pedagogica      { background:#e6f7f5; color:#0a6b66; border-color:#9fd8d3; }
+.triagem-tag-comportamental  { background:#fff3e6; color:#a35c0a; border-color:#f5c98a; }
+.triagem-tag-socioemocional  { background:#f3eeff; color:#5a3a99; border-color:#c9aef5; }
+.triagem-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border-top: 1px solid #edf2f8;
+    background: #fafcff;
+}
+.triagem-edit-btn {
+    font-size: .82rem;
+    padding: 4px 12px;
+    border-radius: 8px;
+    transition: background .15s, color .15s;
+}
+.triagem-edit-btn:hover { background: #163a63; color: #fff; border-color: #163a63; }
