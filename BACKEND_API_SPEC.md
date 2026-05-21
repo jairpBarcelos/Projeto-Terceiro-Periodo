@@ -1,414 +1,494 @@
-# Especificação de Endpoints da API - SAADI
+# Especificação Completa da API Backend - SAADI
 
-## 📋 Documentação da API Backend
-
-Este documento descreve os endpoints que o backend deve implementar para integração com o frontend do sistema SAADI.
+Este documento serve como a **Especificação de Referência Técnica** para a API REST do sistema SAADI. Ele detalha a segurança de autenticação, o tratamento de erros padronizado, a arquitetura multi-tenant de isolamento escolar e todos os endpoints ativos.
 
 ---
 
-## 🎯 Painel Principal - Administrador
+## 🔒 1. Arquitetura de Segurança e Autenticação
 
-### 1. **Endpoint: GET /api/admin/dashboard**
+A API do SAADI opera de forma **Cookie-Based** para sessões web, utilizando **Tokens JWT seguros**. 
 
-**Descrição:** Retorna as estatísticas principais do painel do administrador.
+### Cookies Seguros
+Ao realizar o login, o servidor injeta os seguintes cookies no navegador do cliente:
+*   `access_token_cookie`: Token JWT de curta duração para autorizar requisições normais de API.
+*   `refresh_token_cookie`: Token JWT de longa duração para renovação automática de sessão.
 
-**Método:** GET
+Ambos os cookies possuem as flags:
+*   `HttpOnly`: Impede leitura via Javascript, mitigando ataques de roubo de sessão por XSS.
+*   `Secure`: Exige tráfego via HTTPS em produção.
+*   `SameSite=Lax`: Protege contra ataques de CSRF (Cross-Site Request Forgery).
 
-**Autenticação:** Requerida (header Authorization)
-
-**Resposta de Sucesso (200):**
-```json
-{
-  "totalUnidades": 12,
-  "usuariosAtivos": 47,
-  "configuracoesPendentes": 8,
-  "alertaSeguranca": 3
-}
-```
-
-**Resposta de Erro (4xx/5xx):**
-```json
-{
-  "message": "Erro ao carregar dados do dashboard"
-}
+### Cabeçalhos Requeridos para API Clientes (ex: Scripts)
+Embora o navegador envie os cookies automaticamente, requisições diretas de API também podem enviar o token JWT através do cabeçalho de autorização padrão:
+```http
+Authorization: Bearer {JWT_TOKEN}
 ```
 
 ---
 
-### 2. **Endpoint: GET /api/admin/atividades-recentes**
+## 🏢 2. Arquitetura Multi-Tenant (Isolamento Escolar)
 
-**Descrição:** Retorna as últimas atividades realizadas no sistema.
+O sistema SAADI implementa um **isolamento de dados multi-tenant estrito no nível do banco de dados**, baseado no vínculo dos usuários e alunos com as unidades escolares (`unidade_id`).
 
-**Método:** GET
+### Regras de Negócio Multi-Tenant:
+1.  **Perfil Administrador (`administrador`):** Tem visão centralizada. Pode ler, cadastrar e alterar dados de todas as escolas do sistema (`unidade_id` é opcional ou omitido).
+2.  **Perfis da Secretaria (`secretaria`) e Psicopedagogia (`psicopedagogo`):** Têm acesso restrito à sua respectiva escola. O backend extrai a claim `unidade_id` inserida no JWT do usuário logado e injeta esse filtro silenciosamente em todas as consultas SQL (SELECT, INSERT, UPDATE, DELETE).
+3.  **Encaminhamentos:** Um encaminhamento feito pela secretaria de uma escola só aparecerá no painel de psicopedagogos que pertençam à **mesma escola**, garantindo que não haja vazamento de dados de alunos entre unidades escolares distintas.
 
-**Autenticação:** Requerida (header Authorization)
+---
 
-**Query Parameters:**
-- `limite` (opcional): número máximo de registros (padrão: 5)
-- `offset` (opcional): paginação (padrão: 0)
+## ⚠️ 3. Padrão de Resposta de Erros
 
-**Resposta de Sucesso (200):**
+A API responde de forma padronizada a falhas em formato JSON:
+
 ```json
 {
-  "items": [
+  "status": "error",
+  "message": "Mensagem descritiva do erro legível para o usuário.",
+  "code": "CODIGO_DO_ERRO",
+  "details": null
+}
+```
+
+### Códigos de Erro Comuns:
+*   `VALIDATION_ERROR` (HTTP 400): Dados de entrada inválidos ou falha de esquema.
+*   `UNAUTHORIZED` (HTTP 401): Token JWT ausente, inválido ou expirado.
+*   `FORBIDDEN` (HTTP 403): Tentativa de acesso a recurso de outro tenant ou perfil insuficiente.
+*   `NOT_FOUND` (HTTP 404): Registro não encontrado.
+*   `CONFLICT` (HTTP 409): CPF ou Matrícula já cadastrados no banco.
+*   `INTERNAL_SERVER_ERROR` (HTTP 500): Falha inesperada no servidor.
+
+---
+
+## 🌐 4. Catálogo de Endpoints e Blueprints
+
+---
+
+### 🔑 4.1. Módulo de Autenticação (`/api/auth`)
+
+#### **POST /api/auth/login**
+Valida credenciais e injeta cookies de sessão seguros.
+*   **Payload (JSON):**
+    ```json
     {
-      "data": "2026-04-02T14:32:00Z",
-      "nomeUsuario": "Secretária Maria",
-      "acao": "Cadastro de Aluno",
-      "entidade": "João Silva",
-      "status": "Sucesso"
-    },
-    {
-      "data": "2026-04-02T13:15:00Z",
-      "nomeUsuario": "Admin Master",
-      "acao": "Criação de Usuário",
-      "entidade": "Prof. Carlos",
-      "status": "Sucesso"
+      "email": "psico@escola.edu.br",
+      "senha": "SenhaSegura123"
     }
-  ],
-  "total": 2
-}
-```
-
----
-
-### 3. **Endpoint: GET /api/admin/status-sistema**
-
-**Descrição:** Retorna informações sobre o status do sistema.
-
-**Método:** GET
-
-**Autenticação:** Requerida (header Authorization)
-
-**Resposta de Sucesso (200):**
-```json
-{
-  "bancoDados": {
-    "status": "OK",
-    "descricao": "Online - Funcionando"
-  },
-  "armazenamento": {
-    "percentualUso": 73,
-    "descricao": "Limite de Alerta: 80%"
-  },
-  "ultimaSincronizacao": {
-    "data": "2026-04-02T12:35:00Z",
-    "descricao": "Há 2 horas"
-  }
-}
-```
-
----
-
-## 👥 Lista de Usuários - Administrador
-
-### 4. **Endpoint: GET /api/admin/usuarios**
-
-**Descrição:** Retorna a lista de usuários do sistema com filtros.
-
-**Método:** GET
-
-**Autenticação:** Requerida
-
-**Query Parameters:**
-- `busca` (opcional): Filtrar por nome, email ou matrícula
-- `perfil` (opcional): Filtrar por perfil (administrador, secretaria, psicopedagogo, professor, diretor)
-- `status` (opcional): Filtrar por status (ativo, inativo, bloqueado)
-- `unidade_id` (opcional): Filtrar por unidade escolar
-- `limite` (opcional): Resultados por página (padrão: 10)
-- `pagina` (opcional): Número da página (padrão: 1)
-
-**Resposta de Sucesso (200):**
-```json
-{
-  "items": [
+    ```
+*   **Resposta de Sucesso (200 OK):**
+    ```json
     {
-      "id": 1,
-      "nome_completo": "Maria da Silva",
-      "email": "maria@escola.edu.br",
-      "perfil_nome": "Secretaria",
-      "unidade_id": 1,
-      "status": "ativo",
-      "ultimo_login_em": "2026-04-02T13:20:00Z"
+      "status": "success",
+      "message": "Autenticado com sucesso.",
+      "data": {
+        "user": {
+          "id": 5,
+          "nome_completo": "Ana Paula Silva",
+          "perfil": "psicopedagogo",
+          "unidade_id": 2
+        },
+        "redirect_url": "/pages/menus/psicopedagogo/painelPsicopedagogo.html"
+      }
     }
-  ],
-  "total": 47,
-  "pagina": 1,
-  "limite": 10
-}
-```
+    ```
 
----
-
-## 🏫 Lista de Unidades - Administrador
-
-### 5. **Endpoint: GET /api/admin/unidades**
-
-**Descrição:** Retorna a lista de unidades escolares.
-
-**Método:** GET
-
-**Autenticação:** Requerida
-
-**Query Parameters:**
-- `busca` (opcional): Filtrar por nome, cidade ou CNPJ
-- `estado` (opcional): Filtrar por UF
-- `status` (opcional): Filtrar por status (ativa, inativa, manutencao)
-- `limite` (opcional): Resultados por página
-- `pagina` (opcional): Número da página
-
-**Resposta de Sucesso (200):**
-```json
-{
-  "items": [
+#### **POST /api/auth/logout**
+Limpa os cookies de sessão segura do navegador.
+*   **Resposta de Sucesso (200 OK):**
+    ```json
     {
-      "id": 1,
-      "nome": "Escola Municipal Centro",
-      "cidade": "São Paulo",
-      "cnpj": "12.345.678/0001-90",
-      "diretor_nome": "Prof. Roberto Silva",
-      "estado": "SP",
-      "status": "ativa"
+      "status": "success",
+      "message": "Logout realizado com sucesso."
     }
-  ],
-  "total": 12
-}
-```
+    ```
 
----
-
-## 📊 Relatórios - Administrador
-
-### 6. **Endpoint: GET /api/admin/relatorios/dashboard**
-
-**Descrição:** Retorna dados consolidados para o painel de relatórios.
-
-**Método:** GET
-
-**Autenticação:** Requerida
-
-**Query Parameters:**
-- `periodo` (opcional): Período de análise (30dias, trimestre, ano) - padrão: 30dias
-- `unidade_id` (opcional): Filtrar por unidade
-- `serie` (opcional): Filtrar por série
-- `tipo_neurodiversidade` (opcional): Filtrar por tipo
-
-**Resposta de Sucesso (200):**
-```json
-{
-  "totalAlunos": 1247,
-  "comLaudos": 342,
-  "emAcompanhamento": 128,
-  "encaminhamentosPendentes": 45,
-  "distribuicaoNeurodiversidade": {
-    "autismo": 120,
-    "tdah": 95,
-    "altasHabilidades": 68,
-    "deficienciaAuditiva": 42,
-    "outros": 17
-  },
-  "alunosPorSerie": {
-    "educacaoInfantil": 320,
-    "1ao3ano": 285,
-    "4ao5ano": 340,
-    "6ao9ano": 302
-  },
-  "resumoPorUnidade": [
+#### **POST /api/auth/refresh**
+Gera um novo `access_token` a partir do `refresh_token` armazenado em cookie.
+*   **Resposta de Sucesso (200 OK):**
+    ```json
     {
-      "nomeUnidade": "Escola Municipal Centro",
-      "totalAlunos": 325,
-      "comLaudos": 92,
-      "emAcompanhamento": 28,
-      "taxaAbrangencia": 28.3
+      "status": "success",
+      "message": "Sessão renovada."
     }
-  ]
-}
-```
+    ```
 
 ---
 
-## 🔐 Autenticação
+### 🏫 4.2. Módulo Administrativo: Unidades (`/api/admin/unidades`)
 
-### 7. **Endpoint: POST /api/auth/logout**
-
-**Descrição:** Realiza logout do usuário.
-
-**Método:** POST
-
-**Autenticação:** Requerida
-
-**Resposta de Sucesso (200):**
-```json
-{
-  "message": "Logout realizado com sucesso"
-}
-```
-
----
-
-## 📝 Auditoria
-
-### 8. **Endpoint: GET /api/admin/auditoria**
-
-**Descrição:** Retorna registros de auditoria do sistema.
-
-**Método:** GET
-
-**Autenticação:** Requerida
-
-**Query Parameters:**
-- `usuario` (opcional): Filtrar por nome de usuário
-- `tipo` (opcional): Filtrar por tipo de ação (Criação, Atualização, Exclusão, Login, Logout)
-- `data_inicio` (opcional): Data inicial (formato: YYYY-MM-DD)
-- `data_fim` (opcional): Data final (formato: YYYY-MM-DD)
-- `limite`: Resultados por página
-- `pagina`: Número da página
-
-**Resposta de Sucesso (200):**
-```json
-{
-  "items": [
+#### **GET /api/admin/unidades**
+Lista as unidades escolares com paginação e busca.
+*   **Query Params:** `page`, `limit`, `busca`
+*   **Resposta de Sucesso (200 OK):**
+    ```json
     {
-      "data": "2026-04-02T14:35:00Z",
-      "nomeUsuario": "Admin Master",
-      "acao": "Criação",
-      "entidade": "Usuário",
-      "detalhes": "Maria da Silva (maria@escola.edu.br)",
-      "resultado": "Sucesso"
+      "status": "success",
+      "data": {
+        "items": [
+          {
+            "id": 2,
+            "nome": "E.M. Inclusiva Jardim",
+            "cnpj": "12.345.678/0002-00",
+            "cidade": "Belo Horizonte",
+            "estado": "MG",
+            "status": "ativa"
+          }
+        ],
+        "total": 1,
+        "pagina": 1,
+        "limite": 20,
+        "totalPaginas": 1
+      }
     }
-  ],
-  "total": 1247,
-  "resumo": {
-    "totalAcoes": 1247,
-    "criacoes": 542,
-    "atualizacoes": 634,
-    "exclusoes": 71
-  }
-}
-```
+    ```
+
+#### **POST /api/admin/unidades**
+Cadastra uma nova unidade. (Apenas Admin)
+*   **Payload (JSON):**
+    ```json
+    {
+      "nome": "E.M. Inclusiva Jardim",
+      "cnpj": "12.345.678/0002-00",
+      "cidade": "Belo Horizonte",
+      "estado": "MG"
+    }
+    ```
+*   **Resposta de Sucesso (201 Created):**
+    ```json
+    {
+      "status": "success",
+      "message": "Unidade criada com sucesso.",
+      "data": { "id": 2 }
+    }
+    ```
 
 ---
 
-## 📊 Alunos - Nível Central
+### 👥 4.3. Módulo Administrativo: Usuários (`/api/admin/usuarios`)
 
-### 9. **Endpoint: GET /api/admin/alunos**
-
-**Descrição:** Retorna lista de alunos com filtros avançados.
-
-**Método:** GET
-
-**Autenticação:** Requerida
-
-**Query Parameters:**
-- `busca` (opcional): Filtrar por nome, CPF ou matrícula
-- `unidade_id` (opcional): Filtrar por unidade
-- `serie` (opcional): Filtrar por série
-- `diagnostico` (opcional): Filtrar por diagnóstico
-- `status` (opcional): Filtrar por status
-- `limite`: Resultados por página
-- `pagina`: Número da página
-
-**Resposta de Sucesso (200):**
-```json
-{
-  "items": [
+#### **GET /api/admin/usuarios**
+Lista usuários do sistema com filtros avançados.
+*   **Query Params:** `page`, `limit`, `busca`, `perfil`, `unidade_id`
+*   **Resposta de Sucesso (200 OK):**
+    ```json
     {
-      "id": 1,
-      "nome": "João Silva",
-      "matricula": "MAT20240001",
-      "unidade": "Escola Municipal Centro",
-      "serie": "1º ano",
-      "diagnostico": "Autismo",
+      "status": "success",
+      "data": {
+        "items": [
+          {
+            "id": 5,
+            "nome_completo": "Ana Paula Silva",
+            "email": "psico@escola.edu.br",
+            "perfil_nome": "psicopedagogo",
+            "unidade_id": 2,
+            "status": "ativo"
+          }
+        ],
+        "total": 1,
+        "pagina": 1,
+        "limite": 10
+      }
+    }
+    ```
+
+#### **POST /api/admin/usuarios**
+Cria um novo usuário administrativo ou escolar.
+*   **Payload (JSON):**
+    ```json
+    {
+      "nome_completo": "Ana Paula Silva",
+      "email": "psico@escola.edu.br",
+      "perfil": "psicopedagogo",
+      "unidade_id": 2,
+      "senha": "SenhaSuperSegura"
+    }
+    ```
+
+#### **DELETE /api/admin/usuarios/<id>**
+Exclui permanentemente um usuário.
+*   **Resposta (200 OK):**
+    ```json
+    {
+      "status": "success",
+      "message": "Usuário deletado com sucesso."
+    }
+    ```
+
+---
+
+### 📊 4.4. Módulo de Estatísticas & Auditoria (`/api/admin`)
+
+#### **GET /api/admin/dashboard**
+Retorna as contagens globais para o Painel do Administrador.
+*   **Resposta (200 OK):**
+    ```json
+    {
+      "status": "success",
+      "data": {
+        "totalUnidades": 14,
+        "usuariosAtivos": 32,
+        "configuracoesPendentes": 2,
+        "alertaSeguranca": 0
+      }
+    }
+    ```
+
+#### **GET /api/admin/atividades-recentes**
+Retorna as últimas auditorias do banco de dados (ex: login, exclusões).
+*   **Resposta (200 OK):**
+    ```json
+    {
+      "status": "success",
+      "data": {
+        "items": [
+          {
+            "data": "2026-05-21T13:45:00Z",
+            "nomeUsuario": "Ana Paula Silva",
+            "acao": "Cadastro de Triagem",
+            "entidade": "Pedro Rocha",
+            "status": "Sucesso"
+          }
+        ]
+      }
+    }
+    ```
+
+#### **GET /api/admin/status-sistema**
+Fornece métricas de integridade de banco de dados PostgreSQL e armazenamento.
+*   **Resposta (200 OK):**
+    ```json
+    {
+      "status": "success",
+      "data": {
+        "bancoDados": { "status": "OK", "descricao": "Conexão ativa e estável" },
+        "armazenamento": { "percentualUso": 12, "descricao": "Espaço suficiente" }
+      }
+    }
+    ```
+
+---
+
+### 🎓 4.5. Módulo de Alunos (`/api/alunos`)
+
+#### **GET /api/alunos**
+Retorna alunos com base na escola logada (ou centralizados se admin).
+*   **Query Params:** `page`, `limit`, `q`, `unidade_id`, `status`
+*   **Resposta (200 OK):**
+    ```json
+    {
+      "status": "success",
+      "data": {
+        "items": [
+          {
+            "id": 12,
+            "nome": "Pedro Rocha",
+            "cpf": "123.456.789-00",
+            "matricula": "MAT2026-004",
+            "serie": "3º Ano A",
+            "status": "ativo",
+            "unidade_id": 2
+          }
+        ],
+        "total": 1,
+        "pagina": 1,
+        "limite": 20
+      }
+    }
+    ```
+
+#### **POST /api/alunos**
+Cadastra um novo aluno. Valida CPFs repetidos.
+*   **Payload (JSON):**
+    ```json
+    {
+      "nome": "Pedro Rocha",
+      "cpf": "123.456.789-00",
+      "matricula": "MAT2026-004",
+      "serie": "3º Ano A",
+      "unidade_id": 2
+    }
+    ```
+
+#### **DELETE /api/alunos/<id>**
+Exclusão lógica do aluno (Soft Delete), mudando o status para `inativo`.
+*   **Resposta (200 OK):**
+    ```json
+    {
+      "status": "success",
+      "message": "Aluno removido com sucesso (soft delete)."
+    }
+    ```
+
+#### **GET /api/alunos/historico/<id>**
+Retorna a linha do tempo (timeline) completa de eventos psicopedagógicos e pedagógicos do aluno.
+*   **Resposta (200 OK):**
+    ```json
+    {
+      "status": "success",
+      "data": {
+        "historico": [
+          {
+            "tipo": "encaminhamento",
+            "data": "2026-05-20T10:00:00Z",
+            "descricao": "Encaminhado pela secretaria para atendimento Psicopedagógico.",
+            "autor": "Mariana Souza (Secretária)"
+          },
+          {
+            "tipo": "triagem",
+            "data": "2026-05-21T11:30:00Z",
+            "descricao": "Entrevista de triagem realizada com o aluno.",
+            "autor": "Ana Paula Silva (Psicopedagoga)"
+          }
+        ]
+      }
+    }
+    ```
+
+---
+
+### 📩 4.6. Módulo de Encaminhamentos (`/api/encaminhamentos`)
+Utilizado pela Secretaria para enviar alunos à Psicopedagogia e receber retornos.
+
+#### **GET /api/encaminhamentos/dashboard**
+Traz dados rápidos do andamento dos encaminhamentos na unidade logada.
+*   **Resposta (200 OK):**
+    ```json
+    {
+      "status": "success",
+      "data": {
+        "total": 10,
+        "abertos": 3,
+        "em_atendimento": 5,
+        "resolvidos": 2
+      }
+    }
+    ```
+
+#### **GET /api/encaminhamentos**
+Lista os encaminhamentos. Aplica o filtro de tenant escolar de forma estrita.
+*   **Query Params:** `status`, `q`, `page`, `limit`
+*   **Resposta (200 OK):**
+    ```json
+    {
+      "status": "success",
+      "data": {
+        "items": [
+          {
+            "id": 1,
+            "aluno": { "id": 12, "nome": "Pedro Rocha" },
+            "solicitante": { "id": 4, "nome_completo": "Mariana Souza" },
+            "motivo": "Dificuldades de aprendizado e concentração.",
+            "status": "aberto",
+            "data_criacao": "2026-05-21T10:30:00Z"
+          }
+        ]
+      }
+    }
+    ```
+
+#### **POST /api/encaminhamentos**
+Cadastra um encaminhamento direcionado ao psicopedagogo.
+*   **Payload (JSON):**
+    ```json
+    {
+      "aluno_id": 12,
+      "motivo": "Indícios fortes de dislexia ou dificuldades de letramento rápido.",
+      "observacoes": "Família está ciente e concorda.",
+      "urgente": true
+    }
+    ```
+
+#### **POST /api/encaminhamentos/<id>/retorno**
+Registrado pelo Psicopedagogo ao dar um fechamento ou parecer sobre a triagem. Atualiza o status para `resolvido`.
+*   **Payload (JSON):**
+    ```json
+    {
+      "parecer_tecnico": "O aluno Pedro Rocha passará a ser acompanhado individualmente às terças-feiras no contraturno escolar.",
+      "data_retorno": "2026-05-21"
+    }
+    ```
+
+---
+
+### 📝 4.7. Módulo de Triagens & Evoluções (`/api/triagens`)
+
+#### **GET /api/triagens/alunos-select**
+Lista os alunos ativos vinculados à escola, ideal para preencher dropdowns/selects de modais.
+*   **Resposta (200 OK):**
+    ```json
+    {
+      "status": "success",
+      "data": {
+        "alunos": [
+          { "id": 12, "nome": "Pedro Rocha" }
+        ]
+      }
+    }
+    ```
+
+#### **POST /api/triagens**
+Cadastra uma ficha de triagem ou registro de evolução técnica.
+*   **Payload (JSON):**
+    ```json
+    {
+      "aluno_id": 12,
+      "motivo_triagem": "Falta de foco nas avaliações regulares.",
+      "data_registro": "2026-05-21",
+      "encaminhado_por": "Secretária Mariana",
+      "observacoes_gerais": "Apresenta nervosismo leve.",
+      "status": "aguardando_entrevista"
+    }
+    ```
+
+---
+
+### 📘 4.8. Módulo de Planos de Acompanhamento (`/api/planos`)
+
+#### **POST /api/planos**
+Emite um Plano de Acompanhamento Especializado.
+*   **Payload (JSON):**
+    ```json
+    {
+      "aluno_id": 12,
+      "objetivos": "Aumentar a compreensão leitora e atenção sustentada.",
+      "metodologia": "Uso de recursos visuais táteis e leituras assistidas.",
+      "frequencia_semanal": 2,
       "status": "ativo"
     }
-  ],
-  "total": 1247
-}
-```
+    ```
 
 ---
 
-## ⚠️ Tratamento de Erros
+### 📁 4.9. Módulo de Relatórios Técnicos e Pareceres (`/api/relatorios`)
 
-Todos os endpoints devem retornar erros no seguinte formato:
-
-**Erro 401 - Não Autorizado:**
-```json
-{
-  "message": "Acesso não autorizado",
-  "code": "UNAUTHORIZED"
-}
-```
-
-**Erro 403 - Proibido:**
-```json
-{
-  "message": "Você não tem permissão para acessar este recurso",
-  "code": "FORBIDDEN"
-}
-```
-
-**Erro 404 - Não Encontrado:**
-```json
-{
-  "message": "Recurso não encontrado",
-  "code": "NOT_FOUND"
-}
-```
-
-**Erro 500 - Erro Interno do Servidor:**
-```json
-{
-  "message": "Erro interno do servidor",
-  "code": "INTERNAL_SERVER_ERROR"
-}
-```
+#### **POST /api/relatorios**
+Registra um laudo, parecer pedagógico ou relatório conclusivo de acompanhamento.
+*   **Payload (JSON):**
+    ```json
+    {
+      "aluno_id": 12,
+      "titulo": "Parecer Clínico Trimestral - Pedro Rocha",
+      "conteudo": "Pedro demonstrou evolução satisfatória na identificação de grafemas simples.",
+      "status": "finalizado"
+    }
+    ```
 
 ---
 
-## 🔄 Padrões de Resposta
+### 🎯 4.10. Painel Geral do Psicopedagogo (`/api/psicopedagogo`)
 
-### Headers Requeridos
-
-Todas as requisições devem incluir:
-```
-Authorization: Bearer {token}
-Content-Type: application/json
-```
-
-### Formato de Data/Hora
-
-Todas as datas devem estar em formato ISO 8601 com timezone:
-```
-2026-04-02T14:35:00Z
-```
-
-### Paginação
-
-Endpoints que retornam listas devem seguir este padrão:
-```json
-{
-  "items": [...],
-  "total": 100,
-  "pagina": 1,
-  "limite": 10,
-  "totalPaginas": 10
-}
-```
-
----
-
-## 🚀 Próximos Passos
-
-1. Implementar endpoints básicos do dashboard
-2. Adicionar autenticação JWT
-3. Implementar sistemas de filtros e paginação
-4. Adicionar tratamento de erros padronizado
-5. Implementar cache para melhor performance
-6. Adicionar logging e auditoria
-
----
-
-**Versão:** 1.0
-**Data:** 10/04/2026
-**Status:** Em Preparação
+#### **GET /api/psicopedagogo/dashboard**
+Provê todos os indicadores numéricos unificados exigidos no dashboard do psicopedagogo.
+*   **Resposta (200 OK):**
+    ```json
+    {
+      "status": "success",
+      "data": {
+        "casos_ativos": 5,
+        "triagens_pendentes": 2,
+        "planos_ativos": 3,
+        "atendimentos_hoje": 1,
+        "encaminhamentos_abertos": 3
+      }
+    }
+    ```
