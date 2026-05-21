@@ -696,12 +696,15 @@ body {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   animation: fadeIn 0.3s ease;
+  overflow-y: auto; /* Habilita a rolagem vertical se o modal for muito alto */
 }
 
 .modal.ativo {
   display: flex;
-  align-items: center;
+  align-items: flex-start; /* Permite rolar confortavelmente sem cortar o topo do modal */
   justify-content: center;
+  padding: 30px 10px; /* Adiciona espaçamento nas extremidades ao rolar */
+  box-sizing: border-box;
 }
 
 .modalConteudo {
@@ -712,6 +715,9 @@ body {
   max-width: 500px;
   width: 90%;
   animation: slideUp 0.3s ease;
+  margin: 30px auto; /* Evita que o modal corte o topo e base se for maior que a tela */
+  max-height: calc(100vh - 60px); /* Garante que caiba na tela */
+  overflow-y: auto; /* Habilita rolagem interna caso o conteúdo do form seja grande */
 }
 
 .modalConteudo h2 {

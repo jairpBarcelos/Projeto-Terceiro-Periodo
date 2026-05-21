@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from flask import Blueprint, request
-from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import get_jwt, get_jwt_identity
 from pydantic import ValidationError
 from sqlalchemy.exc import IntegrityError
 
@@ -37,9 +37,14 @@ encaminhamentos_bp = Blueprint('encaminhamentos', __name__, url_prefix='/api/enc
 def dashboard_encaminhamentos():
     """Retorna métricas consolidadas de encaminhamentos para o painel."""
     solicitante_id = request.args.get('solicitante_id', type=int)
+    
+    claims = get_jwt()
+    perfil = claims.get('perfil')
+    unidade_id = claims.get('unidade_id') if perfil != 'administrador' else None
+
     return success(
         'Métricas de encaminhamentos carregadas com sucesso.',
-        data=dashboard_encaminhamentos_service(solicitante_id),
+        data=dashboard_encaminhamentos_service(solicitante_id, unidade_id),
     )
 
 
@@ -58,9 +63,13 @@ def listar_encaminhamentos():
     page = max(1, request.args.get('page', default=1, type=int))
     limit = min(max(1, request.args.get('limit', default=20, type=int)), 100)
 
+    claims = get_jwt()
+    perfil = claims.get('perfil')
+    unidade_id = claims.get('unidade_id') if perfil != 'administrador' else None
+
     return success(
         'Encaminhamentos carregados com sucesso.',
-        data=listar_encaminhamentos_service(solicitante_id, tipo, status, q, page, limit),
+        data=listar_encaminhamentos_service(solicitante_id, tipo, status, q, page, limit, unidade_id),
     )
 
 
@@ -73,6 +82,14 @@ def listar_encaminhamentos():
 def buscar_encaminhamento(enc_id: int):
     """Retorna os dados completos de um encaminhamento por ID."""
     enc = buscar_encaminhamento_service(enc_id)
+
+    # Validação multi-tenant: O aluno associado deve pertencer à mesma unidade do usuário logado (a menos que seja admin)
+    claims = get_jwt()
+    perfil = claims.get('perfil')
+    unidade_id = claims.get('unidade_id')
+    if perfil != 'administrador' and enc.aluno and enc.aluno.unidade_id != unidade_id:
+        return error('Acesso não autorizado a este encaminhamento.', 403, 'FORBIDDEN')
+
     return success(
         'Encaminhamento carregado com sucesso.',
         data={'item': serializar_encaminhamento(enc)},
@@ -115,6 +132,14 @@ def criar_encaminhamento():
 def atualizar_encaminhamento(enc_id: int):
     """Atualiza os dados de um encaminhamento existente."""
     enc = buscar_encaminhamento_service(enc_id)
+
+    # Validação multi-tenant: O aluno associado deve pertencer à mesma unidade do usuário logado (a menos que seja admin)
+    claims = get_jwt()
+    perfil = claims.get('perfil')
+    unidade_id = claims.get('unidade_id')
+    if perfil != 'administrador' and enc.aluno and enc.aluno.unidade_id != unidade_id:
+        return error('Acesso não autorizado a este encaminhamento.', 403, 'FORBIDDEN')
+
     payload = request.get_json(silent=True) or {}
     try:
         dados = EncaminhamentoUpdateSchema(**payload)
@@ -140,6 +165,14 @@ def atualizar_encaminhamento(enc_id: int):
 def registrar_retorno(enc_id: int):
     """Registra o retorno recebido para um encaminhamento."""
     enc = buscar_encaminhamento_service(enc_id)
+
+    # Validação multi-tenant: O aluno associado deve pertencer à mesma unidade do usuário logado (a menos que seja admin)
+    claims = get_jwt()
+    perfil = claims.get('perfil')
+    unidade_id = claims.get('unidade_id')
+    if perfil != 'administrador' and enc.aluno and enc.aluno.unidade_id != unidade_id:
+        return error('Acesso não autorizado a este encaminhamento.', 403, 'FORBIDDEN')
+
     payload = request.get_json(silent=True) or {}
     try:
         dados = EncaminhamentoRetornoSchema(**payload)

@@ -35,7 +35,7 @@
             <div class="Perfil">
                 <div class="fotoPerfil"><img src="/img/perfil.png" alt="Foto de Perfil vazia"></div>
                 <div>
-                    <p>Bem-vindo(a), Seu Nome!</p>
+                    <p id="nomeUsuario">Bem-vindo(a)!</p>
                 </div>
                 <div class="config">
                     <button type="button" aria-label="Abrir configuracoes">
@@ -76,7 +76,7 @@
             <div class="baixo">
                 <hr>
             </div>
-            <a class="textoSair" href="/pages/auth/login.html">
+            <a class="textoSair" id="btnSair" href="#">
                 <div class="sair">
                     <div class="fotoSair"><img src="/img/sair.png" alt="Sair"></div>
                     <p> Sair da Conta </p>
@@ -118,7 +118,7 @@
                                 <p class="metricaRotulo">Total de Triagens</p>
                                 <p class="metricaComplemento">Período atual</p>
                             </div>
-                            <div class="contagem">32</div>
+                            <div class="contagem" id="totalTriagens">0</div>
                         </div>
 
                         <div class="fileira">
@@ -126,28 +126,21 @@
                                 <div class="metricaInfo">
                                     <p class="metricaRotulo">Aguardando Entrevista</p>
                                 </div>
-                                <div class="contagem">7</div>
+                                <div class="contagem" id="totalAguardando">0</div>
                             </div>
 
                             <div class="metricaCard tdah">
                                 <div class="metricaInfo">
                                     <p class="metricaRotulo">Em Avaliação</p>
                                 </div>
-                                <div class="contagem">14</div>
+                                <div class="contagem" id="totalEmProcesso">0</div>
                             </div>
 
                             <div class="metricaCard dislexia">
                                 <div class="metricaInfo">
                                     <p class="metricaRotulo">Concluídas</p>
                                 </div>
-                                <div class="contagem">11</div>
-                            </div>
-
-                            <div class="metricaCard outras">
-                                <div class="metricaInfo">
-                                    <p class="metricaRotulo">Alta Prioridade</p>
-                                </div>
-                                <div class="contagem">3</div>
+                                <div class="contagem" id="totalConcluidas">0</div>
                             </div>
                         </div>
                     </section>
@@ -159,44 +152,47 @@
             <h3>Registrar Atendimento Psicopedagógico</h3>
             <p class="psicoInfo">Regra aplicada: somente psicopedagogo registra atendimento, com aluno, data e vínculo
                 institucional.</p>
-            <form class="row g-3">
+            <form class="row g-3" id="formTriagem">
                 <div class="col-md-4">
                     <label class="form-label" for="atendimentoAluno">Aluno</label>
-                    <select id="atendimentoAluno" class="form-select">
-                        <option>Ana Luiza Santos</option>
-                        <option>João Pedro Silva</option>
-                        <option>Beatriz Souza</option>
+                    <select id="atendimentoAluno" class="form-select" required>
+                        <option value="">Selecione um aluno...</option>
                     </select>
                 </div>
                 <div class="col-md-3">
                     <label class="form-label" for="atendimentoData">Data</label>
-                    <input id="atendimentoData" type="date" class="form-control" value="2026-04-03">
+                    <input id="atendimentoData" type="date" class="form-control" required>
                 </div>
                 <div class="col-md-5">
                     <label class="form-label" for="atendimentoTipo">Tipo de registro</label>
-                    <select id="atendimentoTipo" class="form-select">
+                    <select id="atendimentoTipo" class="form-select" required>
                         <option value="triagem">Triagem</option>
                         <option value="acompanhamento">Acompanhamento</option>
+                        <option value="evolucao">Evolução</option>
+                    </select>
+                </div>
+                <div class="col-md-12">
+                    <label class="form-label" for="atendimentoStatus">Situação</label>
+                    <select id="atendimentoStatus" class="form-select" required>
+                        <option value="aguardando_entrevista">Aguardando Entrevista</option>
+                        <option value="em_processo">Em Processo</option>
                         <option value="concluido">Concluído</option>
                     </select>
                 </div>
                 <div class="col-12">
                     <label class="form-label" for="atendimentoDescricao">Descrição</label>
-                    <textarea id="atendimentoDescricao" class="form-control"
-                        rows="2">Entrevista inicial com responsáveis para levantamento de demandas.</textarea>
+                    <textarea id="atendimentoDescricao" class="form-control" rows="2" placeholder="Descreva os pontos iniciais..."></textarea>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label" for="atendimentoEvolucao">Evolução</label>
-                    <textarea id="atendimentoEvolucao" class="form-control"
-                        rows="2">Aluno apresentou boa adesão às estratégias de rotina estruturada.</textarea>
+                    <textarea id="atendimentoEvolucao" class="form-control" rows="2" placeholder="Descreva a evolução..."></textarea>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label" for="atendimentoObservacoes">Observações</label>
-                    <textarea id="atendimentoObservacoes" class="form-control"
-                        rows="2">Agendar devolutiva com família em 15 dias.</textarea>
+                    <textarea id="atendimentoObservacoes" class="form-control" rows="2" placeholder="Observações adicionais..."></textarea>
                 </div>
                 <div class="col-12">
-                    <button class="btn btn-primary" type="button">Salvar atendimento</button>
+                    <button class="btn btn-primary" type="submit">Salvar atendimento</button>
                 </div>
             </form>
         </section>
@@ -204,7 +200,7 @@
         <section class="psicoBloco" aria-label="Histórico de atendimentos">
             <h3>Histórico de Atendimentos</h3>
             <div class="psicoTabelaWrap">
-                <table class="table table-striped align-middle">
+                <table class="table table-striped align-middle" id="tabelaTriagens">
                     <thead>
                         <tr>
                             <th>Data</th>
@@ -212,33 +208,17 @@
                             <th>Tipo</th>
                             <th>Descrição</th>
                             <th>Evolução</th>
+                            <th>Situação</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>03/04/2026</td>
-                            <td>Ana Luiza Santos</td>
-                            <td>Triagem</td>
-                            <td>Entrevista inicial com responsáveis</td>
-                            <td>Boa adaptação às orientações</td>
-                        </tr>
-                        <tr>
-                            <td>01/04/2026</td>
-                            <td>João Pedro Silva</td>
-                            <td>Acompanhamento</td>
-                            <td>Atividade de atenção sustentada</td>
-                            <td>Melhora no tempo de foco</td>
-                        </tr>
-                        <tr>
-                            <td>28/03/2026</td>
-                            <td>Beatriz Souza</td>
-                            <td>Concluído</td>
-                            <td>Fechamento de ciclo de intervenção</td>
-                            <td>Meta principal atingida</td>
+                            <td colspan="6" class="text-center text-muted py-4">Carregando histórico...</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+            <div id="paginacaoTriagens" class="d-flex justify-content-end mt-3"></div>
         </section>
     </div>
 
@@ -257,6 +237,8 @@
     <script>
         new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
+    <script src="/scripts/apiClient.js"></script>
+    <script src="/scripts/triagensPsicopedagogo.js"></script>
 </body>
 
 </html>

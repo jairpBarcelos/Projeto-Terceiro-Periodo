@@ -35,7 +35,7 @@
             <div class="Perfil">
                 <div class="fotoPerfil"><img src="/img/perfil.png" alt="Foto de Perfil vazia"></div>
                 <div>
-                    <p>Bem-vindo(a), Seu Nome!</p>
+                    <p id="nomeUsuario">Bem-vindo(a)!</p>
                 </div>
                 <div class="config">
                     <button type="button" aria-label="Abrir configuracoes">
@@ -76,7 +76,7 @@
             <div class="baixo">
                 <hr>
             </div>
-            <a class="textoSair" href="/pages/auth/login.html">
+            <a class="textoSair" id="btnSair" href="#">
                 <div class="sair">
                     <div class="fotoSair"><img src="/img/sair.png" alt="Sair"></div>
                     <p> Sair da Conta </p>
@@ -115,39 +115,32 @@
 
                         <div class="caixaTotal cardDestaque">
                             <div class="metricaInfo">
-                                <p class="metricaRotulo">Planos Ativos</p>
+                                <p class="metricaRotulo">Total de Planos</p>
                                 <p class="metricaComplemento">No período atual</p>
                             </div>
-                            <div class="contagem">22</div>
+                            <div class="contagem" id="totalPlanos">0</div>
                         </div>
 
                         <div class="fileira">
                             <div class="metricaCard autistas">
                                 <div class="metricaInfo">
-                                    <p class="metricaRotulo">Metas em Dia</p>
+                                    <p class="metricaRotulo">Planos Ativos</p>
                                 </div>
-                                <div class="contagem">15</div>
+                                <div class="contagem" id="totalPlanosAtivos">0</div>
                             </div>
 
                             <div class="metricaCard tdah">
                                 <div class="metricaInfo">
-                                    <p class="metricaRotulo">Revisão Mensal</p>
+                                    <p class="metricaRotulo">Planos Concluídos</p>
                                 </div>
-                                <div class="contagem">6</div>
+                                <div class="contagem" id="totalPlanosConcluidos">0</div>
                             </div>
 
                             <div class="metricaCard dislexia">
                                 <div class="metricaInfo">
-                                    <p class="metricaRotulo">Pendentes de Atualização</p>
+                                    <p class="metricaRotulo">Planos Suspensos</p>
                                 </div>
-                                <div class="contagem">4</div>
-                            </div>
-
-                            <div class="metricaCard outras">
-                                <div class="metricaInfo">
-                                    <p class="metricaRotulo">Planos Vinculados</p>
-                                </div>
-                                <div class="contagem">22</div>
+                                <div class="contagem" id="totalPlanosSuspensos">0</div>
                             </div>
                         </div>
                     </section>
@@ -155,42 +148,81 @@
             </div>
         </main>
 
-        <section class="psicoBloco" aria-label="Alunos por necessidade e responsável">
-            <h3>Base para Planos de Acompanhamento</h3>
-            <p class="psicoInfo">Regra aplicada: aluno pode ter uma ou mais necessidades, sem repetição por necessidade.
-            </p>
+        <section class="psicoBloco" aria-label="Criação de plano de acompanhamento">
+            <h3>Criar Novo Plano de Acompanhamento</h3>
+            <p class="psicoInfo">Estabeleça metas e defina estratégias de intervenção específicas para o estudante.</p>
+            <form class="row g-3" id="formPlano">
+                <div class="col-md-6">
+                    <label class="form-label" for="planoAluno">Aluno</label>
+                    <select id="planoAluno" class="form-select" required>
+                        <option value="">Selecione um aluno...</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="planoTitulo">Título do Plano</label>
+                    <input id="planoTitulo" type="text" class="form-control" placeholder="Ex: Plano de intervenção em leitura e foco" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="planoDataInicio">Data de Início</label>
+                    <input id="planoDataInicio" type="date" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="planoDataFim">Previsão de Fim</label>
+                    <input id="planoDataFim" type="date" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="planoPeriodicidade">Periodicidade das Sessões</label>
+                    <select id="planoPeriodicidade" class="form-select" required>
+                        <option value="semanal">Semanal</option>
+                        <option value="quinzenal">Quinzenal</option>
+                        <option value="mensal">Mensal</option>
+                        <option value="outra">Outra</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="planoStatus">Situação Inicial</label>
+                    <select id="planoStatus" class="form-select" required>
+                        <option value="ativo">Ativo</option>
+                        <option value="concluido">Concluído</option>
+                        <option value="suspenso">Suspenso</option>
+                    </select>
+                </div>
+                <div class="col-md-12">
+                    <label class="form-label" for="planoObjetivo">Objetivo Geral</label>
+                    <textarea id="planoObjetivo" class="form-control" rows="2" placeholder="Descreva os objetivos a curto e médio prazo..." required></textarea>
+                </div>
+                <div class="col-md-12">
+                    <label class="form-label" for="planoEstrategias">Estratégias / Ações</label>
+                    <textarea id="planoEstrategias" class="form-control" rows="2" placeholder="Descreva as estratégias lúdicas, pedagógicas ou socioemocionais..."></textarea>
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-primary" type="submit">Salvar plano</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="psicoBloco" aria-label="Planos de acompanhamento registrados">
+            <h3>Planos Cadastrados</h3>
             <div class="psicoTabelaWrap">
-                <table class="table table-striped align-middle">
+                <table class="table table-striped align-middle" id="tabelaPlanos">
                     <thead>
                         <tr>
+                            <th>Data Início</th>
                             <th>Aluno</th>
-                            <th>Necessidades</th>
-                            <th>Responsável</th>
-                            <th>Telefone</th>
+                            <th>Título do Plano</th>
+                            <th>Objetivo</th>
+                            <th>Periodicidade</th>
+                            <th>Situação</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Ana Luiza Santos</td>
-                            <td>Autismo</td>
-                            <td>Carlos Santos</td>
-                            <td>(11) 98888-1111</td>
-                        </tr>
-                        <tr>
-                            <td>João Pedro Silva</td>
-                            <td>TDAH</td>
-                            <td>Mariana Silva</td>
-                            <td>(11) 97777-2222</td>
-                        </tr>
-                        <tr>
-                            <td>Beatriz Souza</td>
-                            <td>Dislexia</td>
-                            <td>Roberto Souza</td>
-                            <td>(11) 96666-3333</td>
+                            <td colspan="6" class="text-center text-muted py-4">Carregando planos...</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+            <div id="paginacaoPlanos" class="d-flex justify-content-end mt-3"></div>
         </section>
     </div>
 
@@ -209,6 +241,8 @@
     <script>
         new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
+    <script src="/scripts/apiClient.js"></script>
+    <script src="/scripts/planosPsicopedagogo.js"></script>
 </body>
 
 </html>

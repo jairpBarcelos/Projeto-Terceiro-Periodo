@@ -35,7 +35,7 @@
             <div class="Perfil">
                 <div class="fotoPerfil"><img src="/img/perfil.png" alt="Foto de Perfil vazia"></div>
                 <div>
-                    <p>Bem-vindo(a), Seu Nome!</p>
+                    <p id="nomeUsuario">Bem-vindo(a)!</p>
                 </div>
                 <div class="config">
                     <button type="button" aria-label="Abrir configuracoes">
@@ -76,7 +76,7 @@
             <div class="baixo">
                 <hr>
             </div>
-            <a class="textoSair" href="/pages/auth/login.html">
+            <a class="textoSair" id="btnSair" href="#">
                 <div class="sair">
                     <div class="fotoSair"><img src="/img/sair.png" alt="Sair"></div>
                     <p> Sair da Conta </p>
@@ -87,7 +87,7 @@
         <main id="conteudo-principal" class="conteudoPrincipal" tabindex="-1">
             <section class="cabecalhoInstituicao" aria-label="Instituição vinculada ao usuário">
                 <p class="cabecalhoLabel">Instituição vinculada</p>
-                <h2 id="nomeInstituicao" class="nomeInstituicao">Escola Municipal Centro</h2>
+                <h2 id="nomeInstituicao" class="nomeInstituicao">Carregando...</h2>
             </section>
 
             <div class="inferior">
@@ -120,7 +120,7 @@
                                 <p class="metricaRotulo">Casos em Acompanhamento</p>
                                 <p class="metricaComplemento">Ativos no período</p>
                             </div>
-                            <div class="contagem">28</div>
+                            <div class="contagem" id="totalCasos">0</div>
                         </div>
 
                         <div class="fileira">
@@ -128,28 +128,28 @@
                                 <div class="metricaInfo">
                                     <p class="metricaRotulo">Triagens Pendentes</p>
                                 </div>
-                                <div class="contagem">9</div>
+                                <div class="contagem" id="totalTriagens">0</div>
                             </div>
 
                             <div class="metricaCard tdah">
                                 <div class="metricaInfo">
                                     <p class="metricaRotulo">Planos Ativos</p>
                                 </div>
-                                <div class="contagem">17</div>
+                                <div class="contagem" id="totalPlanos">0</div>
                             </div>
 
                             <div class="metricaCard dislexia">
                                 <div class="metricaInfo">
                                     <p class="metricaRotulo">Atendimentos Hoje</p>
                                 </div>
-                                <div class="contagem">4</div>
+                                <div class="contagem" id="totalAtendimentos">0</div>
                             </div>
 
                             <div class="metricaCard outras">
                                 <div class="metricaInfo">
                                     <p class="metricaRotulo">Encaminhamentos</p>
                                 </div>
-                                <div class="contagem">6</div>
+                                <div class="contagem" id="totalEncaminhamentos">0</div>
                             </div>
 
                         </div>
@@ -176,6 +176,8 @@
     <script>
         new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
+    <script src="/scripts/apiClient.js"></script>
+    <script src="/scripts/menuPsicopedagogo.js"></script>
 
 </body>
 
