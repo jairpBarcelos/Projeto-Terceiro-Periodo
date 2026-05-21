@@ -40,12 +40,15 @@ def serializar_encaminhamento(enc: Encaminhamento) -> dict:
 # Dashboard / métricas
 # ---------------------------------------------------------------------------
 
-def dashboard_encaminhamentos_service(solicitante_id: int | None = None) -> dict:
+def dashboard_encaminhamentos_service(solicitante_id: int | None = None, unidade_id: int | None = None) -> dict:
     """Retorna métricas consolidadas de encaminhamentos para o painel do psicopedagogo."""
     query_base = Encaminhamento.query
 
     if solicitante_id:
         query_base = query_base.filter(Encaminhamento.solicitante_id == solicitante_id)
+
+    if unidade_id:
+        query_base = query_base.join(Aluno).filter(Aluno.unidade_id == unidade_id)
 
     total_abertos = query_base.filter(Encaminhamento.status == 'aberto').count()
     total_internos = query_base.filter(
@@ -84,6 +87,7 @@ def listar_encaminhamentos_service(
     q: str,
     page: int,
     limit: int,
+    unidade_id: int | None = None,
 ) -> dict:
     """Lista encaminhamentos com paginação, filtros e busca textual."""
     query = (
@@ -94,6 +98,9 @@ def listar_encaminhamentos_service(
 
     if solicitante_id:
         query = query.filter(Encaminhamento.solicitante_id == solicitante_id)
+
+    if unidade_id:
+        query = query.filter(Aluno.unidade_id == unidade_id)
 
     if tipo:
         query = query.filter(Encaminhamento.tipo == tipo)
@@ -144,7 +151,13 @@ def buscar_encaminhamento_service(enc_id: int) -> Encaminhamento:
 def criar_encaminhamento_service(payload: dict, solicitante_id: int) -> Encaminhamento:
     """Cria um novo encaminhamento vinculado ao psicopedagogo logado."""
     # Valida que o aluno existe
-    Aluno.query.get_or_404(payload['aluno_id'])
+    aluno = Aluno.query.get_or_404(payload['aluno_id'])
+    solicitante = Usuario.query.get_or_404(solicitante_id)
+
+    # Validação multi-tenant: O aluno deve pertencer à mesma unidade do solicitante (a menos que seja administrador)
+    if solicitante.perfil and solicitante.perfil.nome != 'administrador':
+        if aluno.unidade_id != solicitante.unidade_id:
+            raise ValueError('O aluno selecionado não pertence à mesma unidade escolar.')
 
     prazo = None
     if payload.get('prazo_retorno'):

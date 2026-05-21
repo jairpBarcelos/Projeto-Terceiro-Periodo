@@ -24,10 +24,20 @@
     if (el) el.textContent = valor ?? '—';
   }
 
+  /** Escapa strings contra XSS. */
+  function escapeHTML(str) {
+    if (!str) return '';
+    return str.replace(/&/g, '&amp;')
+              .replace(/</g, '&lt;')
+              .replace(/>/g, '&gt;')
+              .replace(/"/g, '&quot;')
+              .replace(/'/g, '&#039;');
+  }
+
   /** Exibe uma linha de erro dentro de um container. */
   function mostrarErro(container, msg) {
     container.innerHTML = `
-      <tr><td colspan="5" class="text-center text-danger py-4">
+      <tr><td colspan="6" class="text-center text-danger py-4">
         <strong>Erro:</strong> ${msg}
       </td></tr>`;
   }
@@ -35,7 +45,7 @@
   /** Exibe estado vazio na tabela. */
   function mostrarVazio(tbody) {
     tbody.innerHTML = `
-      <tr><td colspan="5" class="text-center text-muted py-4">
+      <tr><td colspan="6" class="text-center text-muted py-4">
         Nenhum encaminhamento encontrado.
       </td></tr>`;
   }
@@ -62,7 +72,7 @@
     };
     const cls = mapa[status] || 'bg-light text-dark';
     const label = STATUS_LABEL[status] || status;
-    return `<span class="badge ${cls}">${label}</span>`;
+    return `<span class="badge ${cls}">${escapeHTML(label)}</span>`;
   }
 
   // -------------------------------------------------------------------------
@@ -103,7 +113,7 @@
     if (!tbody) return;
 
     tbody.innerHTML = `
-      <tr><td colspan="5" class="text-center text-muted py-4">
+      <tr><td colspan="6" class="text-center text-muted py-4">
         <span class="spinner-border spinner-border-sm" role="status"></span>
         Carregando…
       </td></tr>`;
@@ -131,15 +141,25 @@
         return;
       }
 
-      tbody.innerHTML = items.map((enc) => `
-        <tr>
-          <td>${formatarData(enc.created_at)}</td>
-          <td>${enc.aluno_nome ?? '—'}</td>
-          <td>${enc.destino ?? '—'}</td>
-          <td><span class="badge ${enc.tipo === 'externo' ? 'bg-info text-dark' : 'bg-secondary'}">${TIPO_LABEL[enc.tipo] ?? enc.tipo}</span></td>
-          <td>${badgeStatus(enc.status)}</td>
-        </tr>
-      `).join('');
+      tbody.innerHTML = items.map((enc) => {
+        let acaoBtn = '';
+        if (enc.status === 'concluido' || enc.status === 'cancelado' || enc.data_retorno) {
+          acaoBtn = `<button class="btn btn-sm btn-outline-secondary btn-ver-retorno" data-id="${enc.id}">Ver Retorno</button>`;
+        } else {
+          acaoBtn = `<button class="btn btn-sm btn-primary btn-dar-retorno" data-id="${enc.id}">Dar Retorno</button>`;
+        }
+
+        return `
+          <tr>
+            <td>${escapeHTML(formatarData(enc.created_at))}</td>
+            <td>${escapeHTML(enc.aluno_nome ?? '—')}</td>
+            <td>${escapeHTML(enc.destino ?? '—')}</td>
+            <td><span class="badge ${enc.tipo === 'externo' ? 'bg-info text-dark' : 'bg-secondary'}">${escapeHTML(TIPO_LABEL[enc.tipo] ?? enc.tipo)}</span></td>
+            <td>${badgeStatus(enc.status)}</td>
+            <td>${acaoBtn}</td>
+          </tr>
+        `;
+      }).join('');
 
       atualizarPaginacao(total, page, 15);
     } catch (err) {
@@ -216,6 +236,193 @@
   }
 
   // -------------------------------------------------------------------------
+  // Modal de Retorno de Encaminhamentos
+  // -------------------------------------------------------------------------
+
+  let modalRetornoInstance = null;
+
+  function obterModalRetorno() {
+    if (!modalRetornoInstance) {
+      const el = document.getElementById('modalDarRetorno');
+      if (el) {
+        modalRetornoInstance = new bootstrap.Modal(el);
+      }
+    }
+    return modalRetornoInstance;
+  }
+
+  async function abrirModalRetorno(id, modoVisualizar = false) {
+    const modal = obterModalRetorno();
+    if (!modal) return;
+
+    try {
+      const resp = await fetch(`/api/encaminhamentos/${id}`, {
+        credentials: 'same-origin',
+        headers: { Accept: 'application/json' },
+      });
+
+      if (!resp.ok) {
+        alert('Não foi possível carregar os detalhes do encaminhamento.');
+        return;
+      }
+
+      const json = await resp.json();
+      const enc = json.item ?? json.data?.item;
+      if (!enc) {
+        alert('Dados do encaminhamento não encontrados.');
+        return;
+      }
+
+      // Preenche os campos informativos do modal
+      setTexto('#retornoAluno', enc.aluno_nome);
+      setTexto('#retornoDestino', enc.destino);
+      setTexto('#retornoTipo', TIPO_LABEL[enc.tipo] ?? enc.tipo);
+      
+      const inputId = document.getElementById('retornoEncId');
+      if (inputId) inputId.value = enc.id;
+
+      const campoData = document.getElementById('campoDataRetorno');
+      const campoStatus = document.getElementById('campoStatusRetorno');
+      const campoObs = document.getElementById('campoObservacaoRetorno');
+      const btnSubmit = document.querySelector('#formDarRetorno button[type="submit"]');
+      const tituloModal = document.getElementById('modalDarRetornoTitulo');
+
+      if (modoVisualizar) {
+        if (tituloModal) tituloModal.textContent = 'Visualizar Retorno de Encaminhamento';
+        if (campoData) {
+          campoData.value = enc.data_retorno ? enc.data_retorno.substring(0, 10) : '';
+          campoData.disabled = true;
+        }
+        if (campoStatus) {
+          campoStatus.value = enc.status || 'concluido';
+          campoStatus.disabled = true;
+        }
+        if (campoObs) {
+          campoObs.value = enc.observacao_retorno || 'Nenhuma observação registrada.';
+          campoObs.disabled = true;
+        }
+        if (btnSubmit) btnSubmit.style.display = 'none';
+      } else {
+        if (tituloModal) tituloModal.textContent = 'Registrar Retorno de Encaminhamento';
+        if (campoData) {
+          campoData.value = enc.data_retorno ? enc.data_retorno.substring(0, 10) : new Date().toISOString().substring(0, 10);
+          campoData.disabled = false;
+        }
+        if (campoStatus) {
+          campoStatus.value = enc.status === 'aberto' ? 'concluido' : enc.status;
+          campoStatus.disabled = false;
+        }
+        if (campoObs) {
+          campoObs.value = enc.observacao_retorno || '';
+          campoObs.disabled = false;
+        }
+        if (btnSubmit) btnSubmit.style.display = 'block';
+      }
+
+      modal.show();
+    } catch (err) {
+      console.error('[SAADI] Erro ao abrir modal de retorno:', err);
+      alert('Erro de conexão ao carregar dados do encaminhamento.');
+    }
+  }
+
+  function inicializarFormularioRetorno() {
+    const form = document.getElementById('formDarRetorno');
+    if (!form) return;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const id = document.getElementById('retornoEncId')?.value;
+      const data_retorno = document.getElementById('campoDataRetorno')?.value;
+      const status = document.getElementById('campoStatusRetorno')?.value;
+      const observacao_retorno = document.getElementById('campoObservacaoRetorno')?.value;
+
+      if (!id || !data_retorno || !status || !observacao_retorno) {
+        alert('Por favor, preencha todos os campos obrigatórios.');
+        return;
+      }
+
+      const btnSubmit = form.querySelector('button[type="submit"]');
+      const originalText = btnSubmit ? btnSubmit.textContent : 'Registrar Retorno';
+
+      if (btnSubmit) {
+        btnSubmit.disabled = true;
+        btnSubmit.innerHTML = '<span class="spinner-border spinner-border-sm" role="status"></span> Registrando…';
+      }
+
+      try {
+        const resp = await fetch(`/api/encaminhamentos/${id}/retorno`, {
+          method: 'POST',
+          credentials: 'same-origin',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          body: JSON.stringify({
+            data_retorno,
+            status,
+            observacao_retorno,
+          }),
+        });
+
+        const json = await resp.json();
+
+        if (!resp.ok) {
+          alert(json.message || 'Erro ao registrar retorno de encaminhamento.');
+          return;
+        }
+
+        // Sucesso
+        const modal = obterModalRetorno();
+        if (modal) modal.hide();
+
+        // Recarrega dashboard e listagem
+        carregarDashboard();
+        carregarEncaminhamentos(_paginaAtual, coletarFiltros());
+
+        // Mensagem de sucesso flutuante
+        const alertEl = document.createElement('div');
+        alertEl.className = 'alert alert-success alert-dismissible fade show position-fixed top-0 end-0 m-3 z-3';
+        alertEl.style.zIndex = '9999';
+        alertEl.innerHTML = `
+          <strong>Sucesso!</strong> Retorno registrado com sucesso.
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        `;
+        document.body.appendChild(alertEl);
+        setTimeout(() => alertEl.remove(), 4000);
+
+      } catch (err) {
+        console.error('[SAADI] Erro ao registrar retorno:', err);
+        alert('Erro de conexão ao salvar retorno.');
+      } finally {
+        if (btnSubmit) {
+          btnSubmit.disabled = false;
+          btnSubmit.textContent = originalText;
+        }
+      }
+    });
+  }
+
+  function inicializarTabelaAcoes() {
+    const tbody = document.querySelector('#tabelaEncaminhamentos tbody');
+    if (!tbody) return;
+
+    tbody.addEventListener('click', (e) => {
+      const btnDar = e.target.closest('.btn-dar-retorno');
+      const btnVer = e.target.closest('.btn-ver-retorno');
+
+      if (btnDar) {
+        const id = btnDar.getAttribute('data-id');
+        abrirModalRetorno(id, false);
+      } else if (btnVer) {
+        const id = btnVer.getAttribute('data-id');
+        abrirModalRetorno(id, true);
+      }
+    });
+  }
+
+  // -------------------------------------------------------------------------
   // Perfil do usuário (reutiliza dado salvo pelo apiClient)
   // -------------------------------------------------------------------------
 
@@ -242,6 +449,8 @@
     carregarDashboard();
     carregarEncaminhamentos(1);
     inicializarFiltros();
+    inicializarFormularioRetorno();
+    inicializarTabelaAcoes();
   }
 
   if (document.readyState === 'loading') {

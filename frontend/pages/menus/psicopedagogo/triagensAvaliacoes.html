@@ -41,7 +41,7 @@
       <div class="alinhamento"><div class="fotos"><img src="/img/icon-relatorio.png" alt="Relatórios"></div><p>Relatórios</p></div>
     </a>
     <div class="baixo"><hr></div>
-    <a class="textoSair" href="/pages/auth/login.html">
+    <a class="textoSair" id="btnSair" href="/pages/auth/login.html">
       <div class="sair"><div class="fotoSair"><img src="/img/sair.png" alt="Sair"></div><p>Sair da Conta</p></div>
     </a>
   </nav>
@@ -259,7 +259,6 @@
   </div>
 </div>
 
-
 <section class="psicoBloco" aria-label="Historico do aluno" style="margin-left:calc(25% + 24px);margin-right:24px;max-width:none;width:auto">
   <h3 style="color:#163a63;margin-bottom:6px">&#128194; Hist&#243;rico do Aluno</h3>
   <p class="psicoInfo">Selecione um aluno para visualizar triagens, avalia&#231;&#245;es, evolu&#231;&#227;o, observa&#231;&#245;es e relat&#243;rios.</p>
@@ -458,7 +457,7 @@ async function carregarDashboard() {
   } catch(e) { console.warn('Dashboard:', e); }
 }
 
-async function carregarHistorico() {
+async function carregarHistoricoGeral() {
   const tbody = document.getElementById('triagens-tbody');
   try {
     const r = await fetch(API + '/api/triagens?limit=50', { headers: authHeaders() });
@@ -551,7 +550,7 @@ document.getElementById('btnSalvarTriagem').addEventListener('click', async func
     if (r.ok) {
       bootstrap.Modal.getInstance(document.getElementById('modalNovaTriagem')).hide();
       await carregarDashboard();
-      await carregarHistorico();
+      await carregarHistoricoGeral();
     } else {
       const al = document.getElementById('alertaModal');
       al.innerHTML = `<div class="alert alert-danger py-2">${d.message || 'Erro ao salvar.'}</div>`;
@@ -584,7 +583,7 @@ document.getElementById('dataTriagem').value = new Date().toISOString().split('T
 
 // Carregar dados ao iniciar
 carregarDashboard();
-carregarHistorico();
+carregarHistoricoGeral();
 carregarAlunos();
 
 // === HISTORICO DO ALUNO ===
@@ -687,15 +686,13 @@ function renderHistorico(d) {
 
   document.getElementById('hist-evolucao-body').innerHTML = d.evolucoes.length
     ? d.evolucoes.map(function(e){ return '<div class="hist-linha"><div class="hist-linha-data">' + dataFmt(e.data) + '</div><div class="hist-linha-body"><p class="mb-1">' +
-      (e.texto || '').replace(/
-/g,'<br>') + '</p><small class="text-muted">' + (e.profissional||'--') + '</small></div></div>'; }).join('')
+      (e.texto || '').replace(/\n/g,'<br>') + '</p><small class="text-muted">' + (e.profissional||'--') + '</small></div></div>'; }).join('')
     : vazio('Nenhum registro de evolucao encontrado.');
 
   document.getElementById('hist-obs-body').innerHTML = d.observacoes_comportamentais.length
     ? d.observacoes_comportamentais.map(function(o){ return '<div class="hist-linha"><div class="hist-linha-data">' + dataFmt(o.data) + '</div><div class="hist-linha-body">' +
       (o.itens_comportamentais.length ? '<div class="mb-2">' + o.itens_comportamentais.map(function(i){ return '<span class="badge bg-warning text-dark me-1">' + i + '</span>'; }).join('') + '</div>' : '') +
-      (o.observacoes ? '<p class="mb-1">' + o.observacoes.replace(/
-/g,'<br>') + '</p>' : '') +
+      (o.observacoes ? '<p class="mb-1">' + o.observacoes.replace(/\n/g,'<br>') + '</p>' : '') +
       '<small class="text-muted">' + (o.profissional||'--') + '</small></div></div>'; }).join('')
     : vazio('Nenhuma observacao comportamental registrada.');
 
@@ -794,7 +791,7 @@ document.getElementById('btnSalvarEdit').addEventListener('click', async functio
 });
 
 async function carregarHistorico2() {
-  await carregarHistorico();
+  await carregarHistoricoGeral();
 }
 </script>
 </body>

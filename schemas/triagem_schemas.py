@@ -1,17 +1,15 @@
-"""Schemas Pydantic para validação de dados de Triagens."""
+"""Schemas Pydantic para validação de dados de Triagens e Avaliações."""
+from __future__ import annotations
 
 from typing import Optional
 from pydantic import BaseModel, Field
 
 
 class TriagemCreateSchema(BaseModel):
-    """Schema de criação de triagem (POST)."""
+    """Schema de criação de triagem/atendimento (POST)."""
     aluno_id: int
-    data_registro: str = Field(description="Data no formato YYYY-MM-DD")
-    tipo_registro: str = Field(
-        min_length=3, max_length=30,
-        description="'triagem', 'acompanhamento' ou 'concluido'"
-    )
+    data_registro: str = Field(min_length=10, max_length=10, description="Data no formato YYYY-MM-DD")
+    tipo_registro: str = Field(min_length=2, max_length=30, description="Tipo de registro (ex: triagem, atendimento, evolucao)")
     status: Optional[str] = Field(default='aguardando_entrevista', max_length=30)
     queixa_principal: Optional[str] = Field(default=None, max_length=2000)
     descricao: Optional[str] = None
@@ -24,9 +22,9 @@ class TriagemCreateSchema(BaseModel):
 
 
 class TriagemUpdateSchema(BaseModel):
-    """Schema de atualização de triagem (PUT) — todos os campos opcionais."""
-    data_registro: Optional[str] = None
-    tipo_registro: Optional[str] = Field(default=None, max_length=30)
+    """Schema de atualização de triagem/atendimento (PUT)."""
+    data_registro: Optional[str] = Field(default=None, min_length=10, max_length=10)
+    tipo_registro: Optional[str] = Field(default=None, min_length=2, max_length=30)
     status: Optional[str] = Field(default=None, max_length=30)
     queixa_principal: Optional[str] = Field(default=None, max_length=2000)
     descricao: Optional[str] = None

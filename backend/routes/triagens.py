@@ -1,8 +1,8 @@
-"""Rotas CRUD + dashboard para o módulo de Triagens."""
+"""Rotas CRUD e dashboard para o módulo de Triagens e Avaliações com isolamento multi-tenant."""
 from __future__ import annotations
 
 from flask import Blueprint, request
-from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import get_jwt, get_jwt_identity
 from pydantic import ValidationError
 from sqlalchemy.exc import IntegrityError
 
@@ -14,12 +14,12 @@ from backend.services.triagens_service import (
     buscar_triagem_service,
     criar_triagem_service,
     dashboard_triagens_service,
+    obter_dashboard_triagens_service,
     listar_alunos_select,
     listar_triagens_service,
     registrar_atividade_triagem,
     serializar_triagem,
 )
-
 
 triagens_bp = Blueprint('triagens', __name__, url_prefix='/api/triagens')
 
@@ -30,13 +30,15 @@ triagens_bp = Blueprint('triagens', __name__, url_prefix='/api/triagens')
 
 @triagens_bp.get('/dashboard')
 @jwt_required_any
-def dashboard_triagens():
-    """Retorna métricas consolidadas de triagens para o painel."""
+def obter_dashboard():
+    """Retorna métricas consolidadas das triagens filtradas por unidade/psicopedagogo."""
+    claims = get_jwt()
+    perfil = claims.get('perfil')
+    unidade_id = claims.get('unidade_id') if perfil != 'administrador' else None
     psico_id = request.args.get('psicopedagogo_id', type=int)
-    return success(
-        'Métricas de triagens carregadas com sucesso.',
-        data=dashboard_triagens_service(psico_id),
-    )
+
+    dados = dashboard_triagens_service(psicopedagogo_id=psico_id, unidade_id=unidade_id)
+    return success('Estatísticas de triagens carregadas com sucesso.', data=dados)
 
 
 # ---------------------------------------------------------------------------
@@ -46,8 +48,12 @@ def dashboard_triagens():
 @triagens_bp.get('/alunos-select')
 @jwt_required_any
 def alunos_para_select():
-    """Lista alunos ativos simplificados para popular o <select> do modal."""
-    return success('Alunos carregados.', data={'alunos': listar_alunos_select()})
+    """Lista alunos ativos simplificados pertencentes à mesma unidade do usuário."""
+    claims = get_jwt()
+    perfil = claims.get('perfil')
+    unidade_id = claims.get('unidade_id') if perfil != 'administrador' else None
+
+    return success('Alunos carregados.', data={'alunos': listar_alunos_select(unidade_id)})
 
 
 # ---------------------------------------------------------------------------
@@ -57,17 +63,28 @@ def alunos_para_select():
 @triagens_bp.get('')
 @jwt_required_any
 def listar_triagens():
-    """Lista triagens com paginação e filtros opcionais."""
-    psico_id = request.args.get('psicopedagogo_id', type=int)
+    """Lista triagens com paginação, filtros e controle multi-tenant."""
     status = request.args.get('status')
+    tipo = request.args.get('tipo')
     q = (request.args.get('q') or '').strip()
     page = max(1, request.args.get('page', default=1, type=int))
     limit = min(max(1, request.args.get('limit', default=20, type=int)), 100)
 
-    return success(
-        'Triagens carregadas com sucesso.',
-        data=listar_triagens_service(psico_id, status, q, page, limit),
+    claims = get_jwt()
+    perfil = claims.get('perfil')
+    unidade_id = claims.get('unidade_id') if perfil != 'administrador' else None
+    psico_id = request.args.get('psicopedagogo_id', type=int)
+
+    dados = listar_triagens_service(
+        psicopedagogo_id=psico_id,
+        status=status,
+        q=q,
+        page=page,
+        limit=limit,
+        tipo=tipo,
+        unidade_id=unidade_id,
     )
+    return success('Triagens e avaliações carregadas com sucesso.', data=dados)
 
 
 # ---------------------------------------------------------------------------
@@ -76,13 +93,18 @@ def listar_triagens():
 
 @triagens_bp.get('/<int:triagem_id>')
 @jwt_required_any
-def buscar_triagem(triagem_id: int):
-    """Retorna os dados completos de uma triagem por ID."""
-    t = buscar_triagem_service(triagem_id)
-    return success(
-        'Triagem carregada com sucesso.',
-        data={'item': serializar_triagem(t)},
-    )
+def obter_triagem(triagem_id: int):
+    """Busca uma triagem por ID, validando o isolamento multi-tenant."""
+    claims = get_jwt()
+    perfil = claims.get('perfil')
+    unidade_id = claims.get('unidade_id') if perfil != 'administrador' else None
+
+    try:
+        triagem = buscar_triagem_service(triagem_id, unidade_id)
+    except ValueError as exc:
+        return error(str(exc), 403, 'FORBIDDEN')
+
+    return success('Triagem carregada com sucesso.', data={'item': serializar_triagem(triagem)})
 
 
 # ---------------------------------------------------------------------------
@@ -92,24 +114,24 @@ def buscar_triagem(triagem_id: int):
 @triagens_bp.post('')
 @jwt_required_any
 def criar_triagem():
-    """Cadastra uma nova triagem no sistema."""
+    """Registra uma nova triagem ou avaliação técnica com segurança multi-tenant."""
     payload = request.get_json(silent=True) or {}
     try:
         dados = TriagemCreateSchema(**payload)
     except ValidationError as e:
-        return error('Dados inválidos.', 400, 'VALIDATION_ERROR', details=e.errors())
+        return error('Dados inválidos para triagem.', 400, 'VALIDATION_ERROR', details=e.errors())
 
-    psico_id = int(get_jwt_identity())
+    psicopedagogo_id = int(get_jwt_identity())
 
     try:
-        t = criar_triagem_service(dados.model_dump(exclude_none=True), psico_id)
-    except IntegrityError:
-        return error('Não foi possível criar triagem. Verifique os dados.', 409, 'CONFLICT')
+        triagem = criar_triagem_service(dados.model_dump(exclude_none=True), psicopedagogo_id)
     except ValueError as exc:
         return error(str(exc), 400, 'VALIDATION_ERROR')
+    except IntegrityError:
+        return error('Erro de integridade ao salvar triagem.', 409, 'CONFLICT')
 
-    registrar_atividade_triagem(psico_id, 'create', t)
-    return created('Triagem criada com sucesso.', data={'item': serializar_triagem(t)})
+    registrar_atividade_triagem(psicopedagogo_id, 'create', triagem)
+    return created('Triagem/evolução registrada com sucesso.', data={'item': serializar_triagem(triagem)})
 
 
 # ---------------------------------------------------------------------------
@@ -119,8 +141,16 @@ def criar_triagem():
 @triagens_bp.put('/<int:triagem_id>')
 @jwt_required_any
 def atualizar_triagem(triagem_id: int):
-    """Atualiza os dados de uma triagem existente."""
-    t = buscar_triagem_service(triagem_id)
+    """Atualiza uma triagem existente com validação multi-tenant."""
+    claims = get_jwt()
+    perfil = claims.get('perfil')
+    unidade_id = claims.get('unidade_id') if perfil != 'administrador' else None
+
+    try:
+        t = buscar_triagem_service(triagem_id, unidade_id)
+    except ValueError as exc:
+        return error(str(exc), 403, 'FORBIDDEN')
+
     payload = request.get_json(silent=True) or {}
     try:
         dados = TriagemUpdateSchema(**payload)
@@ -128,9 +158,11 @@ def atualizar_triagem(triagem_id: int):
         return error('Dados inválidos.', 400, 'VALIDATION_ERROR', details=e.errors())
 
     try:
-        t = atualizar_triagem_service(t, dados.model_dump(exclude_none=True))
+        t = atualizar_triagem_service(t, dados.model_dump(exclude_none=True), unidade_id)
     except IntegrityError:
         return error('Não foi possível atualizar triagem.', 409, 'CONFLICT')
+    except ValueError as exc:
+        return error(str(exc), 403, 'FORBIDDEN')
 
     usuario_id = int(get_jwt_identity())
     registrar_atividade_triagem(usuario_id, 'update', t)

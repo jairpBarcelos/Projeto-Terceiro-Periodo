@@ -187,11 +187,12 @@
                             <th scope="col">Destino</th>
                             <th scope="col">Tipo</th>
                             <th scope="col">Status</th>
+                            <th scope="col">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td colspan="5" class="text-center text-muted py-4">
+                            <td colspan="6" class="text-center text-muted py-4">
                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                 Carregando…
                             </td>
@@ -203,6 +204,51 @@
             <!-- Paginação -->
             <div id="paginacaoEncaminhamentos" class="d-flex justify-content-end mt-2"></div>
         </section>
+    </div>
+
+    <!-- Modal Dar Retorno -->
+    <div class="modal fade" id="modalDarRetorno" tabindex="-1" aria-labelledby="modalDarRetornoTitulo" aria-hidden="true">
+        <div class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content text-dark">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="modalDarRetornoTitulo">Registrar Retorno de Encaminhamento</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <form id="formDarRetorno">
+                    <div class="modal-body">
+                        <div class="p-3 border rounded bg-light mb-3">
+                            <p class="mb-1"><strong>Estudante:</strong> <span id="retornoAluno">-</span></p>
+                            <p class="mb-1"><strong>Destino:</strong> <span id="retornoDestino">-</span></p>
+                            <p class="mb-0"><strong>Tipo:</strong> <span id="retornoTipo">-</span></p>
+                        </div>
+                        <input type="hidden" id="retornoEncId">
+                        
+                        <div class="mb-3">
+                            <label for="campoDataRetorno" class="form-label fw-bold">Data de Retorno <span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" id="campoDataRetorno" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="campoStatusRetorno" class="form-label fw-bold">Situação do Encaminhamento <span class="text-danger">*</span></label>
+                            <select class="form-select" id="campoStatusRetorno" required>
+                                <option value="concluido">Concluído</option>
+                                <option value="em_andamento">Em Andamento</option>
+                                <option value="cancelado">Cancelado</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="campoObservacaoRetorno" class="form-label fw-bold">Observações / Parecer Técnico <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="campoObservacaoRetorno" rows="4" placeholder="Descreva os resultados, encaminhamentos subsequentes ou observações técnicas obtidas no retorno..." required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Registrar Retorno</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
     <div vw class="enabled">
