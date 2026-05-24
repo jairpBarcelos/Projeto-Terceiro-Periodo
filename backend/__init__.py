@@ -1,6 +1,34 @@
 from __future__ import annotations
 
+import os
 from pathlib import Path
+
+# Monkey-patch psycopg2 para evitar UnicodeDecodeError no Windows em pastas com caracteres especiais (como 'PROGRAMAÇÃO')
+try:
+    import psycopg2
+    original_connect = psycopg2.connect
+
+    def safe_connect(*args, **kwargs):
+        for k, v in list(os.environ.items()):
+            try:
+                k.encode('ascii')
+                v.encode('ascii')
+            except UnicodeEncodeError:
+                try:
+                    os.environ[k] = v.encode('ascii', errors='replace').decode('ascii')
+                except Exception:
+                    del os.environ[k]
+
+        original_cwd = os.getcwd()
+        try:
+            os.chdir("C:\\")
+            return original_connect(*args, **kwargs)
+        finally:
+            os.chdir(original_cwd)
+
+    psycopg2.connect = safe_connect
+except ImportError:
+    pass
 
 from flask import Flask, jsonify, send_from_directory
 from werkzeug.exceptions import HTTPException

@@ -381,6 +381,79 @@
   }
 
   // -------------------------------------------------------------------------
+  // Filtros (Mock frontend)
+  // -------------------------------------------------------------------------
+  function aplicarFiltros() {
+    const termoBusca = (document.getElementById('filtroBuscaAluno')?.value || '').toLowerCase();
+    const status = (document.getElementById('filtroStatus')?.value || '').toLowerCase();
+    const responsavel = (document.getElementById('filtroResponsavel')?.value || '').toLowerCase();
+    const frequencia = (document.getElementById('filtroFrequencia')?.value || '').toLowerCase();
+
+    const linhas = document.querySelectorAll('#tabelaPlanos tbody tr');
+
+    linhas.forEach(linha => {
+      // Ignorar linha de "carregando" ou "vazio"
+      const primeiraCelula = linha.querySelector('td');
+      if (primeiraCelula && primeiraCelula.colSpan >= 6) return;
+
+      const nomeAluno = linha.children[1]?.textContent.toLowerCase() || '';
+      const periodicidade = linha.children[4]?.textContent.toLowerCase() || '';
+      const badgeStatus = linha.children[5]?.textContent.toLowerCase() || '';
+
+      let mostrar = true;
+
+      // Filtro de busca (tempo real)
+      if (termoBusca && !nomeAluno.includes(termoBusca)) mostrar = false;
+      
+      // Filtro de status
+      if (status) {
+        if (status === 'ativo' && !badgeStatus.includes('ativo')) mostrar = false;
+        if (status === 'concluido' && !badgeStatus.includes('concluído')) mostrar = false;
+        if (status === 'suspenso' && !badgeStatus.includes('suspenso')) mostrar = false;
+        if (status === 'revisao' && !badgeStatus.includes('revisão')) mostrar = false;
+      }
+
+      // Filtro de frequência
+      if (frequencia && !periodicidade.includes(frequencia)) mostrar = false;
+
+      // Filtro de responsável (Mock: como não há na tabela, se não encontrar no texto ignora ou apenas esconde)
+      if (responsavel) {
+          // Ocultaremos caso o nome não exista em lugar nenhum da linha.
+          const textoLinha = linha.textContent.toLowerCase();
+          if (!textoLinha.includes(responsavel)) {
+              // Para fins de demonstração visual sem dados reais, não vamos ocultar tudo, 
+              // apenas se quisermos ser estritos. Vamos deixar a cargo da simulação.
+          }
+      }
+
+      linha.style.display = mostrar ? '' : 'none';
+      linha.style.transition = 'opacity 0.3s ease';
+      linha.style.opacity = mostrar ? '1' : '0';
+    });
+  }
+
+  function inicializarFiltros() {
+    const formFiltros = document.getElementById('formFiltrosPlanos');
+    if (!formFiltros) return;
+
+    formFiltros.addEventListener('submit', (e) => {
+      e.preventDefault();
+      aplicarFiltros();
+    });
+
+    document.getElementById('btnLimparFiltros')?.addEventListener('click', () => {
+      formFiltros.reset();
+      aplicarFiltros();
+    });
+
+    // Busca em tempo real
+    document.getElementById('filtroBuscaAluno')?.addEventListener('input', aplicarFiltros);
+    document.getElementById('filtroStatus')?.addEventListener('change', aplicarFiltros);
+    document.getElementById('filtroResponsavel')?.addEventListener('change', aplicarFiltros);
+    document.getElementById('filtroFrequencia')?.addEventListener('change', aplicarFiltros);
+  }
+
+  // -------------------------------------------------------------------------
   // Inicialização Geral
   // -------------------------------------------------------------------------
   function init() {
@@ -391,6 +464,7 @@
     carregarMétricas();
     carregarTabelaPlanos(1);
     inicializarFormulario();
+    inicializarFiltros();
   }
 
   if (document.readyState === 'loading') {

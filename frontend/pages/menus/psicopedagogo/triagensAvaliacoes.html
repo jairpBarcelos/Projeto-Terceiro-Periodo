@@ -49,13 +49,16 @@
   <main id="conteudo-principal" class="conteudoPrincipal" tabindex="-1">
     <section class="cabecalhoInstituicao" aria-label="Cabeçalho do módulo">
       <p class="cabecalhoLabel">Módulo</p>
-      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
-        <h2 class="nomeInstituicao">Triagens e Avaliações Psicopedagógicas</h2>
-        <button id="btnNovaTriagem" class="btn-nova-triagem" data-bs-toggle="modal" data-bs-target="#modalNovaTriagem" aria-label="Registrar nova triagem">
-          + Nova Triagem
-        </button>
-      </div>
+      <h2 class="nomeInstituicao">Triagens e Avaliações Psicopedagógicas</h2>
     </section>
+
+    <!-- Barra de ação: botão Nova Triagem abaixo do cabeçalho -->
+    <div class="triagem-action-bar">
+      <button id="btnNovaTriagem" class="btn-nova-triagem btn-nova-triagem--standalone" data-bs-toggle="modal" data-bs-target="#modalNovaTriagem" aria-label="Registrar nova triagem">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/></svg>
+        Nova Triagem
+      </button>
+    </div>
 
     <div class="inferior">
       <div class="ladoEsquerdo">
@@ -100,8 +103,6 @@
         </section>
       </div>
     </div>
-  </main>
-
   <section class="psicoBloco" aria-label="Histórico de triagens">
     <h3>Histórico de Triagens</h3>
     <div id="alertaHistorico"></div>
@@ -118,6 +119,41 @@
       </table>
     </div>
   </section>
+  <section class="psicoBloco" aria-label="Historico do aluno">
+    <h3 style="color:#163a63;margin-bottom:6px">&#128194; Hist&#243;rico do Aluno</h3>
+    <p class="psicoInfo">Selecione um aluno para visualizar triagens, avalia&#231;&#245;es, evolu&#231;&#227;o, observa&#231;&#245;es e relat&#243;rios.</p>
+    <div class="row g-3 mb-4" style="align-items:flex-end">
+      <div class="col-md-6">
+        <label class="form-label fw-semibold" for="selectHistoricoAluno">Aluno</label>
+        <select id="selectHistoricoAluno" class="form-select">
+          <option value="">Selecione o aluno...</option>
+        </select>
+      </div>
+      <div class="col-md-auto">
+        <button id="btnCarregarHistorico" class="btn btn-primary">Carregar Hist&#243;rico</button>
+      </div>
+    </div>
+    <div id="aluno-card" class="hist-aluno-card" style="display:none"></div>
+    <div id="hist-tabs-wrapper" style="display:none">
+      <ul class="nav nav-tabs" id="histTabs" role="tablist">
+        <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-triagens" type="button">Triagens <span id="badge-triagens" class="badge bg-primary ms-1">0</span></button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-avaliacoes" type="button">Avalia&#231;&#245;es <span id="badge-avaliacoes" class="badge bg-secondary ms-1">0</span></button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-evolucao" type="button">Evolu&#231;&#227;o <span id="badge-evolucao" class="badge bg-success ms-1">0</span></button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-obs" type="button">Observa&#231;&#245;es <span id="badge-obs" class="badge bg-warning ms-1">0</span></button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-relatorios" type="button">Relat&#243;rios <span id="badge-relatorios" class="badge bg-info ms-1">0</span></button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-auto" type="button">Auto&#45;Relat&#243;rios <span id="badge-auto" class="badge bg-dark ms-1">0</span></button></li>
+      </ul>
+      <div class="tab-content hist-tab-content" id="histTabContent">
+        <div class="tab-pane fade show active" id="tab-triagens" role="tabpanel"><div id="hist-triagens-body"></div></div>
+        <div class="tab-pane fade" id="tab-avaliacoes" role="tabpanel"><div id="hist-avaliacoes-body"></div></div>
+        <div class="tab-pane fade" id="tab-evolucao" role="tabpanel"><div id="hist-evolucao-body"></div></div>
+        <div class="tab-pane fade" id="tab-obs" role="tabpanel"><div id="hist-obs-body"></div></div>
+        <div class="tab-pane fade" id="tab-relatorios" role="tabpanel"><div id="hist-relatorios-body"></div></div>
+        <div class="tab-pane fade" id="tab-auto" role="tabpanel"><div id="hist-auto-body"></div></div>
+      </div>
+    </div>
+  </section>
+</main>
 </div>
 
 <!-- Modal Nova Triagem -->
@@ -259,40 +295,6 @@
   </div>
 </div>
 
-<section class="psicoBloco" aria-label="Historico do aluno" style="margin-left:calc(25% + 24px);margin-right:24px;max-width:none;width:auto">
-  <h3 style="color:#163a63;margin-bottom:6px">&#128194; Hist&#243;rico do Aluno</h3>
-  <p class="psicoInfo">Selecione um aluno para visualizar triagens, avalia&#231;&#245;es, evolu&#231;&#227;o, observa&#231;&#245;es e relat&#243;rios.</p>
-  <div class="row g-3 mb-4" style="align-items:flex-end">
-    <div class="col-md-6">
-      <label class="form-label fw-semibold" for="selectHistoricoAluno">Aluno</label>
-      <select id="selectHistoricoAluno" class="form-select">
-        <option value="">Selecione o aluno...</option>
-      </select>
-    </div>
-    <div class="col-md-auto">
-      <button id="btnCarregarHistorico" class="btn btn-primary">Carregar Hist&#243;rico</button>
-    </div>
-  </div>
-  <div id="aluno-card" class="hist-aluno-card" style="display:none"></div>
-  <div id="hist-tabs-wrapper" style="display:none">
-    <ul class="nav nav-tabs" id="histTabs" role="tablist">
-      <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-triagens" type="button">Triagens <span id="badge-triagens" class="badge bg-primary ms-1">0</span></button></li>
-      <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-avaliacoes" type="button">Avalia&#231;&#245;es <span id="badge-avaliacoes" class="badge bg-secondary ms-1">0</span></button></li>
-      <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-evolucao" type="button">Evolu&#231;&#227;o <span id="badge-evolucao" class="badge bg-success ms-1">0</span></button></li>
-      <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-obs" type="button">Observa&#231;&#245;es <span id="badge-obs" class="badge bg-warning ms-1">0</span></button></li>
-      <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-relatorios" type="button">Relat&#243;rios <span id="badge-relatorios" class="badge bg-info ms-1">0</span></button></li>
-      <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-auto" type="button">Auto&#45;Relat&#243;rios <span id="badge-auto" class="badge bg-dark ms-1">0</span></button></li>
-    </ul>
-    <div class="tab-content hist-tab-content" id="histTabContent">
-      <div class="tab-pane fade show active" id="tab-triagens" role="tabpanel"><div id="hist-triagens-body"></div></div>
-      <div class="tab-pane fade" id="tab-avaliacoes" role="tabpanel"><div id="hist-avaliacoes-body"></div></div>
-      <div class="tab-pane fade" id="tab-evolucao" role="tabpanel"><div id="hist-evolucao-body"></div></div>
-      <div class="tab-pane fade" id="tab-obs" role="tabpanel"><div id="hist-obs-body"></div></div>
-      <div class="tab-pane fade" id="tab-relatorios" role="tabpanel"><div id="hist-relatorios-body"></div></div>
-      <div class="tab-pane fade" id="tab-auto" role="tabpanel"><div id="hist-auto-body"></div></div>
-    </div>
-  </div>
-</section>
 
 <!-- Modal Edicao de Triagem -->
 <div class="modal fade" id="modalEditTriagem" tabindex="-1" aria-labelledby="modalEditLabel" aria-modal="true" role="dialog">
