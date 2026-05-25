@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="SAADI – Módulo de Relatórios Psicopedagógicos. Consolide dados por estudante, turma e período para apoiar reuniões pedagógicas e tomada de decisão.">
     <title>SAADI | Relatórios Psicopedagógicos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
@@ -13,16 +15,163 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
     <link rel="shortcut icon" href="../../../img/favicon-duas-mãos-32px-branco.png" type="image/x-icon">
+
+    <style>
+        /* ── Estilos exclusivos do módulo de Relatórios ── */
+
+        /* Impressão do documento formal */
+        @media print {
+            body > *:not(#areaImpressao) { display: none !important; }
+            #areaImpressao { display: block !important; }
+        }
+
+        #areaImpressao { display: none; }
+
+        /* Cabeçalho do documento impresso */
+        .doc-cabecalho {
+            border-bottom: 3px solid #163a63;
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+        }
+
+        .doc-cabecalho h2 {
+            font-size: 1.2rem;
+            color: #163a63;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .doc-cabecalho p {
+            margin: 2px 0 0;
+            font-size: 0.85rem;
+            color: #5b6f86;
+        }
+
+        /* Seções do relatório formal no modal */
+        .rel-secao {
+            margin-bottom: 20px;
+            padding: 14px 16px;
+            background: #f8fbff;
+            border: 1px solid #dce8f5;
+            border-left: 4px solid #163a63;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .rel-secao-titulo {
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: #163a63;
+            margin: 0 0 8px;
+        }
+
+        .rel-secao-corpo {
+            font-size: 0.93rem;
+            color: #1a2e45;
+            line-height: 1.7;
+            white-space: pre-wrap;
+            margin: 0;
+        }
+
+        .rel-secao-vazia .rel-secao-corpo {
+            color: #8fa5be;
+            font-style: italic;
+        }
+
+        /* Cores das seções */
+        .rel-sec-historico    { border-left-color: #4c7adf; }
+        .rel-sec-intervencoes { border-left-color: #0f9d93; }
+        .rel-sec-evolucao     { border-left-color: #ed8c2b; }
+        .rel-sec-encaminhamentos { border-left-color: #8f63d8; }
+        .rel-sec-recomendacoes   { border-left-color: #163a63; }
+
+        /* Metadados do cabeçalho do relatório no modal */
+        .rel-meta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .rel-meta-item {
+            background: #fff;
+            border: 1px solid #d7e4f2;
+            border-radius: 10px;
+            padding: 10px 14px;
+        }
+
+        .rel-meta-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: #5b6f86;
+            margin: 0 0 3px;
+        }
+
+        .rel-meta-valor {
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: #153353;
+            margin: 0;
+        }
+
+        /* Header azul do modal de visualização */
+        .modal-rel-header {
+            background: linear-gradient(135deg, #163a63 0%, #2e5f92 100%);
+            color: #fff;
+            padding: 16px 20px;
+            border-radius: calc(0.5rem - 1px) calc(0.5rem - 1px) 0 0;
+        }
+
+        .modal-rel-header h5 { margin: 0; font-size: 1rem; }
+        .modal-rel-header p  { margin: 2px 0 0; font-size: 0.82rem; opacity: .85; }
+
+        /* Botão de exportar PDF */
+        .btn-exportar-pdf {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, #163a63 0%, #2e5f92 100%);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 9px 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(22, 58, 99, .25);
+            transition: transform .18s, box-shadow .18s;
+        }
+
+        .btn-exportar-pdf:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 7px 18px rgba(22, 58, 99, .35);
+            color: #fff;
+        }
+
+        /* Ações na tabela — grupos pequenos */
+        .acoes-grupo { display: flex; flex-wrap: wrap; gap: 4px; }
+    </style>
 </head>
 
 <body>
     <a class="pularConteudo" href="#conteudo-principal">Pular para o conteudo principal</a>
+
+    <!-- Área oculta usada apenas para impressão/PDF -->
+    <div id="areaImpressao"></div>
+
     <div class="app">
+
+        <!-- ═══════════════════ SIDEBAR ═══════════════════ -->
         <nav class="menuLateral" aria-label="Menu principal do psicopedagogo">
-            <a class="menuSecretaria" id="telaInicial" href="/pages/menus/psicopedagogo/menuPsicopedagogo.html">
+            <a class="menuSecretaria" id="telaInicial"
+                href="/pages/menus/psicopedagogo/menuPsicopedagogo.html">
                 <div class="logoContainer">
-                    <div class="logoMenu"><img src="/img/icons8-duas-mãos-windows-11-filled/Logo.png"
-                            alt="Logo: Duas Mãos abertas"></div>
+                    <div class="logoMenu">
+                        <img src="/img/icons8-duas-mãos-windows-11-filled/Logo.png" alt="Logo: Duas Mãos abertas">
+                    </div>
                     <div>
                         <h3>SAADI</h3>
                         <p>Psicopedagogo</p>
@@ -74,24 +223,28 @@
                 </div>
             </a>
 
-            <div class="baixo">
-                <hr>
-            </div>
+            <div class="baixo"><hr></div>
             <a class="textoSair" id="btnSair" href="#">
                 <div class="sair">
                     <div class="fotoSair"><img src="/img/sair.png" alt="Sair"></div>
-                    <p> Sair da Conta </p>
+                    <p>Sair da Conta</p>
                 </div>
             </a>
         </nav>
 
+        <!-- ═══════════════════ CONTEÚDO PRINCIPAL ═══════════════════ -->
         <main id="conteudo-principal" class="conteudoPrincipal" tabindex="-1">
-            <section class="cabecalhoInstituicao" aria-label="Instituição vinculada ao usuário">
+
+            <!-- Cabeçalho azul -->
+            <section class="cabecalhoInstituicao" aria-label="Módulo de relatórios">
                 <p class="cabecalhoLabel">Módulo</p>
                 <h2 class="nomeInstituicao">Relatórios Psicopedagógicos</h2>
             </section>
 
+            <!-- ── Linha superior: Intro + Resumo ── -->
             <div class="inferior">
+
+                <!-- Card Introdução -->
                 <div class="ladoEsquerdo">
                     <section class="painelIntro" aria-label="Descrição do módulo de relatórios">
                         <p class="painelIntroTag">Análises e Evidências</p>
@@ -104,9 +257,21 @@
                             Centralize evidências de evolução, frequência de atendimentos e desfechos das intervenções
                             psicopedagógicas com visão histórica.
                         </p>
+                        <div style="margin-top: 20px;">
+                            <button
+                                class="btn-nova-triagem--standalone"
+                                type="button"
+                                id="btnAbrirModalNovoRel"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalNovoRelatorio"
+                                aria-label="Abrir formulário de novo relatório">
+                                + Novo Relatório
+                            </button>
+                        </div>
                     </section>
                 </div>
 
+                <!-- Card Resumo -->
                 <div class="ladoDireito">
                     <section class="dashboardPainel" aria-label="Resumo de relatórios">
                         <div class="dashboardCabecalho">
@@ -119,7 +284,7 @@
                                 <p class="metricaRotulo">Total de Relatórios</p>
                                 <p class="metricaComplemento">Emitidos e rascunhos</p>
                             </div>
-                            <div class="contagem" id="totalRelatorios">0</div>
+                            <div class="contagem" id="totalRelatorios">—</div>
                         </div>
 
                         <div class="fileira">
@@ -127,145 +292,400 @@
                                 <div class="metricaInfo">
                                     <p class="metricaRotulo">Relatórios Emitidos</p>
                                 </div>
-                                <div class="contagem" id="totalEmitidos">0</div>
+                                <div class="contagem" id="totalEmitidos">—</div>
                             </div>
 
                             <div class="metricaCard tdah">
                                 <div class="metricaInfo">
                                     <p class="metricaRotulo">Rascunhos Salvos</p>
                                 </div>
-                                <div class="contagem" id="totalRascunhos">0</div>
+                                <div class="contagem" id="totalRascunhos">—</div>
                             </div>
                         </div>
                     </section>
                 </div>
-            </div>
+            </div><!-- /inferior -->
+
+            <!-- ── Seções centralizadas ── -->
+            <div class="planos-container">
+
+                <!-- Filtros -->
+                <section class="psicoBloco filtros-planos" aria-label="Filtros de relatórios">
+                    <h3>Filtrar Relatórios</h3>
+                    <p class="psicoInfo">Use os campos abaixo para localizar relatórios por aluno, período ou tipo.</p>
+                    <form id="formFiltrosRel" class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label fw-semibold" for="filtroBuscaRel">Buscar Aluno / Turma</label>
+                            <input type="search" id="filtroBuscaRel" class="form-control"
+                                placeholder="Nome do aluno ou turma…" aria-label="Buscar por aluno ou turma">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label fw-semibold" for="filtroPeriodoDe">Período — De</label>
+                            <input type="date" id="filtroPeriodoDe" class="form-control" aria-label="Data inicial do período">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label fw-semibold" for="filtroPeriodoAte">Período — Até</label>
+                            <input type="date" id="filtroPeriodoAte" class="form-control" aria-label="Data final do período">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label fw-semibold" for="filtroTipoRel">Tipo</label>
+                            <select id="filtroTipoRel" class="form-select" aria-label="Filtrar por tipo">
+                                <option value="">Todos os tipos</option>
+                                <option value="evolucao">Relatório de Evolução</option>
+                                <option value="encaminhamento">Relatório de Encaminhamento</option>
+                                <option value="sintese">Síntese Semestral</option>
+                                <option value="familia">Relatório para Família</option>
+                                <option value="parecer">Parecer Técnico</option>
+                                <option value="laudo">Laudo Psicopedagógico</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label fw-semibold" for="filtroStatusRel">Status</label>
+                            <select id="filtroStatusRel" class="form-select" aria-label="Filtrar por status">
+                                <option value="">Todos os status</option>
+                                <option value="emitido">Emitido</option>
+                                <option value="rascunho">Rascunho</option>
+                            </select>
+                        </div>
+                        <div class="col-12 d-flex gap-2">
+                            <button type="submit" class="btn btn-primary" id="btnFiltrarRel">Filtrar</button>
+                            <button type="button" class="btn btn-outline-secondary" id="btnLimparFiltrosRel">Limpar</button>
+                        </div>
+                    </form>
+                </section>
+
+                <!-- Tabela de relatórios -->
+                <section class="psicoBloco" aria-label="Lista de relatórios psicopedagógicos">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+                        <div>
+                            <h3 style="margin-bottom:4px;">Relatórios Cadastrados</h3>
+                            <p class="psicoInfo" style="margin:0;">Histórico completo de relatórios emitidos e rascunhos.</p>
+                        </div>
+                        <button
+                            class="btn-nova-triagem--standalone"
+                            type="button"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modalNovoRelatorio"
+                            aria-label="Criar novo relatório">
+                            + Novo Relatório
+                        </button>
+                    </div>
+
+                    <div class="psicoTabelaWrap">
+                        <table class="table table-striped align-middle" id="tabelaRelatorios">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Aluno</th>
+                                    <th scope="col">Turma</th>
+                                    <th scope="col">Tipo de Relatório</th>
+                                    <th scope="col">Período</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Data de Criação</th>
+                                    <th scope="col">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="7" class="text-center text-muted py-4">
+                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                        Carregando relatórios…
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="paginacaoRelatorios" class="d-flex justify-content-end mt-3"></div>
+                </section>
+
+            </div><!-- /planos-container -->
         </main>
+    </div><!-- /app -->
 
-        <section class="psicoBloco" aria-label="Geração automática de relatórios">
-            <h3>Gerador Inteligente de Relatórios</h3>
-            <p class="psicoInfo">Selecione o estudante e o ano letivo. O sistema buscará o histórico de triagens e planos para compilar uma síntese automática editável.</p>
-            <div class="row g-3 align-items-end" id="formRelatorioAuto">
-                <div class="col-md-5">
-                    <label class="form-label" for="relatorioAlunoAuto">Aluno</label>
-                    <select id="relatorioAlunoAuto" class="form-select">
-                        <option value="">Selecione um aluno...</option>
-                    </select>
+    <!-- ═══════════════════════════════════════════════════════════
+         MODAL: Novo / Editar Relatório
+    ══════════════════════════════════════════════════════════════ -->
+    <div class="modal fade" id="modalNovoRelatorio" tabindex="-1"
+        aria-labelledby="modalNovoRelTitulo" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content text-dark">
+
+                <div class="modal-rel-header">
+                    <h5 id="modalNovoRelTitulo">Novo Relatório Psicopedagógico</h5>
+                    <p id="modalNovoRelSubtitulo">Preencha os campos e salve como rascunho ou emita oficialmente.</p>
+                    <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3"
+                        data-bs-dismiss="modal" aria-label="Fechar"></button>
                 </div>
-                <div class="col-md-3">
-                    <label class="form-label" for="relatorioAnoAuto">Ano de Referência</label>
-                    <input id="relatorioAnoAuto" class="form-control" type="number" min="2020" max="2099" value="2026">
-                </div>
-                <div class="col-md-4">
-                    <button class="btn btn-primary w-100" id="btnGerarAuto" type="button">Gerar Síntese Automática</button>
-                </div>
+
+                <form id="formNovoRel">
+                    <input type="hidden" id="relEditandoId">
+                    <div class="modal-body">
+                        <div class="row g-3">
+
+                            <!-- Aluno -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold" for="relAluno">
+                                    Aluno <span class="text-danger">*</span>
+                                </label>
+                                <select id="relAluno" class="form-select" required>
+                                    <option value="">Selecione um aluno…</option>
+                                </select>
+                            </div>
+
+                            <!-- Turma -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold" for="relTurma">Turma</label>
+                                <input id="relTurma" type="text" class="form-control"
+                                    placeholder="Ex: 4º Ano A, 7ª Série B…">
+                            </div>
+
+                            <!-- Tipo de relatório -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold" for="relTipo">
+                                    Tipo de Relatório <span class="text-danger">*</span>
+                                </label>
+                                <select id="relTipo" class="form-select" required>
+                                    <option value="">Selecione o tipo…</option>
+                                    <option value="evolucao">Relatório de Evolução</option>
+                                    <option value="encaminhamento">Relatório de Encaminhamento</option>
+                                    <option value="sintese">Síntese Semestral</option>
+                                    <option value="familia">Relatório para Família</option>
+                                    <option value="parecer">Parecer Técnico</option>
+                                    <option value="laudo">Laudo Psicopedagógico</option>
+                                </select>
+                            </div>
+
+                            <!-- Status -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold" for="relStatus">
+                                    Situação <span class="text-danger">*</span>
+                                </label>
+                                <select id="relStatus" class="form-select" required>
+                                    <option value="rascunho">Salvar como Rascunho</option>
+                                    <option value="emitido">Emitir Oficialmente</option>
+                                </select>
+                            </div>
+
+                            <!-- Período de referência -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold" for="relPeriodoDe">Período de Referência — De</label>
+                                <input id="relPeriodoDe" type="date" class="form-control">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold" for="relPeriodoAte">Período de Referência — Até</label>
+                                <input id="relPeriodoAte" type="date" class="form-control">
+                            </div>
+
+                            <div class="col-12">
+                                <hr style="border-color:#d7e4f2;margin:4px 0 8px;">
+                                <p class="text-muted" style="font-size:.82rem;margin:0 0 8px;">
+                                    Preencha as seções do relatório abaixo. Campos em branco aparecerão como "Não registrado" no documento formal.
+                                </p>
+                            </div>
+
+                            <!-- Seção 1: Histórico -->
+                            <div class="col-12">
+                                <label class="form-label fw-bold" for="relHistorico">
+                                    1. Histórico do Caso
+                                </label>
+                                <textarea id="relHistorico" class="form-control" rows="3"
+                                    placeholder="Descreva o contexto de encaminhamento, histórico familiar e acadêmico relevante…"></textarea>
+                            </div>
+
+                            <!-- Seção 2: Intervenções Realizadas -->
+                            <div class="col-12">
+                                <label class="form-label fw-bold" for="relIntervencoes">
+                                    2. Intervenções Realizadas
+                                </label>
+                                <textarea id="relIntervencoes" class="form-control" rows="3"
+                                    placeholder="Descreva as estratégias, atividades e abordagens utilizadas durante o acompanhamento…"></textarea>
+                            </div>
+
+                            <!-- Seção 3: Evolução Observada -->
+                            <div class="col-12">
+                                <label class="form-label fw-bold" for="relEvolucao">
+                                    3. Evolução Observada <span class="text-danger">*</span>
+                                </label>
+                                <textarea id="relEvolucao" class="form-control" rows="3"
+                                    placeholder="Relate os avanços, dificuldades persistentes e comportamentos observados ao longo do período…"
+                                    required></textarea>
+                            </div>
+
+                            <!-- Seção 4: Encaminhamentos -->
+                            <div class="col-12">
+                                <label class="form-label fw-bold" for="relEncaminhamentos">
+                                    4. Encaminhamentos Realizados
+                                </label>
+                                <textarea id="relEncaminhamentos" class="form-control" rows="2"
+                                    placeholder="Liste os serviços acionados (fonoaudiologia, CRAS, psicólogo, neuropediatra…) e os retornos obtidos…"></textarea>
+                            </div>
+
+                            <!-- Seção 5: Recomendações -->
+                            <div class="col-12">
+                                <label class="form-label fw-bold" for="relRecomendacoes">
+                                    5. Recomendações <span class="text-danger">*</span>
+                                </label>
+                                <textarea id="relRecomendacoes" class="form-control" rows="3"
+                                    placeholder="Indique as próximas ações, ajustes pedagógicos e orientações para a família e equipe…"
+                                    required></textarea>
+                            </div>
+
+                            <!-- Observações gerais -->
+                            <div class="col-12">
+                                <label class="form-label fw-bold" for="relObservacoes">Observações Adicionais</label>
+                                <textarea id="relObservacoes" class="form-control" rows="2"
+                                    placeholder="Informações complementares que não se encaixam nas seções anteriores…"></textarea>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary" id="btnSalvarNovoRel">
+                            Salvar Relatório
+                        </button>
+                    </div>
+                </form>
             </div>
-        </section>
-
-        <section class="psicoBloco" aria-label="Emissão de Relatório">
-            <h3 id="tituloSecaoForm">Criar Relatório Técnico</h3>
-            <p class="psicoInfo">Insira as informações técnicas para emissão do parecer oficial do estudante.</p>
-            <form class="row g-3" id="formRelatorio">
-                <input type="hidden" id="relatorioId" value="">
-                <div class="col-md-6">
-                    <label class="form-label" for="relatorioAluno">Aluno</label>
-                    <select id="relatorioAluno" class="form-select" required>
-                        <option value="">Selecione um aluno...</option>
-                    </select>
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label" for="relatorioTitulo">Título do Relatório</label>
-                    <input id="relatorioTitulo" type="text" class="form-control" placeholder="Ex: Parecer Psicopedagógico Semestral" required>
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label" for="relatorioTipo">Tipo de Relatório</label>
-                    <select id="relatorioTipo" class="form-select" required>
-                        <option value="parecer">Parecer Técnico</option>
-                        <option value="laudo">Laudo Psicopedagógico</option>
-                        <option value="evolutivo">Relatório Evolutivo</option>
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label" for="relatorioAno">Ano de Referência</label>
-                    <input id="relatorioAno" class="form-control" type="number" min="2000" max="2100" required>
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label" for="relatorioStatus">Situação</label>
-                    <select id="relatorioStatus" class="form-select" required>
-                        <option value="rascunho">Salvar como Rascunho</option>
-                        <option value="emitido">Emitir Oficialmente</option>
-                    </select>
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label" for="relatorioDataInicio">Período de Acompanhamento (De)</label>
-                    <input id="relatorioDataInicio" type="date" class="form-control">
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label" for="relatorioDataFim">Período de Acompanhamento (Até)</label>
-                    <input id="relatorioDataFim" type="date" class="form-control">
-                </div>
-                <div class="col-12">
-                    <label class="form-label" for="relatorioConteudo">Conteúdo / Descrição Técnica</label>
-                    <textarea id="relatorioConteudo" class="form-control" rows="8" placeholder="Digite o corpo completo do relatório descritivo..." required></textarea>
-                </div>
-                <div class="col-12 d-flex gap-2">
-                    <button class="btn btn-primary" type="submit" id="btnSalvarRelatorio">Salvar Relatório</button>
-                    <button class="btn btn-secondary d-none" type="button" id="btnCancelarEdicao">Cancelar Edição</button>
-                </div>
-            </form>
-        </section>
-
-        <section class="psicoBloco" aria-label="Lista de relatórios">
-            <h3>Relatórios Cadastrados</h3>
-            <div class="psicoTabelaWrap">
-                <table class="table table-striped align-middle" id="tabelaRelatorios">
-                    <thead>
-                        <tr>
-                            <th>Aluno</th>
-                            <th>Título do Relatório</th>
-                            <th>Tipo</th>
-                            <th>Ano</th>
-                            <th>Situação</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="6" class="text-center text-muted py-4">Carregando relatórios...</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div id="paginacaoRelatorios" class="d-flex justify-content-end mt-3"></div>
-        </section>
+        </div>
     </div>
 
-    <!-- Modal Visualizador de Relatório -->
-    <div class="modal fade" id="modalVisualizarRelatorio" tabindex="-1" aria-labelledby="modalVisualizarTitulo" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <!-- ═══════════════════════════════════════════════════════════
+         MODAL: Visualizar Relatório (documento formal)
+    ══════════════════════════════════════════════════════════════ -->
+    <div class="modal fade" id="modalVisualizarRelatorio" tabindex="-1"
+        aria-labelledby="modalVisualizarTitulo" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content text-dark">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalVisualizarTitulo">Visualizar Relatório Técnico</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+
+                <div class="modal-rel-header">
+                    <h5 id="modalVisualizarTitulo">Relatório Psicopedagógico</h5>
+                    <p id="vRelatorioSubtitulo">—</p>
+                    <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3"
+                        data-bs-dismiss="modal" aria-label="Fechar"></button>
                 </div>
-                <div class="modal-body">
-                    <div class="p-3 border rounded bg-light mb-3">
-                        <p><strong>Estudante:</strong> <span id="vRelatorioAluno">-</span></p>
-                        <p><strong>Tipo:</strong> <span id="vRelatorioTipo">-</span> | <strong>Ano de Referência:</strong> <span id="vRelatorioAno">-</span></p>
-                        <p><strong>Autor:</strong> <span id="vRelatorioAutor">-</span></p>
-                        <p><strong>Período:</strong> <span id="vRelatorioPeriodo">-</span></p>
-                        <p><strong>Situação:</strong> <span id="vRelatorioStatus">-</span></p>
+
+                <div class="modal-body" id="corpoModalVisualizar">
+
+                    <!-- Cabeçalho do documento -->
+                    <div class="doc-cabecalho">
+                        <h2 id="vDocTitulo">—</h2>
+                        <p id="vDocInstituicao">Sistema SAADI — Gestão Escolar Psicopedagógica</p>
                     </div>
-                    <h6>Conteúdo Técnico:</h6>
-                    <div class="p-3 border rounded bg-white text-dark" style="white-space: pre-wrap; min-height: 200px;" id="vRelatorioConteudo"></div>
+
+                    <!-- Metadados em grid -->
+                    <div class="rel-meta-grid" id="vRelMetaGrid">
+                        <div class="rel-meta-item">
+                            <p class="rel-meta-label">Estudante</p>
+                            <p class="rel-meta-valor" id="vRelAluno">—</p>
+                        </div>
+                        <div class="rel-meta-item">
+                            <p class="rel-meta-label">Turma</p>
+                            <p class="rel-meta-valor" id="vRelTurma">—</p>
+                        </div>
+                        <div class="rel-meta-item">
+                            <p class="rel-meta-label">Tipo de Relatório</p>
+                            <p class="rel-meta-valor" id="vRelTipo">—</p>
+                        </div>
+                        <div class="rel-meta-item">
+                            <p class="rel-meta-label">Período de Referência</p>
+                            <p class="rel-meta-valor" id="vRelPeriodo">—</p>
+                        </div>
+                        <div class="rel-meta-item">
+                            <p class="rel-meta-label">Status</p>
+                            <p class="rel-meta-valor" id="vRelStatus">—</p>
+                        </div>
+                        <div class="rel-meta-item">
+                            <p class="rel-meta-label">Data de Emissão</p>
+                            <p class="rel-meta-valor" id="vRelDataCriacao">—</p>
+                        </div>
+                        <div class="rel-meta-item">
+                            <p class="rel-meta-label">Profissional Responsável</p>
+                            <p class="rel-meta-valor" id="vRelAutor">—</p>
+                        </div>
+                    </div>
+
+                    <!-- Seção 1 -->
+                    <div class="rel-secao rel-sec-historico" id="vSecHistorico">
+                        <p class="rel-secao-titulo">1. Histórico do Caso</p>
+                        <p class="rel-secao-corpo" id="vRelHistorico">Não registrado.</p>
+                    </div>
+
+                    <!-- Seção 2 -->
+                    <div class="rel-secao rel-sec-intervencoes" id="vSecIntervencoes">
+                        <p class="rel-secao-titulo">2. Intervenções Realizadas</p>
+                        <p class="rel-secao-corpo" id="vRelIntervencoes">Não registrado.</p>
+                    </div>
+
+                    <!-- Seção 3 -->
+                    <div class="rel-secao rel-sec-evolucao" id="vSecEvolucao">
+                        <p class="rel-secao-titulo">3. Evolução Observada</p>
+                        <p class="rel-secao-corpo" id="vRelEvolucao">Não registrado.</p>
+                    </div>
+
+                    <!-- Seção 4 -->
+                    <div class="rel-secao rel-sec-encaminhamentos" id="vSecEncaminhamentos">
+                        <p class="rel-secao-titulo">4. Encaminhamentos Realizados</p>
+                        <p class="rel-secao-corpo" id="vRelEncaminhamentos">Não registrado.</p>
+                    </div>
+
+                    <!-- Seção 5 -->
+                    <div class="rel-secao rel-sec-recomendacoes" id="vSecRecomendacoes">
+                        <p class="rel-secao-titulo">5. Recomendações</p>
+                        <p class="rel-secao-corpo" id="vRelRecomendacoes">Não registrado.</p>
+                    </div>
+
+                    <!-- Observações adicionais (aparece apenas se houver conteúdo) -->
+                    <div class="rel-secao" id="vSecObservacoes" style="display:none;">
+                        <p class="rel-secao-titulo">Observações Adicionais</p>
+                        <p class="rel-secao-corpo" id="vRelObservacoes"></p>
+                    </div>
+
+                    <!-- Rodapé do documento -->
+                    <div style="margin-top:24px;padding-top:12px;border-top:1px solid #d7e4f2;text-align:right;">
+                        <p style="font-size:.78rem;color:#8fa5be;margin:0;">
+                            Documento gerado pelo Sistema SAADI — <span id="vRelDataImpressao">—</span>
+                        </p>
+                    </div>
                 </div>
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn-exportar-pdf" id="btnExportarPDF"
+                        aria-label="Exportar relatório como PDF">
+                        ⬇ Exportar PDF
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- ═══════════════════════════════════════════════════════════
+         MODAL: Confirmar exclusão
+    ══════════════════════════════════════════════════════════════ -->
+    <div class="modal fade" id="modalConfirmarExclusao" tabindex="-1"
+        aria-labelledby="modalExclusaoTitulo" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-dark">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title text-danger" id="modalExclusaoTitulo">Excluir Relatório</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Tem certeza que deseja excluir o relatório de
+                        <strong id="exclusaoNomeAluno">—</strong>?
+                    </p>
+                    <p class="text-muted" style="font-size:.87rem;">Esta ação não pode ser desfeita.</p>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="exclusaoRelId">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="btnConfirmarExclusao">Excluir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VLibras -->
     <div vw class="enabled">
         <div vw-access-button class="active"></div>
         <div vw-plugin-wrapper>
@@ -278,11 +698,8 @@
         crossorigin="anonymous"></script>
 
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
-    <script>
-        new window.VLibras.Widget('https://vlibras.gov.br/app');
-    </script>
+    <script>new window.VLibras.Widget('https://vlibras.gov.br/app');</script>
     <script src="/scripts/apiClient.js"></script>
     <script src="/scripts/relatoriosPsicopedagogo.js"></script>
 </body>
-
 </html>
